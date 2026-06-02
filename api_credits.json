@@ -1,0 +1,11 @@
+{
+    "api_football": {
+        "limit": 100,
+        "remaining": 89,
+        "last_updated": "2026-06-02T13:36:13.138515"
+    },
+    "football_data": {
+        "remaining_minute": 9,
+        "last_updated": "2026-05-31T23:56:26.827243"
+    }
+}

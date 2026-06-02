@@ -1,0 +1,668 @@
+Partido_ID,Local,Visitante,Carreras_Local,Carreras_Visitante,Local_Bateo_Prom,Visita_Bateo_Prom,Local_Pitcher_ERA,Local_Pitcher_K,Visita_Pitcher_ERA,Visita_Pitcher_K,Target_Ganador
+822733,Washington Nationals,New York Mets,1,2,6.29,7.14,4.71,4.7,2.77,5.7,0
+822734,Washington Nationals,New York Mets,7,16,5.71,5.43,3.36,6.3,4.0,1.3,0
+822735,Washington Nationals,New York Mets,8,4,6.29,7.0,2.54,5.0,2.21,1.3,1
+822736,Washington Nationals,New York Mets,9,6,6.43,7.57,1.5,2.0,3.71,6.3,1
+822737,Washington Nationals,Baltimore Orioles,13,3,4.86,3.0,4.14,5.3,3.33,5.3,1
+822738,Washington Nationals,Baltimore Orioles,3,7,6.29,3.0,5.36,4.0,4.43,2.7,0
+822739,Washington Nationals,Baltimore Orioles,3,2,5.43,3.14,0.0,5.0,6.06,0.7,1
+822740,Washington Nationals,Minnesota Twins,15,2,3.86,4.71,1.49,5.0,4.02,2.7,1
+822741,Washington Nationals,Minnesota Twins,7,5,6.0,4.86,3.55,6.0,7.44,2.0,1
+822742,Washington Nationals,Milwaukee Brewers,3,2,4.14,6.57,12.27,2.0,12.27,2.0,1
+822743,Washington Nationals,Minnesota Twins,3,11,3.71,4.71,3.0,8.3,4.71,5.0,0
+822744,Washington Nationals,Milwaukee Brewers,1,6,4.71,5.71,3.35,7.7,2.96,6.0,0
+822745,Washington Nationals,Atlanta Braves,2,7,6.14,6.14,1.9,3.7,1.9,3.7,0
+822746,Washington Nationals,Milwaukee Brewers,1,4,4.57,6.0,3.48,6.0,2.06,5.3,0
+822747,Washington Nationals,Atlanta Braves,11,4,4.43,5.86,2.96,4.7,0.0,1.0,1
+822748,Washington Nationals,Atlanta Braves,6,8,5.29,5.86,2.81,2.3,7.71,4.3,0
+822749,Washington Nationals,Atlanta Braves,4,9,4.57,6.43,1.1,6.0,7.07,4.7,0
+822750,Washington Nationals,San Francisco Giants,3,0,5.29,4.0,14.12,2.3,2.21,6.7,1
+822751,Washington Nationals,San Francisco Giants,6,7,4.86,3.86,5.29,3.3,1.76,3.0,0
+822752,Washington Nationals,San Francisco Giants,5,10,5.14,3.14,3.46,4.5,3.6,4.5,0
+822753,Washington Nationals,St. Louis Cardinals,1,6,6.17,4.0,6.43,4.0,24.15,4.0,0
+822754,Washington Nationals,St. Louis Cardinals,6,7,6.2,3.25,1.5,3.0,1.5,2.0,0
+822811,Toronto Blue Jays,Miami Marlins,8,1,3.14,3.71,4.0,4.0,0.0,4.3,1
+822812,Toronto Blue Jays,Miami Marlins,2,8,3.71,4.29,10.56,4.3,1.12,6.7,0
+822813,Toronto Blue Jays,Pittsburgh Pirates,1,4,4.14,3.29,2.84,9.3,6.59,3.3,0
+822814,Toronto Blue Jays,Pittsburgh Pirates,5,2,3.71,4.29,5.45,1.7,2.14,8.0,1
+822815,Toronto Blue Jays,Tampa Bay Rays,5,3,4.43,4.86,3.28,7.3,4.5,3.0,1
+822816,Toronto Blue Jays,Pittsburgh Pirates,6,2,3.14,5.0,5.54,3.0,4.44,4.3,1
+822817,Toronto Blue Jays,Tampa Bay Rays,6,7,3.71,4.57,3.75,3.0,0.0,5.3,0
+822818,Toronto Blue Jays,Tampa Bay Rays,5,8,3.43,3.71,3.18,5.7,4.14,2.7,0
+822819,Toronto Blue Jays,Los Angeles Angels,1,6,4.86,2.57,4.77,2.0,0.0,2.0,0
+822820,Toronto Blue Jays,Los Angeles Angels,14,1,3.86,2.86,2.6,4.0,0.99,4.5,1
+822821,Toronto Blue Jays,Boston Red Sox,8,1,3.57,4.71,9.47,2.7,7.75,3.3,1
+822822,Toronto Blue Jays,Los Angeles Angels,2,0,3.71,3.14,4.71,8.0,5.26,6.0,1
+822823,Toronto Blue Jays,Boston Red Sox,3,0,3.86,4.71,1.5,11.0,1.5,11.0,1
+822824,Toronto Blue Jays,Cleveland Guardians,4,2,5.0,4.71,3.8,4.0,7.02,3.0,1
+822825,Toronto Blue Jays,Boston Red Sox,0,5,5.29,5.14,1.69,8.7,1.98,4.7,0
+822826,Toronto Blue Jays,Cleveland Guardians,5,3,4.71,4.86,3.51,6.3,3.91,4.7,1
+822827,Toronto Blue Jays,Cleveland Guardians,6,8,4.0,4.29,2.09,7.7,2.09,7.7,0
+822828,Toronto Blue Jays,Minnesota Twins,2,8,3.43,4.86,0.74,6.5,0.74,6.5,0
+822829,Toronto Blue Jays,Minnesota Twins,10,4,2.14,4.86,1.45,4.0,1.45,4.0,1
+822830,Toronto Blue Jays,Minnesota Twins,4,7,3.43,4.0,7.0,5.0,7.0,5.0,0
+822831,Toronto Blue Jays,Los Angeles Dodgers,1,4,2.0,9.2,0.0,10.0,3.0,2.0,0
+822833,Toronto Blue Jays,Los Angeles Dodgers,4,3,1.83,8.33,4.39,6.0,4.39,6.0,1
+822898,Texas Rangers,Houston Astros,10,7,4.29,4.29,2.78,5.7,4.46,4.5,1
+822899,Texas Rangers,Houston Astros,0,9,5.43,3.0,1.75,4.3,6.04,5.7,0
+822900,Texas Rangers,Arizona Diamondbacks,6,5,3.57,2.14,3.55,3.7,4.39,5.0,1
+822901,Texas Rangers,Arizona Diamondbacks,0,1,3.29,3.29,6.38,4.7,6.38,4.7,0
+822902,Texas Rangers,Chicago Cubs,3,0,3.0,5.43,4.16,7.3,4.71,5.0,1
+822903,Texas Rangers,Arizona Diamondbacks,7,4,3.14,2.86,4.77,4.7,7.38,3.7,1
+822904,Texas Rangers,Chicago Cubs,1,7,3.14,5.57,5.0,3.0,2.78,4.7,0
+822905,Texas Rangers,Chicago Cubs,6,0,2.86,5.71,4.45,6.7,6.28,6.3,1
+822906,Texas Rangers,New York Yankees,2,4,3.29,6.14,7.39,4.0,3.41,6.0,0
+822907,Texas Rangers,New York Yankees,3,0,2.86,5.57,4.0,4.3,4.0,4.3,1
+822908,Texas Rangers,New York Yankees,2,3,3.29,5.71,1.89,6.3,1.18,7.3,0
+822909,Texas Rangers,Athletics,1,8,4.86,4.86,9.0,5.0,2.0,5.7,0
+822910,Texas Rangers,Athletics,4,3,3.71,5.14,3.98,6.0,4.44,6.3,1
+822911,Texas Rangers,Athletics,1,2,3.57,5.29,3.17,4.3,3.55,5.3,0
+822912,Texas Rangers,Pittsburgh Pirates,6,1,4.71,5.14,4.14,3.7,1.2,6.0,1
+822913,Texas Rangers,Pittsburgh Pirates,4,8,4.29,4.57,2.22,8.0,6.04,5.3,0
+822914,Texas Rangers,Pittsburgh Pirates,5,1,4.71,6.71,1.18,4.0,4.44,4.7,1
+822915,Texas Rangers,Seattle Mariners,3,0,2.0,2.67,0.0,6.0,4.5,9.0,1
+822916,Texas Rangers,Seattle Mariners,3,2,1.8,2.8,6.0,6.0,13.5,5.0,1
+822977,Tampa Bay Rays,Baltimore Orioles,5,3,6.86,4.0,2.95,3.7,3.94,2.3,1
+822979,Tampa Bay Rays,Baltimore Orioles,4,1,7.43,4.29,2.0,2.0,4.24,7.0,1
+822980,Tampa Bay Rays,Baltimore Orioles,16,6,5.71,3.71,0.0,5.3,10.23,4.7,1
+822981,Tampa Bay Rays,Miami Marlins,5,10,5.29,3.86,1.05,3.7,6.15,4.0,0
+822982,Tampa Bay Rays,Miami Marlins,6,3,4.86,5.0,4.24,5.7,5.62,6.7,1
+822983,Tampa Bay Rays,Miami Marlins,7,2,4.71,4.14,2.63,5.3,3.98,2.7,1
+822984,Tampa Bay Rays,Toronto Blue Jays,5,1,2.71,4.71,4.47,2.7,1.34,4.3,1
+822985,Tampa Bay Rays,Toronto Blue Jays,3,0,3.0,4.86,3.15,3.7,2.38,5.7,1
+822986,Tampa Bay Rays,Toronto Blue Jays,4,3,2.86,4.86,4.44,5.0,4.14,3.0,1
+822987,Tampa Bay Rays,San Francisco Giants,2,1,3.29,2.86,4.77,3.3,7.31,4.7,1
+822988,Tampa Bay Rays,San Francisco Giants,5,1,3.43,3.29,4.41,3.3,1.98,6.3,1
+822989,Tampa Bay Rays,Minnesota Twins,6,1,4.43,3.71,3.12,6.3,5.5,4.7,1
+822990,Tampa Bay Rays,San Francisco Giants,3,0,3.86,3.29,3.38,5.7,3.83,5.3,1
+822991,Tampa Bay Rays,Minnesota Twins,4,2,5.14,3.71,3.12,4.3,9.0,2.3,1
+822992,Tampa Bay Rays,Minnesota Twins,6,2,4.29,4.14,3.17,6.0,2.11,7.3,1
+822993,Tampa Bay Rays,Cincinnati Reds,6,1,4.57,5.71,2.35,3.0,2.35,3.7,1
+822994,Tampa Bay Rays,Cincinnati Reds,1,6,5.43,4.29,0.0,3.5,3.64,3.3,0
+822995,Tampa Bay Rays,Cincinnati Reds,6,12,4.86,4.29,3.16,5.0,2.8,6.3,0
+822996,Tampa Bay Rays,New York Yankees,5,4,4.29,4.71,4.35,4.0,1.5,4.0,1
+822997,Tampa Bay Rays,New York Yankees,5,3,3.86,5.0,1.5,8.0,1.5,8.0,1
+822998,Tampa Bay Rays,New York Yankees,5,4,4.43,4.14,2.43,7.0,1.8,8.0,1
+823000,Tampa Bay Rays,Chicago Cubs,2,6,4.17,4.33,2.9,4.0,3.53,9.0,0
+823056,St. Louis Cardinals,Pittsburgh Pirates,2,6,3.57,4.71,2.21,5.7,4.0,4.3,0
+823057,St. Louis Cardinals,Pittsburgh Pirates,0,7,4.43,4.14,5.0,4.3,0.5,5.0,0
+823058,St. Louis Cardinals,Kansas City Royals,0,2,3.71,3.71,4.76,4.3,7.06,4.5,0
+823059,St. Louis Cardinals,Pittsburgh Pirates,9,6,3.43,4.14,3.89,5.0,4.45,4.3,1
+823060,St. Louis Cardinals,Kansas City Royals,4,2,4.0,4.0,2.37,5.7,5.92,5.0,1
+823061,St. Louis Cardinals,Kansas City Royals,5,4,3.57,4.14,3.5,4.0,2.84,4.7,1
+823063,St. Louis Cardinals,Milwaukee Brewers,2,6,6.14,6.14,2.8,6.3,4.68,5.0,0
+823064,St. Louis Cardinals,Milwaukee Brewers,6,3,5.86,6.43,4.14,3.0,5.96,5.0,1
+823065,St. Louis Cardinals,Los Angeles Dodgers,1,4,6.0,4.29,2.11,3.7,0.43,3.7,0
+823066,St. Louis Cardinals,Los Angeles Dodgers,7,2,6.14,4.71,3.16,6.7,6.38,3.0,1
+823067,St. Louis Cardinals,Los Angeles Dodgers,3,2,6.86,4.57,3.89,3.7,6.14,4.3,1
+823068,St. Louis Cardinals,Seattle Mariners,2,3,4.86,5.29,4.5,4.7,3.89,2.0,0
+823069,St. Louis Cardinals,Seattle Mariners,2,3,5.29,3.57,5.4,3.0,2.65,5.0,0
+823070,St. Louis Cardinals,Seattle Mariners,9,11,4.86,3.71,2.84,3.7,5.06,4.0,0
+823071,St. Louis Cardinals,Cleveland Guardians,5,3,4.14,5.43,1.5,4.0,3.24,4.5,1
+823072,St. Louis Cardinals,Cleveland Guardians,6,5,4.14,5.0,1.75,7.5,3.53,2.5,1
+823073,St. Louis Cardinals,Cleveland Guardians,3,9,4.43,4.57,0.74,9.0,4.09,4.0,0
+823074,St. Louis Cardinals,Boston Red Sox,1,7,4.14,4.14,3.6,4.0,9.0,2.0,0
+823075,St. Louis Cardinals,Boston Red Sox,3,9,4.0,4.43,3.6,2.0,8.71,5.0,0
+823076,St. Louis Cardinals,Boston Red Sox,3,2,4.33,4.43,4.5,4.0,4.5,4.0,1
+823134,Seattle Mariners,Chicago White Sox,5,4,3.57,5.29,3.32,8.0,6.34,5.7,1
+823136,Seattle Mariners,Chicago White Sox,1,2,4.86,5.86,2.25,4.7,3.53,3.0,0
+823137,Seattle Mariners,Chicago White Sox,6,1,4.43,6.0,4.0,6.7,6.77,2.7,1
+823138,Seattle Mariners,San Diego Padres,3,8,4.14,3.43,2.62,5.7,2.62,5.7,0
+823139,Seattle Mariners,San Diego Padres,4,7,3.71,2.43,2.65,5.7,4.71,3.7,0
+823140,Seattle Mariners,San Diego Padres,0,2,5.43,2.29,3.79,7.3,5.33,4.0,0
+823141,Seattle Mariners,Atlanta Braves,3,1,4.0,5.86,8.44,3.0,1.29,4.3,1
+823142,Seattle Mariners,Atlanta Braves,2,3,4.29,6.14,3.28,4.3,2.74,4.0,0
+823143,Seattle Mariners,Atlanta Braves,5,4,4.0,6.43,2.98,5.5,3.83,4.7,1
+823144,Seattle Mariners,Kansas City Royals,2,3,5.57,6.43,3.71,4.3,3.73,5.7,0
+823145,Seattle Mariners,Kansas City Royals,1,4,5.43,6.0,5.33,4.0,5.96,4.0,0
+823146,Seattle Mariners,Kansas City Royals,6,7,5.43,6.29,6.35,3.3,4.47,6.0,0
+823147,Seattle Mariners,Athletics,5,4,3.71,5.14,3.75,4.3,2.49,6.3,1
+823148,Seattle Mariners,Athletics,2,5,3.57,4.71,6.38,5.3,8.68,3.3,0
+823149,Seattle Mariners,Athletics,4,6,3.86,4.0,3.14,5.3,1.98,3.5,0
+823150,Seattle Mariners,Texas Rangers,5,2,4.0,5.14,1.89,3.7,2.96,7.7,1
+823151,Seattle Mariners,Texas Rangers,7,3,4.14,5.14,3.82,5.3,4.24,6.3,1
+823152,Seattle Mariners,Texas Rangers,0,5,5.43,5.43,1.64,7.5,2.08,6.0,0
+823153,Seattle Mariners,Houston Astros,6,2,4.71,4.71,4.5,5.0,4.46,4.5,1
+823154,Seattle Mariners,Houston Astros,6,1,3.86,6.14,3.0,5.0,3.0,5.0,1
+823155,Seattle Mariners,Houston Astros,8,7,3.14,5.71,6.75,4.0,8.44,4.0,1
+823156,Seattle Mariners,Houston Astros,9,6,2.29,5.71,1.45,5.0,1.45,5.0,1
+823216,San Francisco Giants,Arizona Diamondbacks,5,7,4.57,5.0,1.78,4.7,8.88,6.7,0
+823219,San Francisco Giants,Arizona Diamondbacks,2,6,5.71,5.86,1.5,2.0,2.05,4.3,0
+823220,San Francisco Giants,Chicago White Sox,8,5,5.43,5.14,9.44,4.0,8.18,3.3,1
+823221,San Francisco Giants,Pittsburgh Pirates,7,6,2.71,5.43,7.07,4.7,2.63,4.3,1
+823222,San Francisco Giants,Chicago White Sox,10,3,4.29,5.43,2.09,3.3,7.38,2.0,1
+823223,San Francisco Giants,Chicago White Sox,4,9,4.0,5.0,0.95,8.7,2.46,5.7,0
+823224,San Francisco Giants,Pittsburgh Pirates,3,13,2.29,4.86,3.93,6.0,4.42,6.3,0
+823225,San Francisco Giants,Pittsburgh Pirates,5,2,1.86,5.29,10.08,6.7,3.68,5.3,1
+823226,San Francisco Giants,San Diego Padres,1,5,2.43,3.57,10.07,2.0,10.23,2.7,0
+823227,San Francisco Giants,San Diego Padres,5,10,1.71,3.43,3.15,5.7,2.37,5.0,0
+823228,San Francisco Giants,San Diego Padres,3,2,2.14,4.14,5.06,5.0,5.06,5.0,1
+823229,San Francisco Giants,Miami Marlins,6,2,3.86,4.71,3.0,5.0,2.62,6.7,1
+823230,San Francisco Giants,Miami Marlins,6,3,3.29,4.29,1.06,5.7,3.58,5.7,1
+823231,San Francisco Giants,Los Angeles Dodgers,3,0,3.86,5.57,0.75,6.0,8.24,5.3,1
+823232,San Francisco Giants,Miami Marlins,4,9,3.71,3.86,7.01,2.3,5.18,3.7,0
+823233,San Francisco Giants,Los Angeles Dodgers,0,3,4.14,5.29,3.79,5.0,3.32,7.7,0
+823234,San Francisco Giants,Philadelphia Phillies,5,0,3.29,4.17,1.48,9.0,9.0,4.0,1
+823235,San Francisco Giants,Philadelphia Phillies,6,0,2.83,5.0,1.76,7.0,3.53,7.0,1
+823236,San Francisco Giants,Los Angeles Dodgers,3,1,3.71,6.0,3.33,5.7,1.88,5.0,1
+823237,San Francisco Giants,Philadelphia Phillies,4,6,2.6,4.75,1.76,4.0,1.76,4.0,0
+823294,San Diego Padres,Philadelphia Phillies,3,4,2.29,2.43,9.44,3.7,2.38,3.0,0
+823296,San Diego Padres,Philadelphia Phillies,0,3,3.43,2.86,6.38,5.7,4.2,5.0,0
+823297,San Diego Padres,Athletics,2,5,4.14,4.0,5.41,3.0,0.99,6.7,0
+823298,San Diego Padres,Athletics,7,3,3.29,4.86,3.91,4.0,4.47,4.3,1
+823299,San Diego Padres,Los Angeles Dodgers,0,4,3.71,6.43,2.22,3.7,1.35,8.3,0
+823300,San Diego Padres,Athletics,2,0,4.14,4.57,5.4,3.0,5.4,3.0,1
+823301,San Diego Padres,Los Angeles Dodgers,1,0,4.0,6.43,3.14,5.3,5.79,6.7,1
+823302,San Diego Padres,Los Angeles Dodgers,4,5,3.71,6.0,4.38,7.0,6.92,6.0,0
+823303,San Diego Padres,St. Louis Cardinals,0,6,3.43,4.43,1.8,7.0,2.62,4.0,0
+823304,San Diego Padres,St. Louis Cardinals,4,2,3.14,3.86,3.16,3.3,4.19,3.7,1
+823305,San Diego Padres,St. Louis Cardinals,3,2,3.71,3.14,4.74,4.7,5.03,5.3,1
+823306,San Diego Padres,St. Louis Cardinals,1,2,3.86,4.86,5.03,3.7,3.18,6.3,0
+823307,San Diego Padres,Chicago White Sox,4,3,4.43,4.57,8.71,3.0,8.71,3.0,1
+823308,San Diego Padres,Chicago White Sox,0,4,5.86,4.71,1.59,6.3,2.97,3.0,0
+823309,San Diego Padres,Chicago White Sox,2,8,6.0,4.14,4.44,4.0,3.58,6.0,0
+823310,San Diego Padres,Chicago Cubs,3,8,5.43,5.57,4.5,4.3,1.64,5.5,0
+823311,San Diego Padres,Chicago Cubs,9,7,4.71,5.29,2.87,7.5,2.78,6.3,1
+823312,San Diego Padres,Chicago Cubs,4,5,5.57,5.71,5.82,6.0,13.17,3.5,0
+823313,San Diego Padres,Seattle Mariners,5,2,6.71,5.14,14.29,3.5,0.0,4.0,1
+823314,San Diego Padres,Seattle Mariners,7,6,5.86,4.57,3.21,5.0,1.61,5.5,1
+823315,San Diego Padres,Seattle Mariners,4,1,6.0,4.57,0.75,4.0,4.82,4.5,1
+823316,San Diego Padres,Colorado Rockies,9,5,5.29,4.71,0.0,4.0,7.06,1.0,1
+823317,San Diego Padres,Colorado Rockies,7,2,6.14,5.29,1.8,8.0,1.5,7.0,1
+823318,San Diego Padres,Colorado Rockies,5,2,4.86,4.57,1.5,5.0,1.5,5.0,1
+823319,San Diego Padres,Colorado Rockies,7,3,4.86,4.43,2.2,6.0,1.5,3.0,1
+823379,Pittsburgh Pirates,Chicago Cubs,12,1,4.14,1.86,2.67,6.7,2.67,6.7,1
+823380,Pittsburgh Pirates,Chicago Cubs,2,1,3.86,2.86,2.08,5.3,0.0,3.0,1
+823381,Pittsburgh Pirates,Philadelphia Phillies,0,6,6.0,5.43,1.29,8.7,2.34,5.3,0
+823382,Pittsburgh Pirates,Philadelphia Phillies,0,6,6.29,5.57,4.2,4.3,0.85,8.0,0
+823383,Pittsburgh Pirates,Colorado Rockies,7,2,4.71,4.86,6.88,5.0,6.0,3.3,1
+823384,Pittsburgh Pirates,Philadelphia Phillies,9,11,5.57,4.14,5.62,5.0,3.44,6.3,0
+823385,Pittsburgh Pirates,Colorado Rockies,3,1,3.86,4.43,6.32,3.3,1.35,7.7,1
+823386,Pittsburgh Pirates,Colorado Rockies,4,10,4.14,3.71,0.0,3.0,3.0,5.3,0
+823387,Pittsburgh Pirates,Cincinnati Reds,1,0,6.29,5.0,5.52,6.3,2.09,7.0,1
+823388,Pittsburgh Pirates,Cincinnati Reds,17,7,4.71,5.29,6.09,5.0,6.09,5.0,1
+823389,Pittsburgh Pirates,Cincinnati Reds,9,1,4.29,5.29,3.16,2.0,5.62,4.7,1
+823390,Pittsburgh Pirates,St. Louis Cardinals,7,11,3.43,3.71,2.62,7.0,5.79,3.3,0
+823391,Pittsburgh Pirates,St. Louis Cardinals,5,10,3.71,4.86,0.53,6.0,0.53,6.0,0
+823392,Pittsburgh Pirates,St. Louis Cardinals,4,5,4.29,4.86,5.96,5.0,5.96,3.7,0
+823393,Pittsburgh Pirates,Tampa Bay Rays,6,3,6.71,5.71,3.94,3.7,4.0,4.5,1
+823394,Pittsburgh Pirates,Tampa Bay Rays,7,8,6.29,5.29,0.82,7.5,1.58,5.7,0
+823395,Pittsburgh Pirates,St. Louis Cardinals,2,4,4.0,4.14,1.58,4.3,1.58,4.3,0
+823396,Pittsburgh Pirates,Washington Nationals,7,8,5.14,4.14,1.64,8.5,0.89,3.5,0
+823397,Pittsburgh Pirates,Tampa Bay Rays,5,1,5.86,5.43,5.87,4.0,1.76,4.0,1
+823398,Pittsburgh Pirates,Washington Nationals,4,5,5.29,5.57,16.48,3.5,1.5,4.0,0
+823399,Pittsburgh Pirates,Washington Nationals,2,0,5.86,5.0,3.0,2.0,9.0,4.5,1
+823400,Pittsburgh Pirates,Washington Nationals,16,5,4.14,5.71,1.62,5.5,1.62,5.5,1
+823402,Pittsburgh Pirates,San Diego Padres,7,1,4.8,5.0,0.0,8.0,1.8,5.0,1
+823403,Pittsburgh Pirates,San Diego Padres,2,8,5.17,4.33,6.92,5.0,3.0,4.0,0
+823458,Philadelphia Phillies,Cleveland Guardians,3,0,4.71,5.14,2.22,4.7,1.78,5.3,1
+823459,Philadelphia Phillies,Cleveland Guardians,1,3,3.57,4.14,6.97,3.0,2.74,6.7,0
+823461,Philadelphia Phillies,Cleveland Guardians,0,1,5.14,5.86,0.0,10.0,6.0,6.7,0
+823462,Philadelphia Phillies,Cincinnati Reds,4,9,4.71,6.29,6.04,3.7,0.56,3.7,0
+823463,Philadelphia Phillies,Colorado Rockies,6,0,5.71,4.57,3.73,7.0,2.92,2.3,1
+823464,Philadelphia Phillies,Cincinnati Reds,1,4,4.86,6.29,0.47,5.3,4.17,6.7,0
+823465,Philadelphia Phillies,Cincinnati Reds,5,4,5.0,6.43,8.18,4.3,8.9,4.0,1
+823466,Philadelphia Phillies,Colorado Rockies,7,9,4.29,4.29,3.48,6.3,1.56,7.0,0
+823467,Philadelphia Phillies,Athletics,1,12,4.57,4.71,6.97,4.0,5.85,4.0,0
+823468,Philadelphia Phillies,Colorado Rockies,9,3,4.43,5.0,6.92,5.3,9.0,4.3,1
+823469,Philadelphia Phillies,Athletics,9,1,4.29,4.57,4.16,6.3,3.44,5.3,1
+823470,Philadelphia Phillies,Athletics,6,3,4.57,4.43,8.36,5.0,2.45,7.0,1
+823471,Philadelphia Phillies,San Francisco Giants,6,5,4.71,3.14,10.75,2.3,10.75,2.3,1
+823472,Philadelphia Phillies,San Francisco Giants,3,2,5.0,3.43,4.21,6.7,4.74,5.7,1
+823473,Philadelphia Phillies,San Francisco Giants,7,0,3.86,3.14,9.33,5.0,4.44,5.7,1
+823474,Philadelphia Phillies,Atlanta Braves,1,3,4.29,7.0,4.5,5.3,2.8,7.0,0
+823475,Philadelphia Phillies,Atlanta Braves,2,4,3.86,5.86,5.0,4.0,2.78,4.3,0
+823476,Philadelphia Phillies,Atlanta Braves,0,9,4.29,6.86,4.5,1.5,5.4,5.0,0
+823477,Philadelphia Phillies,Chicago Cubs,2,11,4.0,6.0,5.19,9.5,0.82,6.5,0
+823478,Philadelphia Phillies,Chicago Cubs,4,10,4.29,5.14,2.98,6.0,2.22,3.0,0
+823479,Philadelphia Phillies,Arizona Diamondbacks,3,4,2.43,4.71,9.0,1.0,0.82,3.5,0
+823480,Philadelphia Phillies,Arizona Diamondbacks,4,3,3.29,4.29,6.43,2.0,7.2,4.0,1
+823481,Philadelphia Phillies,Chicago Cubs,13,7,2.57,4.86,2.67,6.5,0.0,3.0,1
+823482,Philadelphia Phillies,Arizona Diamondbacks,4,5,3.57,3.86,1.45,11.0,1.8,3.0,0
+823544,New York Yankees,Tampa Bay Rays,2,0,3.43,6.71,4.21,4.3,4.44,7.0,1
+823545,New York Yankees,Toronto Blue Jays,0,2,3.86,3.57,6.16,5.0,0.0,3.0,0
+823546,New York Yankees,Tampa Bay Rays,2,4,3.86,6.57,1.11,3.7,1.11,3.7,0
+823547,New York Yankees,Toronto Blue Jays,1,2,4.57,4.14,1.03,6.3,1.93,6.0,0
+823548,New York Yankees,Toronto Blue Jays,5,4,4.14,4.29,1.71,8.7,5.29,7.3,1
+823549,New York Yankees,Toronto Blue Jays,7,6,3.57,3.57,4.41,2.0,2.78,6.0,1
+823550,New York Yankees,Texas Rangers,1,6,7.0,2.57,4.0,4.3,2.36,8.7,0
+823551,New York Yankees,Texas Rangers,9,2,6.71,3.14,7.5,5.0,7.5,5.0,1
+823552,New York Yankees,Baltimore Orioles,12,1,5.43,4.57,0.45,6.3,4.68,5.3,1
+823553,New York Yankees,Texas Rangers,7,4,6.57,2.14,4.5,3.0,1.18,6.0,1
+823554,New York Yankees,Baltimore Orioles,9,4,5.43,5.14,3.35,4.7,3.66,7.3,1
+823555,New York Yankees,Baltimore Orioles,11,3,5.0,4.29,2.36,5.7,2.36,5.7,1
+823556,New York Yankees,Kansas City Royals,7,0,6.0,3.43,0.0,4.5,5.0,7.0,1
+823557,New York Yankees,Baltimore Orioles,7,2,5.0,6.0,2.37,3.5,2.22,7.7,1
+823558,New York Yankees,Kansas City Royals,13,4,4.71,3.14,4.12,4.7,2.86,5.7,1
+823559,New York Yankees,Kansas City Royals,4,2,4.57,2.86,3.35,7.3,0.6,5.0,1
+823560,New York Yankees,Los Angeles Angels,4,11,4.0,6.43,3.8,5.0,3.8,5.0,0
+823561,New York Yankees,Los Angeles Angels,5,4,3.57,6.14,0.74,4.5,6.75,2.0,1
+823562,New York Yankees,Los Angeles Angels,1,7,4.14,6.0,4.37,4.0,3.21,5.5,0
+823563,New York Yankees,Los Angeles Angels,11,10,3.43,5.71,3.83,5.5,8.02,6.5,1
+823564,New York Yankees,Athletics,2,3,6.6,5.4,11.61,7.0,3.46,6.0,0
+823565,New York Yankees,Athletics,0,1,5.83,5.0,1.5,7.0,8.44,4.0,0
+823567,New York Yankees,Athletics,5,3,7.0,6.0,0.0,7.0,0.0,7.0,1
+823624,New York Mets,Cincinnati Reds,2,7,2.29,5.0,1.0,6.0,4.37,4.3,0
+823625,New York Mets,Cincinnati Reds,2,7,4.29,4.57,7.55,3.7,4.95,6.0,0
+823627,New York Mets,New York Yankees,6,3,4.14,2.71,6.59,4.0,6.64,4.7,1
+823628,New York Mets,New York Yankees,7,6,4.57,3.14,5.49,2.5,6.24,4.3,1
+823629,New York Mets,New York Yankees,2,5,4.14,3.29,0.52,6.0,1.55,6.0,0
+823630,New York Mets,Detroit Tigers,9,4,4.29,2.43,2.62,3.7,3.0,6.3,1
+823631,New York Mets,Detroit Tigers,3,2,4.43,2.71,2.93,7.0,7.56,5.0,1
+823632,New York Mets,Detroit Tigers,10,2,3.71,3.43,1.67,5.0,4.78,5.7,1
+823633,New York Mets,Washington Nationals,2,14,4.0,4.43,2.73,6.0,3.98,3.3,0
+823634,New York Mets,Washington Nationals,4,5,3.86,4.86,3.29,5.7,9.0,2.0,0
+823635,New York Mets,Colorado Rockies,1,3,3.71,5.14,7.68,1.0,2.8,8.7,0
+823636,New York Mets,Washington Nationals,8,0,3.0,5.0,2.63,3.3,10.2,2.7,1
+823637,New York Mets,Colorado Rockies,0,3,3.29,5.0,1.18,7.0,1.18,7.0,0
+823638,New York Mets,Colorado Rockies,3,4,3.57,4.71,4.09,4.7,5.73,2.7,0
+823639,New York Mets,Minnesota Twins,10,8,2.29,3.86,6.14,4.7,2.5,6.0,1
+823640,New York Mets,Minnesota Twins,3,5,1.43,5.86,1.98,6.7,7.11,3.0,0
+823641,New York Mets,Minnesota Twins,3,2,1.86,5.43,1.58,3.7,1.58,3.7,1
+823642,New York Mets,Athletics,0,1,3.86,4.86,1.8,6.0,3.75,2.0,0
+823643,New York Mets,Athletics,0,4,4.71,4.43,0.0,4.0,0.0,4.0,0
+823644,New York Mets,Athletics,6,11,4.43,4.86,6.59,6.0,6.59,6.0,0
+823645,New York Mets,Arizona Diamondbacks,1,7,4.71,3.0,0.0,3.0,1.76,4.0,0
+823646,New York Mets,Arizona Diamondbacks,2,7,5.17,2.33,10.98,5.0,2.81,2.0,0
+823648,New York Mets,Arizona Diamondbacks,4,3,5.4,2.2,1.76,7.0,0.0,2.0,1
+823703,Minnesota Twins,Houston Astros,4,1,4.14,2.57,2.0,6.0,4.95,4.3,1
+823704,Minnesota Twins,Houston Astros,1,2,4.43,2.57,10.98,5.0,0.0,5.0,0
+823705,Minnesota Twins,Houston Astros,6,3,4.29,2.29,2.9,5.0,5.87,6.0,1
+823706,Minnesota Twins,Milwaukee Brewers,1,2,4.29,4.43,4.86,4.7,3.27,6.5,0
+823707,Minnesota Twins,Milwaukee Brewers,2,3,4.71,4.86,3.53,4.0,3.71,5.3,0
+823708,Minnesota Twins,Milwaukee Brewers,5,4,3.86,3.86,2.7,4.0,2.7,4.0,1
+823710,Minnesota Twins,Miami Marlins,5,9,4.57,4.29,1.06,5.7,9.44,2.0,0
+823711,Minnesota Twins,Toronto Blue Jays,4,3,4.43,4.86,4.5,2.0,0.0,3.0,1
+823712,Minnesota Twins,Miami Marlins,3,0,4.71,4.29,4.24,2.7,6.56,6.0,1
+823713,Minnesota Twins,Toronto Blue Jays,3,7,3.86,3.86,2.5,4.3,8.3,2.3,0
+823714,Minnesota Twins,Toronto Blue Jays,7,1,4.0,4.14,2.98,6.7,3.66,4.0,1
+823715,Minnesota Twins,Toronto Blue Jays,4,11,4.0,4.0,4.0,5.5,3.33,7.7,0
+823716,Minnesota Twins,Seattle Mariners,1,7,4.43,4.57,3.5,5.3,3.35,5.7,0
+823717,Minnesota Twins,Seattle Mariners,3,5,3.86,5.0,2.45,4.3,4.74,5.0,0
+823718,Minnesota Twins,Cincinnati Reds,4,7,6.29,4.29,5.33,4.3,2.45,3.0,0
+823719,Minnesota Twins,Seattle Mariners,11,4,3.43,4.71,3.0,2.0,6.82,4.0,1
+823720,Minnesota Twins,Cincinnati Reds,1,2,6.57,3.71,2.65,3.5,5.06,5.0,0
+823721,Minnesota Twins,Cincinnati Reds,4,5,6.29,3.86,8.8,2.7,1.05,6.7,0
+823722,Minnesota Twins,Boston Red Sox,5,9,7.0,4.57,3.33,4.5,5.29,3.0,0
+823723,Minnesota Twins,Boston Red Sox,6,0,6.71,5.43,3.6,4.5,1.49,2.5,1
+823724,Minnesota Twins,Detroit Tigers,3,1,5.14,3.0,9.0,3.0,9.0,3.0,1
+823725,Minnesota Twins,Boston Red Sox,13,6,5.86,5.43,4.89,3.0,4.89,3.0,1
+823726,Minnesota Twins,Detroit Tigers,8,6,5.29,2.4,6.75,4.0,0.0,5.0,1
+823727,Minnesota Twins,Detroit Tigers,4,2,5.5,2.5,0.0,3.0,1.29,3.0,1
+823728,Minnesota Twins,Detroit Tigers,7,3,5.2,2.33,11.25,3.0,11.25,3.0,1
+823784,Milwaukee Brewers,St. Louis Cardinals,5,1,4.57,4.14,0.0,9.7,5.33,6.7,1
+823785,Milwaukee Brewers,St. Louis Cardinals,6,0,4.71,3.71,1.12,8.0,2.12,4.3,1
+823786,Milwaukee Brewers,Los Angeles Dodgers,1,5,4.71,6.57,4.06,5.3,4.24,8.0,0
+823787,Milwaukee Brewers,Los Angeles Dodgers,3,11,4.71,5.86,4.5,3.0,3.5,5.7,0
+823788,Milwaukee Brewers,Los Angeles Dodgers,5,1,5.0,6.43,4.01,4.0,2.81,6.7,1
+823789,Milwaukee Brewers,San Diego Padres,7,1,4.29,2.86,1.69,7.7,1.69,7.7,1
+823790,Milwaukee Brewers,San Diego Padres,6,4,4.14,3.57,4.77,4.7,4.77,4.7,1
+823791,Milwaukee Brewers,San Diego Padres,1,3,4.43,3.86,1.58,9.3,3.5,6.3,0
+823792,Milwaukee Brewers,New York Yankees,4,3,5.71,7.0,0.94,5.7,1.2,6.7,1
+823793,Milwaukee Brewers,New York Yankees,4,3,4.43,6.14,3.0,8.0,3.0,8.0,1
+823794,Milwaukee Brewers,New York Yankees,6,0,5.14,8.0,2.24,8.7,2.25,3.0,1
+823795,Milwaukee Brewers,Arizona Diamondbacks,13,1,4.14,5.86,3.66,7.0,2.25,2.0,1
+823796,Milwaukee Brewers,Arizona Diamondbacks,2,6,5.57,5.57,3.1,4.3,5.06,3.3,0
+823797,Milwaukee Brewers,Pittsburgh Pirates,5,0,4.14,5.0,2.96,4.3,3.69,3.3,1
+823798,Milwaukee Brewers,Arizona Diamondbacks,13,2,4.14,6.14,3.41,1.3,9.78,4.0,1
+823799,Milwaukee Brewers,Pittsburgh Pirates,3,6,4.71,4.86,3.55,8.0,3.71,4.0,0
+823800,Milwaukee Brewers,Pittsburgh Pirates,0,6,5.0,5.0,3.46,4.7,1.12,5.7,0
+823801,Milwaukee Brewers,Toronto Blue Jays,2,1,3.0,4.43,7.03,3.5,9.0,3.0,1
+823802,Milwaukee Brewers,Toronto Blue Jays,7,9,4.0,3.29,4.05,8.5,1.62,7.5,0
+823803,Milwaukee Brewers,Toronto Blue Jays,2,1,3.86,4.57,0.0,1.5,2.97,7.0,1
+823804,Milwaukee Brewers,Washington Nationals,6,8,3.43,5.29,8.65,4.0,1.8,6.0,0
+823805,Milwaukee Brewers,Washington Nationals,1,3,4.0,5.71,11.25,4.0,3.53,6.0,0
+823808,Milwaukee Brewers,Washington Nationals,3,7,4.71,5.43,0.0,3.0,13.5,4.0,0
+823861,Miami Marlins,New York Mets,4,0,4.14,5.29,4.35,5.3,0.0,2.7,1
+823862,Miami Marlins,New York Mets,4,1,5.0,6.0,2.81,4.0,3.33,6.7,1
+823863,Miami Marlins,New York Mets,2,1,5.0,6.14,7.31,6.3,7.3,4.0,1
+823864,Miami Marlins,Atlanta Braves,3,9,4.71,4.29,5.03,4.7,2.54,6.0,0
+823865,Miami Marlins,Atlanta Braves,4,8,5.29,3.14,2.73,4.7,2.73,4.7,0
+823866,Miami Marlins,Atlanta Braves,1,9,5.86,3.57,1.35,8.7,0.0,3.3,0
+823867,Miami Marlins,Atlanta Braves,12,0,4.29,4.14,3.8,3.3,3.14,7.0,1
+823868,Miami Marlins,Washington Nationals,5,2,3.86,5.57,4.2,7.3,6.71,4.3,1
+823869,Miami Marlins,Washington Nationals,8,7,3.29,4.71,0.56,4.0,7.98,1.0,1
+823870,Miami Marlins,Baltimore Orioles,4,3,3.57,4.43,4.68,3.7,1.05,6.7,1
+823871,Miami Marlins,Washington Nationals,2,3,3.71,5.0,1.42,4.7,1.42,4.7,0
+823872,Miami Marlins,Baltimore Orioles,4,7,3.29,4.86,4.44,3.0,3.35,6.3,0
+823873,Miami Marlins,Baltimore Orioles,7,9,2.86,4.29,3.31,4.0,3.71,3.0,0
+823874,Miami Marlins,Philadelphia Phillies,0,1,3.29,4.43,9.47,5.3,1.68,3.0,0
+823875,Miami Marlins,Philadelphia Phillies,2,7,3.29,4.57,4.97,5.0,0.0,3.5,0
+823876,Miami Marlins,Philadelphia Phillies,4,0,4.0,5.0,5.7,4.0,2.98,6.0,1
+823877,Miami Marlins,Philadelphia Phillies,5,6,3.86,5.14,4.17,5.0,3.6,6.0,0
+823878,Miami Marlins,St. Louis Cardinals,4,1,4.0,6.0,4.71,3.3,4.5,4.0,1
+823879,Miami Marlins,St. Louis Cardinals,5,3,4.57,5.71,3.8,5.0,3.55,2.3,1
+823880,Miami Marlins,St. Louis Cardinals,3,5,5.0,5.71,2.5,4.0,0.0,4.0,0
+823881,Miami Marlins,Milwaukee Brewers,5,3,4.0,4.29,6.23,4.0,3.89,7.3,1
+823882,Miami Marlins,Milwaukee Brewers,2,5,3.71,4.0,4.82,5.0,3.51,5.7,0
+823883,Miami Marlins,Milwaukee Brewers,5,7,4.14,3.0,4.46,3.5,4.46,3.5,0
+823884,Miami Marlins,Cincinnati Reds,8,1,5.14,3.43,4.29,6.0,0.0,4.0,1
+823885,Miami Marlins,Cincinnati Reds,7,4,4.83,3.33,9.0,4.0,9.0,4.0,1
+823887,Miami Marlins,Cincinnati Reds,3,6,5.2,2.8,6.92,5.0,0.0,7.0,0
+823948,Los Angeles Dodgers,Colorado Rockies,5,3,5.14,2.86,4.44,5.0,6.87,4.3,1
+823949,Los Angeles Dodgers,Colorado Rockies,15,6,4.43,2.29,6.82,2.3,11.61,3.7,1
+823950,Los Angeles Dodgers,San Francisco Giants,5,2,4.0,4.43,3.72,8.3,4.71,6.7,1
+823951,Los Angeles Dodgers,San Francisco Giants,2,6,4.43,4.71,7.61,2.7,4.5,6.3,0
+823952,Los Angeles Dodgers,San Francisco Giants,4,0,3.57,5.14,2.63,5.3,1.42,8.0,1
+823953,Los Angeles Dodgers,San Francisco Giants,3,9,4.57,3.57,5.92,3.7,1.29,8.0,0
+823954,Los Angeles Dodgers,Atlanta Braves,2,7,4.57,5.14,2.84,5.3,0.47,3.0,0
+823955,Los Angeles Dodgers,Atlanta Braves,2,7,4.57,5.29,8.71,6.0,8.71,6.0,0
+823956,Los Angeles Dodgers,Miami Marlins,1,2,4.43,4.29,4.17,3.0,0.5,6.3,0
+823957,Los Angeles Dodgers,Atlanta Braves,3,1,4.43,5.43,0.9,9.0,4.12,7.3,1
+823958,Los Angeles Dodgers,Miami Marlins,2,3,4.43,3.86,6.35,3.0,2.14,7.7,0
+823959,Los Angeles Dodgers,Chicago Cubs,6,0,5.43,5.57,0.9,2.3,0.95,7.0,1
+823960,Los Angeles Dodgers,Chicago Cubs,12,4,4.14,5.57,2.62,4.0,7.5,4.3,1
+823961,Los Angeles Dodgers,Miami Marlins,5,4,5.43,4.43,5.63,5.0,2.23,6.7,1
+823962,Los Angeles Dodgers,Chicago Cubs,4,6,4.57,6.43,5.0,4.0,5.0,6.0,0
+823963,Los Angeles Dodgers,New York Mets,8,2,4.14,1.43,0.74,3.5,0.0,2.0,1
+823964,Los Angeles Dodgers,New York Mets,4,0,6.43,2.57,9.89,5.5,1.8,2.0,1
+823965,Los Angeles Dodgers,New York Mets,2,1,5.86,1.86,2.41,6.0,2.25,4.0,1
+823966,Los Angeles Dodgers,Texas Rangers,2,5,7.57,2.71,1.8,6.0,10.8,5.0,0
+823967,Los Angeles Dodgers,Texas Rangers,6,3,8.57,2.71,6.92,2.0,1.8,9.0,1
+823968,Los Angeles Dodgers,Texas Rangers,8,7,7.57,2.14,3.6,3.0,3.0,9.0,1
+824028,Los Angeles Angels,Texas Rangers,2,1,4.29,5.43,4.97,3.7,7.94,5.7,1
+824029,Los Angeles Angels,Texas Rangers,9,6,2.57,5.14,2.97,2.0,4.71,7.0,1
+824030,Los Angeles Angels,Texas Rangers,5,2,3.86,5.14,0.41,7.7,1.59,4.3,1
+824031,Los Angeles Angels,Athletics,2,3,2.57,5.0,6.63,6.0,4.47,4.7,0
+824032,Los Angeles Angels,Athletics,5,6,2.14,5.0,1.69,3.7,7.83,3.3,0
+824033,Los Angeles Angels,Athletics,6,14,1.57,3.57,5.92,4.0,4.34,5.7,0
+824034,Los Angeles Angels,Los Angeles Dodgers,1,10,2.14,5.29,5.62,4.7,5.62,4.7,0
+824035,Los Angeles Angels,Athletics,2,1,2.14,3.57,2.98,5.0,2.25,4.3,1
+824036,Los Angeles Angels,Chicago White Sox,8,2,2.29,4.57,1.59,5.3,4.44,5.0,1
+824037,Los Angeles Angels,Los Angeles Dodgers,0,6,3.0,3.0,5.59,3.7,5.59,3.7,0
+824038,Los Angeles Angels,Los Angeles Dodgers,2,15,1.86,3.43,5.0,6.0,3.12,4.3,0
+824039,Los Angeles Angels,Chicago White Sox,0,6,4.0,4.57,1.48,6.0,2.81,3.0,0
+824040,Los Angeles Angels,Chicago White Sox,4,3,2.71,5.29,3.29,3.3,3.29,3.3,1
+824041,Los Angeles Angels,New York Mets,3,4,4.43,4.0,5.87,5.5,5.87,5.5,0
+824042,Los Angeles Angels,New York Mets,4,3,3.86,3.14,2.47,8.3,4.0,6.3,1
+824043,Los Angeles Angels,New York Mets,1,5,4.0,3.14,2.0,4.3,3.1,4.0,0
+824044,Los Angeles Angels,Toronto Blue Jays,7,3,4.14,3.71,8.91,3.5,0.45,9.3,1
+824045,Los Angeles Angels,Toronto Blue Jays,2,4,4.86,4.43,1.96,5.0,4.89,4.5,0
+824046,Los Angeles Angels,Toronto Blue Jays,2,5,6.0,4.0,1.79,6.7,3.12,5.7,0
+824047,Los Angeles Angels,San Diego Padres,1,2,7.14,5.14,3.66,4.7,3.66,4.7,0
+824048,Los Angeles Angels,San Diego Padres,8,0,7.71,6.29,0.6,10.0,0.6,10.0,1
+824049,Los Angeles Angels,San Diego Padres,1,4,7.43,5.29,3.6,4.5,8.86,5.3,0
+824050,Los Angeles Angels,Atlanta Braves,2,8,3.33,5.57,0.0,4.0,0.0,4.0,0
+824051,Los Angeles Angels,Atlanta Braves,2,7,3.6,5.33,1.8,3.0,8.82,5.0,0
+824052,Los Angeles Angels,Atlanta Braves,6,2,3.0,6.0,1.5,3.0,1.5,3.0,1
+824106,Kansas City Royals,New York Yankees,1,15,3.0,3.0,1.48,7.3,3.0,4.0,0
+824107,Kansas City Royals,New York Yankees,3,4,2.86,3.29,1.89,6.3,6.97,5.3,0
+824108,Kansas City Royals,Seattle Mariners,8,6,2.0,3.0,1.0,8.7,6.6,4.7,1
+824109,Kansas City Royals,Seattle Mariners,5,0,1.86,3.0,4.71,6.0,4.42,4.0,1
+824110,Kansas City Royals,Seattle Mariners,0,2,2.14,3.86,5.44,6.0,5.96,4.3,0
+824111,Kansas City Royals,Boston Red Sox,3,4,2.43,2.86,3.94,5.7,2.25,4.7,0
+824112,Kansas City Royals,Boston Red Sox,1,7,3.0,2.0,9.0,3.0,0.0,7.0,0
+824113,Kansas City Royals,Detroit Tigers,3,6,4.29,3.29,7.11,4.7,7.11,4.7,0
+824114,Kansas City Royals,Boston Red Sox,1,3,3.29,1.71,6.6,5.0,3.6,3.0,0
+824115,Kansas City Royals,Detroit Tigers,5,1,4.0,3.71,6.32,4.3,0.0,7.0,1
+824116,Kansas City Royals,Detroit Tigers,4,3,4.43,4.0,3.84,3.3,2.5,5.3,1
+824117,Kansas City Royals,Cleveland Guardians,5,8,4.14,4.86,4.24,5.3,8.82,3.3,0
+824118,Kansas City Royals,Cleveland Guardians,1,3,4.29,4.43,7.11,8.3,5.45,4.0,0
+824119,Kansas City Royals,Cleveland Guardians,5,3,4.14,4.29,3.12,8.0,3.12,8.0,1
+824120,Kansas City Royals,Cleveland Guardians,6,2,4.86,4.29,6.71,5.3,1.59,4.7,1
+824121,Kansas City Royals,Los Angeles Angels,12,1,4.14,3.43,3.91,5.0,3.0,8.0,1
+824122,Kansas City Royals,Los Angeles Angels,11,9,5.57,2.43,5.26,6.0,0.93,6.0,1
+824123,Kansas City Royals,Baltimore Orioles,6,8,3.86,4.43,0.98,2.0,1.29,5.3,0
+824124,Kansas City Royals,Los Angeles Angels,6,3,4.57,4.57,6.92,4.0,5.11,6.3,1
+824125,Kansas City Royals,Baltimore Orioles,5,7,3.14,4.43,4.8,5.7,2.08,6.0,0
+824126,Kansas City Royals,Chicago White Sox,5,6,2.29,1.57,1.76,5.0,1.76,5.0,0
+824127,Kansas City Royals,Baltimore Orioles,6,5,3.14,4.14,5.0,7.3,4.44,5.0,1
+824128,Kansas City Royals,Chicago White Sox,2,0,3.14,3.14,0.0,6.0,7.2,8.0,1
+824129,Kansas City Royals,Chicago White Sox,2,0,3.14,2.43,3.0,4.0,1.29,3.0,1
+824130,Kansas City Royals,Chicago White Sox,0,2,3.29,2.86,4.39,0.0,3.6,7.0,0
+824192,Houston Astros,Texas Rangers,0,8,2.29,3.29,3.75,3.5,2.49,4.3,0
+824193,Houston Astros,Texas Rangers,4,1,1.86,3.29,3.3,7.3,7.5,1.5,1
+824194,Houston Astros,Texas Rangers,2,0,3.0,3.57,4.94,6.7,1.57,5.7,1
+824195,Houston Astros,Seattle Mariners,4,3,2.57,4.57,6.75,5.3,6.75,5.3,1
+824196,Houston Astros,Seattle Mariners,3,8,2.86,4.71,4.39,5.0,2.5,5.7,0
+824197,Houston Astros,Seattle Mariners,2,10,2.71,3.86,7.8,4.0,0.0,9.0,0
+824199,Houston Astros,Seattle Mariners,1,3,3.0,3.57,2.97,4.0,1.05,5.0,0
+824200,Houston Astros,Los Angeles Dodgers,2,1,4.29,3.43,3.58,6.3,1.0,8.7,1
+824201,Houston Astros,Los Angeles Dodgers,3,8,4.86,3.14,6.63,3.3,3.28,6.0,0
+824202,Houston Astros,New York Yankees,7,4,4.71,7.43,4.17,3.0,2.45,6.5,1
+824203,Houston Astros,New York Yankees,3,8,4.86,6.86,7.65,4.3,2.69,8.3,0
+824204,Houston Astros,New York Yankees,4,12,4.57,5.71,8.93,4.0,2.5,7.3,0
+824205,Houston Astros,St. Louis Cardinals,5,7,3.43,4.86,5.06,3.3,6.15,4.0,0
+824206,Houston Astros,St. Louis Cardinals,5,7,3.71,4.29,7.2,2.0,10.0,4.0,0
+824207,Houston Astros,St. Louis Cardinals,4,9,4.0,3.86,4.0,3.0,4.0,3.0,0
+824208,Houston Astros,Colorado Rockies,2,3,3.86,4.0,2.2,4.5,0.0,2.0,0
+824273,Detroit Tigers,Cleveland Guardians,2,3,2.29,6.0,0.89,2.3,4.44,5.0,0
+824274,Detroit Tigers,Cleveland Guardians,1,3,2.29,6.0,0.49,6.0,2.81,3.0,0
+824275,Detroit Tigers,Los Angeles Angels,6,10,2.71,4.43,8.44,3.7,4.74,2.3,0
+824276,Detroit Tigers,Cleveland Guardians,3,4,2.14,6.43,3.29,2.7,3.84,6.7,0
+824277,Detroit Tigers,Cleveland Guardians,2,8,2.71,5.86,6.51,6.0,4.44,4.3,0
+824278,Detroit Tigers,Toronto Blue Jays,1,2,3.0,5.0,1.03,6.3,0.0,2.0,0
+824279,Detroit Tigers,Toronto Blue Jays,1,4,2.71,5.0,7.11,5.3,7.01,3.3,0
+824280,Detroit Tigers,Toronto Blue Jays,3,2,2.57,4.71,1.48,3.0,0.69,5.0,1
+824281,Detroit Tigers,Boston Red Sox,3,10,4.29,2.57,13.98,2.7,2.8,6.3,0
+824282,Detroit Tigers,Boston Red Sox,0,4,4.43,3.29,3.66,4.7,3.91,2.0,0
+824283,Detroit Tigers,Boston Red Sox,4,5,4.86,2.57,3.53,7.5,3.53,7.5,0
+824284,Detroit Tigers,Texas Rangers,5,1,4.57,2.57,7.5,3.5,5.56,4.3,1
+824285,Detroit Tigers,Texas Rangers,7,1,4.14,2.57,5.56,4.0,5.56,4.0,1
+824286,Detroit Tigers,Milwaukee Brewers,5,2,4.57,5.43,3.48,5.3,0.63,1.7,1
+824287,Detroit Tigers,Texas Rangers,4,5,4.71,2.71,1.26,5.3,6.34,5.7,0
+824288,Detroit Tigers,Milwaukee Brewers,5,4,5.0,4.71,4.29,4.3,3.29,8.0,1
+824289,Detroit Tigers,Kansas City Royals,10,9,3.86,1.86,1.78,5.0,3.0,9.5,1
+824290,Detroit Tigers,Milwaukee Brewers,4,12,4.29,4.57,3.35,5.0,3.91,3.5,0
+824291,Detroit Tigers,Kansas City Royals,2,1,3.86,1.86,1.73,6.0,2.43,5.5,1
+824292,Detroit Tigers,Kansas City Royals,2,1,4.0,2.29,0.0,8.0,6.55,3.5,1
+824293,Detroit Tigers,Miami Marlins,8,2,3.29,3.71,1.05,6.5,4.02,5.0,1
+824294,Detroit Tigers,Miami Marlins,6,1,3.0,4.57,10.98,4.0,2.54,3.0,1
+824297,Detroit Tigers,Miami Marlins,2,0,2.71,4.86,0.0,4.0,4.39,3.0,1
+824355,Colorado Rockies,Texas Rangers,4,5,4.29,5.43,3.1,7.3,13.9,4.7,0
+824356,Colorado Rockies,Texas Rangers,0,10,4.43,4.0,3.17,3.0,3.6,4.0,0
+824357,Colorado Rockies,Texas Rangers,7,6,3.43,3.57,2.96,2.3,2.96,2.3,1
+824358,Colorado Rockies,Arizona Diamondbacks,6,8,3.0,4.0,7.75,4.0,5.33,4.3,0
+824359,Colorado Rockies,Arizona Diamondbacks,4,2,3.71,3.86,1.4,5.0,5.33,1.7,1
+824360,Colorado Rockies,Arizona Diamondbacks,1,9,4.43,2.86,10.21,5.0,5.73,2.7,0
+824361,Colorado Rockies,New York Mets,5,10,4.86,4.29,3.29,5.7,3.56,3.0,0
+824362,Colorado Rockies,New York Mets,6,2,5.29,4.57,3.6,8.0,3.35,3.0,1
+824363,Colorado Rockies,New York Mets,2,4,5.0,3.71,7.58,2.7,3.78,3.0,0
+824364,Colorado Rockies,Atlanta Braves,6,11,4.57,5.57,3.35,5.0,3.35,5.0,0
+824365,Colorado Rockies,Atlanta Braves,1,9,5.0,5.0,0.5,8.3,7.36,4.3,0
+824366,Colorado Rockies,Atlanta Braves,6,8,5.29,4.86,5.07,3.7,5.41,2.3,0
+824367,Colorado Rockies,San Diego Padres,8,3,3.0,3.29,4.5,3.7,4.5,3.7,1
+824368,Colorado Rockies,San Diego Padres,8,10,4.0,3.14,16.88,4.0,2.54,3.0,0
+824369,Colorado Rockies,San Diego Padres,0,1,3.86,4.14,1.35,6.0,3.55,5.7,0
+824370,Colorado Rockies,Los Angeles Dodgers,3,12,3.71,4.57,8.44,1.0,0.0,4.0,0
+824371,Colorado Rockies,Los Angeles Dodgers,9,6,3.14,4.57,10.98,3.0,8.0,5.5,1
+824372,Colorado Rockies,Los Angeles Dodgers,4,3,2.86,5.29,5.62,4.0,9.89,2.5,1
+824373,Colorado Rockies,Los Angeles Dodgers,1,7,3.14,4.71,2.25,4.0,0.0,2.0,0
+824374,Colorado Rockies,Houston Astros,9,1,3.67,6.5,27.0,2.0,27.0,2.0,1
+824375,Colorado Rockies,Houston Astros,5,1,3.4,7.6,1.8,6.0,3.6,6.0,1
+824434,Cleveland Guardians,Washington Nationals,3,6,2.29,5.14,3.44,7.0,2.0,1.3,0
+824435,Cleveland Guardians,Cincinnati Reds,7,4,4.43,5.86,6.53,4.0,3.0,2.3,1
+824436,Cleveland Guardians,Cincinnati Reds,10,3,4.57,6.43,8.05,3.0,4.69,7.3,1
+824437,Cleveland Guardians,Washington Nationals,2,10,3.14,4.71,2.23,5.3,2.57,2.0,0
+824438,Cleveland Guardians,Los Angeles Angels,4,2,4.57,3.29,3.51,7.3,5.03,5.3,1
+824439,Cleveland Guardians,Cincinnati Reds,6,7,4.71,5.29,1.05,4.7,3.6,6.3,0
+824440,Cleveland Guardians,Minnesota Twins,4,5,3.43,4.57,5.16,6.7,5.16,6.7,0
+824441,Cleveland Guardians,Los Angeles Angels,7,2,3.86,2.86,3.86,2.3,3.86,2.3,1
+824442,Cleveland Guardians,Los Angeles Angels,3,2,4.57,3.0,6.43,3.7,3.8,4.0,1
+824443,Cleveland Guardians,Minnesota Twins,6,4,5.57,5.14,3.86,5.0,4.74,6.3,1
+824444,Cleveland Guardians,Minnesota Twins,1,2,5.29,4.71,3.71,5.7,4.2,4.3,0
+824445,Cleveland Guardians,Tampa Bay Rays,3,1,3.29,4.57,2.96,5.3,4.5,6.3,1
+824446,Cleveland Guardians,Tampa Bay Rays,2,3,4.43,4.57,2.34,6.0,5.5,5.0,0
+824447,Cleveland Guardians,Tampa Bay Rays,0,1,3.57,4.57,2.08,4.3,5.56,4.0,0
+824448,Cleveland Guardians,Houston Astros,8,5,4.29,5.0,1.41,6.7,2.9,2.5,1
+824449,Cleveland Guardians,Houston Astros,0,2,4.71,4.71,7.2,8.0,5.62,4.0,0
+824450,Cleveland Guardians,Houston Astros,2,9,5.29,4.0,2.98,4.3,1.5,10.0,0
+824451,Cleveland Guardians,Baltimore Orioles,4,2,4.57,5.29,3.6,9.0,1.57,7.3,1
+824452,Cleveland Guardians,Baltimore Orioles,8,4,4.29,4.71,2.21,6.3,4.44,5.0,1
+824453,Cleveland Guardians,Baltimore Orioles,4,2,5.57,5.29,0.8,5.5,3.53,4.5,1
+824454,Cleveland Guardians,Baltimore Orioles,4,6,4.71,4.86,2.14,2.0,9.64,3.5,0
+824455,Cleveland Guardians,Kansas City Royals,10,2,3.0,4.86,1.76,6.0,15.0,4.0,1
+824457,Cleveland Guardians,Kansas City Royals,2,1,3.2,5.5,0.0,10.0,1.8,5.0,1
+824516,Cincinnati Reds,St. Louis Cardinals,7,6,6.57,3.57,5.19,1.0,1.12,4.0,1
+824517,Cincinnati Reds,Washington Nationals,15,1,4.0,7.43,1.42,6.0,0.45,6.7,1
+824518,Cincinnati Reds,St. Louis Cardinals,1,8,5.43,3.71,4.71,4.7,6.14,3.7,0
+824519,Cincinnati Reds,Washington Nationals,7,8,3.29,6.71,4.14,5.3,7.06,2.0,0
+824520,Cincinnati Reds,Houston Astros,5,0,2.57,3.86,4.14,4.3,6.0,2.0,1
+824521,Cincinnati Reds,Washington Nationals,4,10,3.29,5.71,6.34,3.3,5.12,2.3,0
+824522,Cincinnati Reds,Houston Astros,0,10,3.29,4.0,5.33,6.0,5.33,6.0,0
+824523,Cincinnati Reds,Houston Astros,3,1,3.14,3.86,1.98,8.0,2.12,5.0,1
+824524,Cincinnati Reds,Colorado Rockies,6,4,6.14,5.86,12.05,2.7,2.62,3.3,1
+824525,Cincinnati Reds,Colorado Rockies,2,13,6.71,4.0,6.14,2.7,4.74,3.3,0
+824526,Cincinnati Reds,Colorado Rockies,7,2,6.71,4.14,3.87,4.7,6.75,5.0,1
+824527,Cincinnati Reds,Detroit Tigers,9,2,6.0,5.43,3.18,2.7,3.18,2.7,1
+824528,Cincinnati Reds,Detroit Tigers,3,8,7.0,5.14,3.66,5.0,4.16,3.0,0
+824529,Cincinnati Reds,Detroit Tigers,9,8,4.71,4.29,8.78,2.0,5.0,3.3,1
+824530,Cincinnati Reds,San Francisco Giants,0,3,4.29,3.57,4.86,5.5,5.29,5.5,0
+824531,Cincinnati Reds,San Francisco Giants,2,1,4.0,3.86,3.6,5.0,1.59,7.0,1
+824532,Cincinnati Reds,San Francisco Giants,8,3,4.0,3.71,3.24,3.0,4.41,5.0,1
+824533,Cincinnati Reds,Los Angeles Angels,6,9,3.43,4.57,5.24,3.5,1.12,10.0,0
+824534,Cincinnati Reds,Los Angeles Angels,2,10,3.14,3.14,1.5,9.0,0.0,7.0,0
+824535,Cincinnati Reds,Los Angeles Angels,7,3,2.71,4.29,0.0,4.0,0.0,4.0,1
+824597,Chicago White Sox,Minnesota Twins,3,5,3.86,4.29,1.5,7.0,8.71,4.7,0
+824598,Chicago White Sox,Minnesota Twins,3,1,4.71,4.86,1.68,4.7,1.38,5.5,1
+824599,Chicago White Sox,Chicago Cubs,9,8,5.57,2.57,5.03,4.0,4.44,3.3,1
+824600,Chicago White Sox,Chicago Cubs,8,3,5.57,3.14,0.99,8.7,3.12,5.0,1
+824601,Chicago White Sox,Chicago Cubs,5,10,5.14,2.86,6.11,7.0,3.14,5.3,0
+824602,Chicago White Sox,Kansas City Royals,6,2,4.71,4.0,3.86,4.0,2.62,6.0,1
+824603,Chicago White Sox,Kansas City Royals,6,5,4.71,4.0,5.33,4.3,7.27,4.7,1
+824604,Chicago White Sox,Kansas City Royals,6,5,4.29,4.14,3.84,3.0,4.5,3.0,1
+824605,Chicago White Sox,Seattle Mariners,2,1,4.57,3.71,0.98,8.0,4.8,3.7,1
+824606,Chicago White Sox,Seattle Mariners,6,1,4.86,4.43,10.33,2.7,7.31,4.7,1
+824607,Chicago White Sox,Seattle Mariners,8,12,4.14,3.43,3.0,7.0,0.94,5.0,0
+824608,Chicago White Sox,Los Angeles Angels,3,2,4.71,4.43,3.12,2.7,3.12,2.7,1
+824609,Chicago White Sox,Los Angeles Angels,8,7,5.43,3.57,7.2,2.3,3.0,1.0,1
+824610,Chicago White Sox,Los Angeles Angels,5,2,5.57,4.43,1.79,4.7,0.0,7.3,1
+824611,Chicago White Sox,Washington Nationals,5,4,6.71,5.29,3.55,3.7,4.46,2.3,1
+824612,Chicago White Sox,Washington Nationals,1,2,6.14,5.14,3.89,3.7,4.47,2.7,0
+824613,Chicago White Sox,Washington Nationals,3,6,7.0,5.14,4.8,4.7,3.96,5.0,0
+824614,Chicago White Sox,Tampa Bay Rays,3,5,2.71,5.0,2.45,7.5,2.45,7.5,0
+824615,Chicago White Sox,Tampa Bay Rays,3,8,2.57,4.71,0.0,4.0,2.45,5.0,0
+824616,Chicago White Sox,Tampa Bay Rays,5,8,2.0,4.14,4.5,5.0,4.5,5.0,0
+824617,Chicago White Sox,Baltimore Orioles,3,5,2.83,3.67,9.0,6.0,1.5,7.0,0
+824618,Chicago White Sox,Baltimore Orioles,2,4,3.0,3.6,21.0,1.0,3.0,3.0,0
+824674,Chicago Cubs,Houston Astros,0,3,4.0,2.29,6.72,3.3,4.09,3.3,0
+824676,Chicago Cubs,Houston Astros,5,8,2.57,2.43,3.6,5.3,5.79,6.0,0
+824677,Chicago Cubs,Milwaukee Brewers,2,5,4.14,4.57,0.0,5.0,0.0,9.7,0
+824678,Chicago Cubs,Milwaukee Brewers,0,5,4.14,4.43,6.51,5.3,1.8,6.0,0
+824679,Chicago Cubs,Houston Astros,2,4,4.0,2.14,6.47,3.7,1.04,4.7,0
+824680,Chicago Cubs,Milwaukee Brewers,3,9,3.71,3.86,4.77,5.3,1.35,7.0,0
+824681,Chicago Cubs,Cincinnati Reds,8,3,5.14,3.71,3.14,4.7,2.36,4.0,1
+824682,Chicago Cubs,Cincinnati Reds,3,2,5.86,3.86,6.34,4.0,4.0,4.7,1
+824683,Chicago Cubs,Cincinnati Reds,7,6,5.29,3.14,5.7,2.0,5.62,5.0,1
+824684,Chicago Cubs,Cincinnati Reds,5,4,5.14,3.71,4.45,5.3,4.45,5.3,1
+824685,Chicago Cubs,Arizona Diamondbacks,2,0,5.14,4.43,4.71,5.3,2.98,6.0,1
+824686,Chicago Cubs,Arizona Diamondbacks,6,5,5.43,5.29,5.88,4.7,3.41,2.7,1
+824687,Chicago Cubs,Arizona Diamondbacks,8,4,4.57,4.29,5.37,6.3,9.51,3.0,1
+824688,Chicago Cubs,Philadelphia Phillies,7,2,7.29,2.0,1.73,10.0,8.36,4.7,1
+824689,Chicago Cubs,Philadelphia Phillies,8,7,6.86,1.71,2.12,7.3,3.33,4.0,1
+824690,Chicago Cubs,Philadelphia Phillies,7,4,7.29,3.29,8.13,7.7,1.06,8.0,1
+824691,Chicago Cubs,New York Mets,2,1,7.71,2.14,8.94,6.0,8.71,3.0,1
+824692,Chicago Cubs,Philadelphia Phillies,5,1,7.57,3.57,3.68,5.7,3.19,3.7,1
+824693,Chicago Cubs,New York Mets,12,4,6.29,1.43,2.65,4.0,2.65,2.7,1
+824694,Chicago Cubs,New York Mets,4,2,7.14,1.86,2.94,6.0,6.75,7.0,1
+824695,Chicago Cubs,Pittsburgh Pirates,0,2,4.57,4.71,4.29,5.0,1.8,4.0,0
+824696,Chicago Cubs,Pittsburgh Pirates,7,6,4.0,3.71,6.59,4.0,4.5,4.0,1
+824697,Chicago Cubs,Pittsburgh Pirates,3,4,3.71,3.86,1.5,8.0,0.0,4.0,0
+824758,Boston Red Sox,Atlanta Braves,6,7,4.0,4.57,0.68,4.7,2.09,7.0,0
+824759,Boston Red Sox,Minnesota Twins,5,6,3.71,4.14,3.79,3.7,1.06,5.7,0
+824760,Boston Red Sox,Minnesota Twins,2,4,3.71,3.86,4.48,4.3,4.71,6.0,0
+824761,Boston Red Sox,Minnesota Twins,6,8,3.0,4.0,2.25,6.0,1.35,5.0,0
+824762,Boston Red Sox,Philadelphia Phillies,1,3,3.57,4.57,3.91,8.0,2.22,5.7,0
+824763,Boston Red Sox,Philadelphia Phillies,3,1,3.86,5.71,10.75,3.3,2.98,1.7,1
+824764,Boston Red Sox,Philadelphia Phillies,1,2,3.86,5.57,8.8,3.7,3.16,6.0,0
+824765,Boston Red Sox,Tampa Bay Rays,1,4,4.14,3.86,0.9,4.7,2.09,7.7,0
+824767,Boston Red Sox,Tampa Bay Rays,4,8,3.86,3.29,1.8,3.0,3.0,4.0,0
+824768,Boston Red Sox,Tampa Bay Rays,2,0,4.29,4.29,5.88,3.7,8.44,2.0,1
+824769,Boston Red Sox,Houston Astros,1,3,4.86,4.86,1.78,6.0,1.78,6.0,0
+824770,Boston Red Sox,New York Yankees,2,4,3.14,5.86,3.38,7.0,3.38,7.0,0
+824771,Boston Red Sox,Houston Astros,3,6,4.86,4.57,3.12,4.3,2.0,7.0,0
+824772,Boston Red Sox,Houston Astros,3,1,4.71,4.71,7.11,6.0,7.11,6.0,1
+824773,Boston Red Sox,New York Yankees,0,4,3.86,6.43,2.55,4.7,7.0,3.5,0
+824774,Boston Red Sox,New York Yankees,1,4,3.0,5.43,5.13,4.3,2.0,4.0,0
+824775,Boston Red Sox,Detroit Tigers,1,4,4.86,4.29,4.84,3.5,3.1,5.7,0
+824776,Boston Red Sox,Detroit Tigers,8,6,4.0,4.57,1.61,6.5,1.61,6.5,1
+824777,Boston Red Sox,Detroit Tigers,2,6,4.71,4.57,4.5,2.7,3.0,4.0,0
+824778,Boston Red Sox,Detroit Tigers,1,0,5.43,4.43,5.81,4.5,3.6,4.0,1
+824779,Boston Red Sox,Milwaukee Brewers,5,0,4.33,5.5,3.0,3.0,3.0,3.0,1
+824780,Boston Red Sox,Milwaukee Brewers,3,2,4.6,6.2,7.2,7.0,3.0,7.0,1
+824837,Baltimore Orioles,Tampa Bay Rays,6,1,4.57,6.0,4.71,5.0,4.71,5.0,1
+824838,Baltimore Orioles,Tampa Bay Rays,9,7,4.29,5.71,2.49,7.7,2.37,5.7,1
+824839,Baltimore Orioles,Detroit Tigers,5,3,4.14,2.0,4.41,4.3,8.24,4.3,1
+824840,Baltimore Orioles,Detroit Tigers,1,4,4.57,2.29,1.29,2.0,13.28,3.7,0
+824841,Baltimore Orioles,New York Yankees,7,0,3.14,3.43,6.19,5.7,4.21,5.3,1
+824842,Baltimore Orioles,Detroit Tigers,7,4,4.14,1.86,5.4,4.3,5.7,5.3,1
+824843,Baltimore Orioles,New York Yankees,2,6,4.14,3.57,6.51,5.7,5.03,7.3,0
+824844,Baltimore Orioles,New York Yankees,3,2,3.86,5.0,5.92,4.0,1.57,5.7,1
+824845,Baltimore Orioles,Athletics,2,1,4.0,5.57,5.88,4.3,1.48,5.3,1
+824846,Baltimore Orioles,Athletics,3,4,4.14,5.71,5.92,3.7,5.74,4.7,0
+824847,Baltimore Orioles,Athletics,2,6,4.29,5.43,2.24,3.7,5.45,4.7,0
+824848,Baltimore Orioles,Houston Astros,10,3,5.57,4.71,3.78,2.3,3.27,8.0,1
+824849,Baltimore Orioles,Houston Astros,5,3,5.43,5.0,3.87,3.0,5.79,4.7,1
+824850,Baltimore Orioles,Houston Astros,5,11,6.0,3.86,2.65,3.5,9.57,3.7,0
+824851,Baltimore Orioles,Boston Red Sox,1,17,6.0,2.43,3.0,2.0,6.15,7.3,0
+824852,Baltimore Orioles,Boston Red Sox,3,5,5.29,4.71,2.96,4.7,2.8,6.0,0
+824853,Baltimore Orioles,Arizona Diamondbacks,3,4,5.0,5.14,3.0,4.5,3.0,4.5,0
+824854,Baltimore Orioles,Boston Red Sox,10,3,4.86,2.14,0.0,2.0,6.09,3.7,1
+824855,Baltimore Orioles,Arizona Diamondbacks,5,8,5.14,5.29,0.69,3.0,6.0,6.5,0
+824856,Baltimore Orioles,Arizona Diamondbacks,9,7,4.0,5.0,2.87,4.0,2.87,4.0,1
+824857,Baltimore Orioles,San Francisco Giants,6,2,3.14,3.71,1.29,3.0,1.29,3.0,1
+824858,Baltimore Orioles,San Francisco Giants,3,6,3.86,3.86,10.71,7.0,1.73,5.0,0
+824859,Baltimore Orioles,San Francisco Giants,6,2,3.43,3.57,4.05,3.5,3.46,2.0,1
+824920,Atlanta Braves,Washington Nationals,0,2,5.86,6.43,2.0,2.3,8.25,4.0,0
+824921,Atlanta Braves,Washington Nationals,1,2,5.57,4.86,8.39,7.0,3.55,6.7,0
+824922,Atlanta Braves,Washington Nationals,5,4,5.57,6.29,2.34,6.7,4.7,3.0,1
+824923,Atlanta Braves,Boston Red Sox,8,1,4.0,1.86,3.31,4.7,6.0,3.0,1
+824924,Atlanta Braves,Boston Red Sox,2,3,3.86,2.0,1.57,7.3,2.22,5.3,0
+824925,Atlanta Braves,Boston Red Sox,3,2,3.57,2.29,3.66,5.0,2.97,7.0,1
+824926,Atlanta Braves,Chicago Cubs,0,2,4.0,3.57,0.0,3.0,1.35,9.0,0
+824927,Atlanta Braves,Chicago Cubs,5,2,4.86,4.29,6.09,5.0,5.92,4.0,1
+824928,Atlanta Braves,Chicago Cubs,4,1,4.0,3.86,3.68,4.3,2.49,7.0,1
+824929,Atlanta Braves,Detroit Tigers,2,5,5.71,4.71,2.93,5.0,2.11,4.0,0
+824930,Atlanta Braves,Detroit Tigers,4,3,5.71,4.86,2.57,7.0,2.97,7.3,1
+824931,Atlanta Braves,Detroit Tigers,5,2,6.29,5.43,1.93,3.3,1.93,3.3,1
+824932,Atlanta Braves,Philadelphia Phillies,5,3,6.29,2.43,5.54,4.0,4.38,4.3,1
+824933,Atlanta Braves,Philadelphia Phillies,5,8,5.71,2.86,2.88,5.3,2.88,5.3,0
+824934,Atlanta Braves,Philadelphia Phillies,6,2,6.0,3.86,6.56,4.3,4.24,6.7,1
+824935,Atlanta Braves,Miami Marlins,6,5,6.43,4.43,2.93,5.0,0.98,5.0,1
+824936,Atlanta Braves,Miami Marlins,6,3,7.0,4.71,1.61,5.5,1.76,4.0,1
+824937,Atlanta Braves,Miami Marlins,4,10,6.57,3.0,6.0,5.0,1.48,5.0,0
+824938,Atlanta Braves,Cleveland Guardians,13,1,4.86,4.43,6.3,5.0,2.14,3.0,1
+824939,Atlanta Braves,Cleveland Guardians,0,6,5.14,4.14,7.2,1.0,1.8,6.0,0
+824941,Atlanta Braves,Cleveland Guardians,11,5,6.0,4.0,0.0,8.0,0.0,6.0,1
+825004,Athletics,Seattle Mariners,1,4,4.71,4.14,4.24,4.7,4.24,4.7,0
+825005,Athletics,Seattle Mariners,2,9,4.57,3.29,4.2,3.3,6.51,5.7,0
+825006,Athletics,San Francisco Giants,1,10,4.29,4.57,3.51,3.0,5.5,4.3,0
+825007,Athletics,San Francisco Giants,4,6,4.29,4.14,2.11,5.0,2.98,6.0,0
+825008,Athletics,St. Louis Cardinals,4,5,5.14,3.14,5.88,3.7,0.5,6.0,0
+825009,Athletics,San Francisco Giants,5,2,5.29,4.57,0.56,4.0,5.29,5.3,1
+825010,Athletics,St. Louis Cardinals,6,2,4.43,3.71,3.55,4.7,5.03,4.3,1
+825011,Athletics,St. Louis Cardinals,4,6,4.86,3.0,4.74,5.7,5.11,4.0,0
+825012,Athletics,Cleveland Guardians,5,8,4.14,2.57,3.38,3.7,3.55,4.7,0
+825013,Athletics,Cleveland Guardians,7,1,4.0,4.57,5.03,4.0,2.97,7.3,1
+825014,Athletics,Cleveland Guardians,6,14,4.29,3.71,5.36,3.7,6.97,3.7,0
+825015,Athletics,Kansas City Royals,5,2,4.14,7.14,5.2,5.0,3.77,6.0,1
+825016,Athletics,Kansas City Royals,6,3,4.0,6.71,6.32,5.3,7.7,4.3,1
+825017,Athletics,Kansas City Royals,1,4,4.57,6.57,4.97,4.0,4.19,5.7,0
+825018,Athletics,Chicago White Sox,4,7,3.57,4.57,0.94,6.0,6.59,4.0,0
+825019,Athletics,Chicago White Sox,2,9,4.43,2.71,0.88,4.5,1.38,4.5,0
+825020,Athletics,Chicago White Sox,7,6,4.14,3.71,2.45,4.0,6.38,7.0,1
+825021,Athletics,Texas Rangers,6,5,3.29,4.29,0.0,4.0,4.5,4.0,1
+825022,Athletics,Texas Rangers,2,1,3.43,4.43,0.69,6.5,2.45,9.0,1
+825023,Athletics,Texas Rangers,6,9,3.71,4.57,6.59,6.5,7.91,5.5,0
+825024,Athletics,Texas Rangers,1,8,5.0,3.43,6.67,7.0,7.2,6.0,0
+825080,Arizona Diamondbacks,Colorado Rockies,5,4,5.29,3.57,9.51,4.0,5.56,4.7,1
+825081,Arizona Diamondbacks,Colorado Rockies,9,1,5.71,3.57,3.12,6.0,3.12,6.0,1
+825082,Arizona Diamondbacks,Colorado Rockies,2,3,6.29,3.29,1.55,6.3,6.56,1.3,0
+825083,Arizona Diamondbacks,Colorado Rockies,2,1,6.71,3.43,1.78,5.7,5.68,1.7,1
+825084,Arizona Diamondbacks,San Francisco Giants,6,3,6.43,3.57,3.58,4.7,5.29,6.3,1
+825085,Arizona Diamondbacks,New York Mets,5,1,2.57,4.0,8.74,4.3,3.33,5.0,1
+825086,Arizona Diamondbacks,San Francisco Giants,5,3,5.86,4.0,6.14,7.0,2.45,6.3,1
+825087,Arizona Diamondbacks,San Francisco Giants,12,2,4.86,5.0,3.87,4.7,9.4,4.0,1
+825088,Arizona Diamondbacks,New York Mets,1,3,3.0,4.57,4.14,7.7,4.71,5.0,0
+825089,Arizona Diamondbacks,New York Mets,2,1,3.0,4.43,1.41,5.0,12.95,3.7,1
+825090,Arizona Diamondbacks,Pittsburgh Pirates,2,4,3.57,5.29,2.84,5.7,6.32,3.0,0
+825091,Arizona Diamondbacks,Pittsburgh Pirates,0,1,3.86,6.14,6.6,4.3,1.69,7.0,0
+825092,Arizona Diamondbacks,Pittsburgh Pirates,9,0,4.29,6.43,6.0,4.3,6.34,3.7,1
+825093,Arizona Diamondbacks,San Diego Padres,4,6,5.86,3.57,3.87,3.7,3.55,3.3,0
+825094,Arizona Diamondbacks,San Diego Padres,12,7,5.29,3.71,1.59,5.0,2.48,5.0,1
+825096,Arizona Diamondbacks,Chicago White Sox,1,4,6.29,6.57,1.35,4.3,3.66,6.0,0
+825097,Arizona Diamondbacks,Chicago White Sox,11,7,5.71,6.29,1.94,3.0,2.5,3.0,1
+825098,Arizona Diamondbacks,Toronto Blue Jays,6,2,5.29,4.29,2.25,3.0,2.25,3.0,1
+825099,Arizona Diamondbacks,Chicago White Sox,5,11,5.57,5.57,3.53,3.0,3.91,4.0,0
+825100,Arizona Diamondbacks,Toronto Blue Jays,4,10,5.43,3.14,5.29,4.0,2.8,6.7,0
+825101,Arizona Diamondbacks,Toronto Blue Jays,6,3,5.43,4.43,12.35,3.0,4.41,6.5,1

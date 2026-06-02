@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#090d16;color:#f1f5f9;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+
+.glass-panel{background:rgba(15,23,42,0.65);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.4);width:100%;max-width:560px;padding:24px;display:flex;flex-direction:column;gap:20px}
+
+/* label */
+.section-label{font-size:9px;font-weight:700;letter-spacing:2.5px;color:#475569;margin-bottom:10px}
+
+/* sport toggle */
+.sport-toggle{display:flex;background:rgba(9,13,22,.8);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:3px;gap:3px}
+.toggle-btn{flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;font-family:'Outfit',sans-serif;border:none;cursor:pointer;background:transparent;color:#475569;transition:all .2s}
+.toggle-btn.soccer{color:#64748b}
+.toggle-btn.baseball.active{background:rgba(124,58,237,.2);color:#c4b5fd;border:1px solid rgba(124,58,237,.35);box-shadow:0 0 12px rgba(124,58,237,.2)}
+
+/* selects */
+.select-wrap{position:relative}
+.select-wrap select{width:100%;background:rgba(9,13,22,.7);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 28px 10px 12px;font-size:12px;font-family:'Outfit',sans-serif;color:#e2e8f0;appearance:none;cursor:pointer}
+.select-wrap select:focus{outline:none;border-color:rgba(124,58,237,.5)}
+.select-wrap::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;color:#475569;pointer-events:none}
+.selects-row{display:flex;align-items:center;gap:8px}
+.vs{font-size:11px;font-weight:700;color:#334155;flex-shrink:0}
+
+/* ── GANADOR buttons ── */
+.winner-row{display:flex;gap:10px}
+.winner-btn{flex:1;padding:14px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:rgba(30,41,59,.3);color:#475569;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;transition:all .22s;text-align:center;line-height:1.4}
+.winner-btn .prob{font-size:11px;font-weight:500;opacity:.7;margin-top:3px;display:block}
+.winner-btn:hover{border-color:rgba(124,58,237,.4);color:#e2e8f0;background:rgba(124,58,237,.1)}
+.winner-btn.sel-home{border-color:rgba(124,58,237,.7);background:rgba(124,58,237,.2);color:#c4b5fd;box-shadow:0 0 16px rgba(124,58,237,.25)}
+.winner-btn.sel-away{border-color:rgba(219,39,119,.6);background:rgba(219,39,119,.18);color:#f9a8d4;box-shadow:0 0 16px rgba(219,39,119,.2)}
+
+/* ── CARRERAS grid ── */
+.runs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.run-card{background:rgba(30,41,59,.35);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 14px 10px;cursor:pointer;transition:all .2s;position:relative}
+.run-card:hover{border-color:rgba(124,58,237,.3)}
+.run-card.selected{border-color:rgba(124,58,237,.6);background:rgba(124,58,237,.12);box-shadow:0 0 14px rgba(124,58,237,.15)}
+.run-card-label{font-size:9px;font-weight:700;letter-spacing:2px;color:#475569;margin-bottom:6px}
+.run-card-value{font-size:22px;font-weight:800;color:#e2e8f0;margin-bottom:2px}
+.run-card-prob{font-size:11px;font-weight:600}
+.run-card .sel-indicator{position:absolute;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:#7c3aed;display:none}
+.run-card.selected .sel-indicator{display:block}
+.run-card-sub{font-size:10px;color:#475569;margin-top:4px}
+
+/* line toggle inside cards */
+.line-tabs{display:flex;gap:4px;margin-bottom:10px}
+.line-tab{flex:1;padding:5px 4px;border-radius:6px;font-size:10px;font-weight:600;font-family:'Outfit',sans-serif;border:1px solid rgba(255,255,255,.07);background:rgba(9,13,22,.5);color:#475569;cursor:pointer;text-align:center;transition:all .15s}
+.line-tab.active-over{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.35);color:#34d399}
+.line-tab.active-under{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5}
+
+/* probability bar */
+.prob-bar-track{width:100%;height:5px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;margin-top:6px}
+.prob-bar-fill{height:100%;border-radius:99px;transition:width .4s}
+.fill-green{background:linear-gradient(to right,#059669,#34d399)}
+.fill-red{background:linear-gradient(to right,#be123c,#f87171)}
+.fill-purple{background:linear-gradient(to right,#7c3aed,#a78bfa)}
+
+/* add btn */
+.add-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(to right,#7c3aed,#6d28d9);border:none;color:#fff;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;letter-spacing:.5px}
+.add-btn:hover{box-shadow:0 0 22px rgba(124,58,237,.4);filter:brightness(1.1)}
+
+/* divider */
+.divider{height:1px;background:rgba(255,255,255,.05)}
+
+/* context chip */
+.context-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);border-radius:99px;padding:3px 10px;font-size:10px;font-weight:600;color:#a78bfa;letter-spacing:.5px}
+</style>
+</head>
+<body>
+
+<div class="glass-panel">
+
+  <!-- Header -->
+  <div>
+    <div class="section-label">CONFIGURADOR DE JUGADA</div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div class="sport-toggle" style="width:200px">
+        <button class="toggle-btn soccer" onclick="setMode('soccer',this)">⚽ Fútbol</button>
+        <button class="toggle-btn baseball active" onclick="setMode('baseball',this)">⚾ Béisbol</button>
+      </div>
+      <div class="context-chip">⚾ MLB · AL EAST</div>
+    </div>
+  </div>
+
+  <!-- Liga + Equipos -->
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div class="select-wrap">
+      <select>
+        <option>🇺🇸 MLB — American League East</option>
+        <option>🇺🇸 MLB — American League Central</option>
+        <option>🇺🇸 MLB — American League West</option>
+        <option>🇺🇸 MLB — National League East</option>
+      </select>
+    </div>
+    <div class="selects-row">
+      <div class="select-wrap" style="flex:1">
+        <select>
+          <option>New York Yankees</option>
+          <option>Baltimore Orioles</option>
+          <option>Boston Red Sox</option>
+        </select>
+      </div>
+      <span class="vs">vs</span>
+      <div class="select-wrap" style="flex:1">
+        <select>
+          <option>Baltimore Orioles</option>
+          <option>New York Yankees</option>
+          <option>Tampa Bay Rays</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- GANADOR -->
+  <div>
+    <div class="section-label">GANADOR DEL PARTIDO</div>
+    <div class="winner-row">
+      <button class="winner-btn sel-home" onclick="selectWinner(this,'home')">
+        🏠 Yankees
+        <span class="prob">Local · 47.4%</span>
+      </button>
+      <button class="winner-btn" onclick="selectWinner(this,'away')">
+        ✈️ Orioles
+        <span class="prob">Visita · 52.6%</span>
+      </button>
+    </div>
+    <!-- prob bar -->
+    <div style="margin-top:10px">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:#475569;margin-bottom:4px">
+        <span>Yankees 47.4%</span><span>Orioles 52.6%</span>
+      </div>
+      <div style="display:flex;height:6px;border-radius:99px;overflow:hidden;gap:2px">
+        <div style="width:47.4%;background:linear-gradient(to right,#7c3aed,#a78bfa);border-radius:99px 0 0 99px"></div>
+        <div style="flex:1;background:linear-gradient(to left,#db2777,#ec4899);border-radius:0 99px 99px 0"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TOTAL DE CARRERAS -->
+  <div>
+    <div class="section-label">TOTAL DE CARRERAS (OVER / UNDER)</div>
+
+    <div class="runs-grid">
+
+      <!-- Card 6.5 -->
+      <div class="run-card" onclick="toggleCard(this)">
+        <div class="sel-indicator"></div>
+        <div class="run-card-label">LÍNEA 6.5</div>
+        <div class="line-tabs">
+          <button class="line-tab active-over" onclick="event.stopPropagation();switchTab(this,'over')">Over</button>
+          <button class="line-tab" onclick="event.stopPropagation();switchTab(this,'under')">Under</button>
+        </div>
+        <div class="run-card-value" id="val-65">67.9%</div>
+        <div class="run-card-prob" style="color:#34d399">Over 6.5 Carreras</div>
+        <div class="prob-bar-track"><div class="prob-bar-fill fill-green" style="width:67.9%"></div></div>
+        <div class="run-card-sub">Total esperado: 6.46</div>
+      </div>
+
+      <!-- Card 7.5 -->
+      <div class="run-card selected" onclick="toggleCard(this)">
+        <div class="sel-indicator"></div>
+        <div class="run-card-label">LÍNEA 7.5 ⭐</div>
+        <div class="line-tabs">
+          <button class="line-tab" onclick="event.stopPropagation();switchTab(this,'over')">Over</button>
+          <button class="line-tab active-under" onclick="event.stopPropagation();switchTab(this,'under')">Under</button>
+        </div>
+        <div class="run-card-value" id="val-75">67.9%</div>
+        <div class="run-card-prob" style="color:#fca5a5">Under 7.5 Carreras</div>
+        <div class="prob-bar-track"><div class="prob-bar-fill fill-red" style="width:67.9%"></div></div>
+        <div class="run-card-sub">Línea más jugada</div>
+      </div>
+
+      <!-- Card 8.5 -->
+      <div class="run-card" onclick="toggleCard(this)">
+        <div class="sel-indicator"></div>
+        <div class="run-card-label">LÍNEA 8.5</div>
+        <div class="line-tabs">
+          <button class="line-tab" onclick="event.stopPropagation();switchTab(this,'over')">Over</button>
+          <button class="line-tab active-under" onclick="event.stopPropagation();switchTab(this,'under')">Under</button>
+        </div>
+        <div class="run-card-value" id="val-85">79.6%</div>
+        <div class="run-card-prob" style="color:#fca5a5">Under 8.5 Carreras</div>
+        <div class="prob-bar-track"><div class="prob-bar-fill fill-red" style="width:79.6%"></div></div>
+        <div class="run-card-sub">Alta probabilidad</div>
+      </div>
+
+      <!-- Card 9.5 -->
+      <div class="run-card" onclick="toggleCard(this)">
+        <div class="sel-indicator"></div>
+        <div class="run-card-label">LÍNEA 9.5</div>
+        <div class="line-tabs">
+          <button class="line-tab" onclick="event.stopPropagation();switchTab(this,'over')">Over</button>
+          <button class="line-tab active-under" onclick="event.stopPropagation();switchTab(this,'under')">Under</button>
+        </div>
+        <div class="run-card-value" id="val-95">88.1%</div>
+        <div class="run-card-prob" style="color:#fca5a5">Under 9.5 Carreras</div>
+        <div class="prob-bar-track"><div class="prob-bar-fill fill-red" style="width:88.1%"></div></div>
+        <div class="run-card-sub">Muy seguro</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Add button -->
+  <button class="add-btn">⚾ ➕ Agregar al Ticket</button>
+
+</div>
+
+<script>
+function selectWinner(btn, side) {
+  document.querySelectorAll('.winner-btn').forEach(b => b.classList.remove('sel-home','sel-away'));
+  btn.classList.add(side === 'home' ? 'sel-home' : 'sel-away');
+}
+
+function toggleCard(card) {
+  const wasSelected = card.classList.contains('selected');
+  document.querySelectorAll('.run-card').forEach(c => c.classList.remove('selected'));
+  if (!wasSelected) card.classList.add('selected');
+}
+
+function switchTab(tab, type) {
+  const tabs = tab.parentElement.querySelectorAll('.line-tab');
+  tabs.forEach(t => t.classList.remove('active-over','active-under'));
+  tab.classList.add(type === 'over' ? 'active-over' : 'active-under');
+
+  // Update label and bar color in card
+  const card = tab.closest('.run-card');
+  const probEl = card.querySelector('.run-card-prob');
+  const barEl  = card.querySelector('.prob-bar-fill');
+  const label  = card.querySelector('.run-card-label').textContent.replace('⭐','').trim();
+  const line   = label.replace('LÍNEA ','');
+
+  const data = {
+    '6.5':  {over:'32.1%', under:'67.9%'},
+    '7.5':  {over:'32.1%', under:'67.9%'},
+    '8.5':  {over:'20.4%', under:'79.6%'},
+    '9.5':  {over:'11.9%', under:'88.1%'},
+  };
+  const vals = data[line] || {over:'--',under:'--'};
+  const val = type === 'over' ? vals.over : vals.under;
+  const numVal = parseFloat(val);
+
+  card.querySelector('.run-card-value').textContent = val;
+  probEl.textContent = (type === 'over' ? 'Over ' : 'Under ') + line + ' Carreras';
+  probEl.style.color = type === 'over' ? '#34d399' : '#fca5a5';
+  barEl.style.width = val;
+  barEl.className = 'prob-bar-fill ' + (type === 'over' ? 'fill-green' : 'fill-red');
+}
+
+function setMode(mode, btn) {
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

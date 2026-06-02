@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUX | Inicio</title>
+    <style>
+        /* Estilos base (Modo Oscuro) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .contenedor {
+            background-color: #1e293b;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: #f8fafc;
+        }
+
+        /* Selector de Deporte */
+        .selector-deporte {
+            display: flex;
+            background-color: #0f172a;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .tab-deporte {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #94a3b8;
+            transition: 0.3s;
+        }
+
+        .tab-deporte.activo {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        /* Cajas de Selección de Equipos */
+        .zona-seleccion {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+
+        .caja-equipo {
+            background-color: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .caja-equipo label {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        select {
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid #475569;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: #3b82f6;
+        }
+
+        /* El círculo "VS" en medio */
+        .vs-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ef4444;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border: 4px solid #1e293b;
+            z-index: 10;
+        }
+
+        /* Botón de Acción */
+        .btn-generar {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 30px;
+            transition: 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-generar:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1 class="titulo">📊 Configurar Pronóstico</h1>
+
+        <div class="selector-deporte">
+            <div class="tab-deporte activo" id="tab-futbol" onclick="cambiarDeporte('futbol')">⚽ Fútbol</div>
+            <div class="tab-deporte" id="tab-beisbol" onclick="cambiarDeporte('beisbol')">⚾ Béisbol</div>
+        </div>
+
+        <!-- League Selector Panel (Only for Soccer) -->
+        <div id="seccion-ligas" class="zona-seleccion" style="margin-bottom: 25px;">
+            <div class="caja-equipo">
+                <label>Seleccionar Liga</label>
+                <select id="liga-select" onchange="seleccionarLiga(this.value)">
+                    <option value="" disabled selected>Selecciona una liga...</option>
+                    <option value="Premier League">⬤ Premier League</option>
+                    <option value="La Liga">⬤ La Liga</option>
+                    <option value="Liga MX">⬤ Liga MX</option>
+                    <option value="Bundesliga">⬤ Bundesliga</option>
+                    <option value="Serie A">⬤ Serie A</option>
+                    <option value="Ligue 1">⬤ Ligue 1</option>
+                    <option value="Champions League">⬤ Champions League</option>
+                    <option value="Equipos de Mundial">⬤ Mundial 2026</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="seccion-equipos" class="zona-seleccion" style="display: none;">
+            <div class="caja-equipo">
+                <label>Local (Equipo A)</label>
+                <select id="equipo-local">
+                    <option value="" disabled selected>Selecciona un equipo...</option>
+                    <option value="Paris SG">Paris SG</option>
+                    <option value="Arsenal">Arsenal</option>
+                    <option value="Real Madrid">Real Madrid</option>
+                    <option value="Mexico">México</option>
+                </select>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="caja-equipo">
+                <label>Visitante (Equipo B)</label>
+                <select id="equipo-visitante">
+                    <option value="" disabled selected>Selecciona un equipo...</option>
+                    <option value="Paris SG">Paris SG</option>
+                    <option value="Arsenal">Arsenal</option>
+                    <option value="Real Madrid">Real Madrid</option>
+                    <option value="USA">EE.UU.</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-generar" onclick="irAlPronostico()" style="display: none;">Analizar Partido</button>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let deporteActual = 'futbol';
+        let ligaSeleccionada = null;
+        let futbolGroups = {};
+        let beisbolGroups = {};
+
+        // Cargar equipos del backend
+        async function cargarEquipos() {
+            try {
+                // Fútbol
+                let res = await fetch(`${API_BASE}/equipos/futbol`);
+                let data = await res.json();
+                futbolGroups = data.grupos;
+
+                // Béisbol
+                res = await fetch(`${API_BASE}/equipos/beisbol`);
+                data = await res.json();
+                beisbolGroups = data.grupos;
+
+                populateSelects();
+            } catch (err) {
+                console.error("Error al cargar equipos:", err);
+                // Si falla el backend, mantenemos las opciones estáticas por defecto
+            }
+        }
+
+        // Llenar los selectores dinámicamente
+        function populateSelects() {
+            const localSelect = document.getElementById('equipo-local');
+            const visitSelect = document.getElementById('equipo-visitante');
+            const grupos = deporteActual === 'futbol' ? futbolGroups : beisbolGroups;
+
+            if (!grupos || Object.keys(grupos).length === 0) return;
+
+            let html = '<option value="" disabled selected>Selecciona un equipo...</option>';
+            for (const [groupName, teamList] of Object.entries(grupos)) {
+                // Si es fútbol, filtramos para mostrar únicamente la liga seleccionada
+                if (deporteActual === 'futbol' && groupName !== ligaSeleccionada) {
+                    continue;
+                }
+                
+                html += `<optgroup label="${groupName}">`;
+                teamList.forEach(team => {
+                    html += `<option value="${team.value}">⬤ ${team.label}</option>`;
+                });
+                html += `</optgroup>`;
+            }
+
+            localSelect.innerHTML = html;
+            visitSelect.innerHTML = html;
+        }
+
+        // Lógica para cambiar entre las pestañas de Fútbol y Béisbol
+        function cambiarDeporte(deporte) {
+            deporteActual = deporte;
+            
+            // Cambiar estilos de las pestañas
+            document.getElementById('tab-futbol').classList.remove('activo');
+            document.getElementById('tab-beisbol').classList.remove('activo');
+            document.getElementById(`tab-${deporte}`).classList.add('activo');
+
+            const seccionLigas = document.getElementById('seccion-ligas');
+            const seccionEquipos = document.getElementById('seccion-equipos');
+            const btn = document.querySelector('.btn-generar');
+
+            if (deporte === 'futbol') {
+                // Mostrar selector de ligas y ocultar el selector de partidos
+                seccionLigas.style.display = 'flex';
+                seccionEquipos.style.display = 'none';
+                btn.style.display = 'none';
+                
+                // Resetear dropdown de ligas
+                document.getElementById('liga-select').value = '';
+                ligaSeleccionada = null;
+            } else {
+                // Béisbol: ocultar selector de ligas y mostrar selector de partidos MLB inmediatamente
+                seccionLigas.style.display = 'none';
+                seccionEquipos.style.display = 'flex';
+                btn.style.display = 'block';
+                
+                populateSelects();
+            }
+        }
+
+        // Lógica para seleccionar una liga de fútbol
+        function seleccionarLiga(nombreLiga) {
+            ligaSeleccionada = nombreLiga;
+            
+            // Actualizar selectores de equipo filtrados por liga
+            populateSelects();
+
+            // Mostrar el selector de partido y botón con transición suave
+            const seccionEquipos = document.getElementById('seccion-equipos');
+            const btn = document.querySelector('.btn-generar');
+            
+            seccionEquipos.style.display = 'flex';
+            btn.style.display = 'block';
+        }
+
+        // Lógica para capturar los datos y enviarlos al modelo
+        function irAlPronostico() {
+            const local = document.getElementById('equipo-local').value;
+            const visitante = document.getElementById('equipo-visitante').value;
+
+            if (!local || !visitante) {
+                alert("Por favor, selecciona ambos equipos.");
+                return;
+            }
+
+            if (local === visitante) {
+                alert("Un equipo no puede jugar contra sí mismo.");
+                return;
+            }
+
+            // Redirigir a index.html con los parámetros necesarios
+            window.location.href = `index.html?deporte=${deporteActual}&local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}`;
+        }
+
+        // Iniciar carga al cargar la página
+        window.addEventListener('DOMContentLoaded', cargarEquipos);
+    </script>
+</body>
+</html>
