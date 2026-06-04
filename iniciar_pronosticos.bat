@@ -8,7 +8,7 @@ echo [1/2] Iniciando el servidor FastAPI de Uvicorn...
 echo.
 
 :: Launch FastAPI backend minimized so it doesn't block the screen
-start "FastAPI Backend" /min ".\sklearn-env\Scripts\python.exe" -m uvicorn api_beisbol:app --port 8000 --reload
+start "FastAPI Backend" /min ".\sklearn-env\Scripts\python.exe" -m uvicorn api_deportes:app --port 8000 --reload
 
 echo [2/2] Esperando a que el puerto 8000 este listo...
 timeout /t 3 /nobreak >nul

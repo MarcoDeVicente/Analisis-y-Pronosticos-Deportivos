@@ -33,7 +33,7 @@ def obtener_equipos_futbol():
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT Nombre, Liga FROM futbol_equipos ORDER BY Nombre ASC")
+        cursor.execute("SELECT Nombre, Liga, rank_mundial FROM futbol_equipos ORDER BY Nombre ASC")
         rows = cursor.fetchall()
         
         # Categorized lists
@@ -60,13 +60,15 @@ def obtener_equipos_futbol():
         for row in rows:
             name = row["Nombre"]
             liga = row["Liga"]
+            rank = row["rank_mundial"]
             
             # Map label
             label = display_names.get(name, name)
-            item = {"value": name, "label": label}
+            item = {"value": name, "label": label, "rank_mundial": rank}
             
             if liga == "Futbol":
                 grupos["Equipos de Mundial"].append(item)
+            elif liga == "Amistosos Internacionales":
                 grupos["Amistosos Internacionales"].append(item)
             elif liga == "Premier League":
                 grupos["Premier League"].append(item)
@@ -78,8 +80,6 @@ def obtener_equipos_futbol():
                     grupos["Champions League"].append(item)
             elif liga == "Champions League":
                 grupos["Champions League"].append(item)
-            elif liga == "Amistosos Internacionales":
-                grupos["Amistosos Internacionales"].append(item)
             else:
                 if liga not in grupos:
                     grupos[liga] = []
@@ -165,17 +165,19 @@ def obtener_pronostico_futbol(local: str, visitante: str):
     cursor = conn.cursor()
     
     try:
-        # Obtener IDs
-        cursor.execute("SELECT Equipo_ID FROM futbol_equipos WHERE Nombre = ?", (local,))
+        # Obtener IDs y ranking mundial
+        cursor.execute("SELECT Equipo_ID, rank_mundial FROM futbol_equipos WHERE Nombre = ?", (local,))
         row_local = cursor.fetchone()
-        cursor.execute("SELECT Equipo_ID FROM futbol_equipos WHERE Nombre = ?", (visitante,))
+        cursor.execute("SELECT Equipo_ID, rank_mundial FROM futbol_equipos WHERE Nombre = ?", (visitante,))
         row_visit = cursor.fetchone()
         
         if not row_local or not row_visit:
             raise HTTPException(status_code=404, detail="Uno o ambos equipos no fueron encontrados en la base de datos.")
             
         local_id = row_local["Equipo_ID"]
+        rank_l_str = row_local["rank_mundial"]
         visit_id = row_visit["Equipo_ID"]
+        rank_v_str = row_visit["rank_mundial"]
         
         # Unify history for duplicate team names (Ligue 1 vs Champions League / Premier League vs Champions League)
         unification_map = {
@@ -229,15 +231,38 @@ def obtener_pronostico_futbol(local: str, visitante: str):
         v_gf = stats_v_visit["gf"] if stats_v_visit and stats_v_visit["gf"] is not None else avg_goles_v
         v_gc = stats_v_visit["gc"] if stats_v_visit and stats_v_visit["gc"] is not None else avg_goles_l
         
-        # Fuerza relativa
-        atq_local = l_gf / avg_goles_l
-        def_local = l_gc / avg_goles_v
-        atq_visit = v_gf / avg_goles_v
-        def_visit = v_gc / avg_goles_l
+        # Fuerza relativa (floored at 0.2 to avoid 0% probabilities from streaks)
+        atq_local = max(0.2, l_gf / avg_goles_l)
+        def_local = max(0.2, l_gc / avg_goles_v)
+        atq_visit = max(0.2, v_gf / avg_goles_v)
+        def_visit = max(0.2, v_gc / avg_goles_l)
         
         # Goles esperados (Lambdas)
         lam_local = atq_local * def_visit * avg_goles_l
         lam_visit = atq_visit * def_local * avg_goles_v
+        
+        # Ajuste por Ranking FIFA (si ambos son selecciones y tienen ranking disponible)
+        try:
+            if rank_l_str is not None and rank_v_str is not None:
+                rank_local = int(rank_l_str)
+                rank_visit = int(rank_v_str)
+                
+                # Diferencia de ranking (positivo indica que local tiene mejor ranking, ej: #1 vs #34)
+                rank_diff = rank_visit - rank_local
+                
+                # Multiplicador: 0.5% de ajuste por cada posición de diferencia
+                mult_local = 1.0 + (rank_diff * 0.005)
+                mult_visit = 1.0 - (rank_diff * 0.005)
+                
+                # Limitar el multiplicador entre [0.7, 1.3] (máximo 30% de ajuste)
+                mult_local = max(0.7, min(1.3, mult_local))
+                mult_visit = max(0.7, min(1.3, mult_visit))
+                
+                lam_local = lam_local * mult_local
+                lam_visit = lam_visit * mult_visit
+        except Exception as e:
+            # En caso de error de formato o conversión, no aplicar el ajuste
+            pass
         
         # Probabilidades de victoria (Simulación Poisson 15x15)
         prob_local_win = 0.0
@@ -310,8 +335,10 @@ def obtener_pronostico_futbol(local: str, visitante: str):
             local_hc_mean = avg_hc
             
         cursor.execute(f'''
-            SELECT AVG(e.Corners) FROM futbol_estadisticas e 
-            WHERE e.Equipo_ID IN ({placeholders_l}) AND e.Es_Local = 0 AND EXISTS (
+            SELECT AVG(e.Corners) 
+            FROM futbol_estadisticas e 
+            JOIN futbol_partidos p ON e.Partido_ID = p.Partido_ID
+            WHERE p.Local_ID IN ({placeholders_l}) AND e.Es_Local = 0 AND EXISTS (
                 SELECT 1 FROM futbol_estadisticas e2 
                 WHERE e2.Partido_ID = e.Partido_ID AND (e2.Corners > 0 OR e2.Tiros > 0)
             )
@@ -333,8 +360,10 @@ def obtener_pronostico_futbol(local: str, visitante: str):
             visit_ac_mean = avg_ac
             
         cursor.execute(f'''
-            SELECT AVG(e.Corners) FROM futbol_estadisticas e 
-            WHERE e.Equipo_ID IN ({placeholders_v}) AND e.Es_Local = 1 AND EXISTS (
+            SELECT AVG(e.Corners) 
+            FROM futbol_estadisticas e 
+            JOIN futbol_partidos p ON e.Partido_ID = p.Partido_ID
+            WHERE p.Visitante_ID IN ({placeholders_v}) AND e.Es_Local = 1 AND EXISTS (
                 SELECT 1 FROM futbol_estadisticas e2 
                 WHERE e2.Partido_ID = e.Partido_ID AND (e2.Corners > 0 OR e2.Tiros > 0)
             )
@@ -343,10 +372,11 @@ def obtener_pronostico_futbol(local: str, visitante: str):
         if visit_hc_conceded is None:
             visit_hc_conceded = avg_hc
         
-        hc_atq = local_hc_mean / avg_hc
-        hc_def = local_ac_conceded / avg_ac
-        ac_atq = visit_ac_mean / avg_ac
-        ac_def = visit_hc_conceded / avg_hc
+        # Fuerza relativa de corners (floored at 0.2 to avoid 0% probabilities from streaks)
+        hc_atq = max(0.2, local_hc_mean / avg_hc)
+        hc_def = max(0.2, local_ac_conceded / avg_ac)
+        ac_atq = max(0.2, visit_ac_mean / avg_ac)
+        ac_def = max(0.2, visit_hc_conceded / avg_hc)
         
         lam_local_corners = hc_atq * ac_def * avg_hc
         lam_visit_corners = ac_atq * hc_def * avg_ac

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUX | Análisis y Predicción Deportiva</title>
+    <link rel="icon" type="image/svg+xml" href="crux_mark.svg">
     <!-- Google Fonts: Outfit -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -958,7 +959,7 @@
                         <div
                             class="flex items-center justify-between bg-slate-950 p-2 rounded-lg border border-slate-800/80 font-mono">
                             <code class="text-[10px] text-slate-300 select-all font-mono break-all"
-                                id="terminal-cmd">.\sklearn-env\Scripts\python.exe -m uvicorn api_beisbol:app --port 8000 --reload</code>
+                                id="terminal-cmd">.\sklearn-env\Scripts\python.exe -m uvicorn api_deportes:app --port 8000 --reload</code>
                             <button onclick="copyTerminalCommand()"
                                 class="text-slate-400 hover:text-white text-xs ml-2 cursor-pointer font-bold px-2 py-1 bg-slate-800 hover:bg-slate-700 rounded transition-all">Copiar</button>
                         </div>
@@ -2152,9 +2153,14 @@
             const localGroup = getSelectedGroupName(localSelect);
             const visitGroup = getSelectedGroupName(visitSelect);
 
+            const isMundialGroup = (g) => g === 'Equipos de Mundial' || g === 'Amistosos Internacionales';
+
             // If local changed and visitor is from a different group, clear visitor selection
-            if (changedSelectId === 'select-local' && localGroup && visitGroup && localGroup !== visitGroup) {
-                visitSelect.value = '';
+            if (changedSelectId === 'select-local' && localGroup && visitGroup) {
+                const bothMundial = isMundialGroup(localGroup) && isMundialGroup(visitGroup);
+                if (localGroup !== visitGroup && !bothMundial) {
+                    visitSelect.value = '';
+                }
             }
 
             // Recalculate local group after potential clearing
@@ -2165,8 +2171,13 @@
             visitOptions.forEach(opt => {
                 if (!opt.value) return; // skip placeholder option
                 const optGroup = getOptionGroupName(opt);
-                if (allowedGroup && optGroup !== allowedGroup) {
-                    opt.disabled = true;
+                if (allowedGroup) {
+                    const bothMundial = isMundialGroup(allowedGroup) && isMundialGroup(optGroup);
+                    if (optGroup !== allowedGroup && !bothMundial) {
+                        opt.disabled = true;
+                    } else {
+                        opt.disabled = false;
+                    }
                 } else {
                     opt.disabled = false;
                 }
@@ -2358,10 +2369,27 @@
             const selectLiga = document.getElementById('select-liga');
             const liga = selectLiga.value || "Premier League";
             const seasonSelect = document.getElementById('tabla-temporada-select');
-            const season = seasonSelect.value || "2025";
+
+            // Ajustar dinámicamente las temporadas disponibles según la liga
+            const isWorldCup = (liga === "Equipos de Mundial" || liga === "Futbol" || leagueNameMap(liga) === "Futbol");
+            const has2026 = Array.from(seasonSelect.options).some(opt => opt.value === "2026");
+
+            if (isWorldCup && !has2026) {
+                seasonSelect.innerHTML = `
+                    <option value="2026" selected>Mundial 2026</option>
+                    <option value="2022">Mundial 2022</option>
+                `;
+            } else if (!isWorldCup && has2026) {
+                seasonSelect.innerHTML = `
+                    <option value="2025" selected>Temporada 2025/2026</option>
+                    <option value="2024">Temporada 2024/2025</option>
+                `;
+            }
+
+            const season = seasonSelect.value || (isWorldCup ? "2026" : "2025");
 
             document.getElementById('lbl-tabla-liga-temporada').innerText = `${liga} - Temporada ${season}/${parseInt(season) + 1}`;
-            if (liga === "Equipos de Mundial" || liga === "Futbol" || leagueNameMap(liga) === "Futbol") {
+            if (isWorldCup) {
                 document.getElementById('lbl-tabla-liga-temporada').innerText = `FIFA World Cup - Edición ${season}`;
             }
 
@@ -2471,8 +2499,14 @@
 
             for (const [groupName, teamList] of Object.entries(grupos)) {
                 // Filter by selected league for soccer
-                if (currentSport === 'futbol' && ligaSeleccionada && groupName !== ligaSeleccionada) {
-                    continue;
+                if (currentSport === 'futbol' && ligaSeleccionada) {
+                    if (ligaSeleccionada === 'Equipos de Mundial') {
+                        if (groupName !== 'Equipos de Mundial' && groupName !== 'Amistosos Internacionales') {
+                            continue;
+                        }
+                    } else if (groupName !== ligaSeleccionada) {
+                        continue;
+                    }
                 }
 
                 html += `<optgroup label="${groupName}" class="bg-slate-900 text-slate-100 font-semibold">`;

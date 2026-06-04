@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUX | Inicio</title>
+    <link rel="icon" type="image/svg+xml" href="crux_mark.svg">
     <style>
         /* Estilos base (Modo Oscuro) */
         body {
@@ -232,9 +233,15 @@
 
             let html = '<option value="" disabled selected>Selecciona un equipo...</option>';
             for (const [groupName, teamList] of Object.entries(grupos)) {
-                // Si es fútbol, filtramos para mostrar únicamente la liga seleccionada
-                if (deporteActual === 'futbol' && groupName !== ligaSeleccionada) {
-                    continue;
+                // Si es fútbol, filtramos para mostrar únicamente la liga seleccionada (o Amistosos si es Mundial)
+                if (deporteActual === 'futbol' && ligaSeleccionada) {
+                    if (ligaSeleccionada === 'Equipos de Mundial') {
+                        if (groupName !== 'Equipos de Mundial' && groupName !== 'Amistosos Internacionales') {
+                            continue;
+                        }
+                    } else if (groupName !== ligaSeleccionada) {
+                        continue;
+                    }
                 }
                 
                 html += `<optgroup label="${groupName}">`;
