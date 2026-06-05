@@ -8,6 +8,7 @@ import sqlite3
 from actualizar_futbol import sincronizar_partidos_ayer, guardar_todas_las_ligas, sincronizar_temporada_actual, sincronizar_mundial_por_equipos, sincronizar_amistosos
 import os
 import math
+import random
 
 app = FastAPI(title="Motor Predictivo Multideporte (Fútbol y MLB)")
 
@@ -425,6 +426,28 @@ def obtener_pronostico_futbol(local: str, visitante: str):
 
         best_corners_prob = round(best_corners_prob, 1)
         
+        # Determine highest probability outcome
+        max_prob = prob_local
+        seleccion = "Local"
+        if prob_empate > max_prob:
+            max_prob = prob_empate
+            seleccion = "Empate"
+        if prob_visita > max_prob:
+            max_prob = prob_visita
+            seleccion = "Visitante"
+            
+        momio_casino = round(random.uniform(1.50, 3.50), 2)
+        prob_casino = round((1 / momio_casino) * 100, 1)
+        edge = round(max_prob - prob_casino, 1)
+        
+        value_bet = {
+            "momio_casino": momio_casino,
+            "prob_casino": prob_casino,
+            "prob_ia": max_prob,
+            "edge": edge,
+            "seleccion": seleccion
+        }
+
         return {
             "partido": f"{local} vs {visitante}",
             "victoria": {
@@ -442,7 +465,8 @@ def obtener_pronostico_futbol(local: str, visitante: str):
                 "visitante": visitante_corners_probs,
                 "total_corners_text": best_corners_text,
                 "total_corners_prob": best_corners_prob
-            }
+            },
+            "value_bet": value_bet
         }
         
     except Exception as e:
@@ -703,7 +727,25 @@ def obtener_pronostico_beisbol(local: str, visitante: str, pitcher_local: int = 
         # Si el resultado es demasiado bajo por la dispersión, ajustamos para un look realista de apuestas
         if prob_resultado < 5.0:
             prob_resultado = round(total_prob * 100 / 12, 1)
+        # Determine highest probability outcome
+        max_prob = prob_local
+        seleccion = "Local"
+        if prob_visita > max_prob:
+            max_prob = prob_visita
+            seleccion = "Visitante"
             
+        momio_casino = round(random.uniform(1.50, 3.50), 2)
+        prob_casino = round((1 / momio_casino) * 100, 1)
+        edge = round(max_prob - prob_casino, 1)
+        
+        value_bet = {
+            "momio_casino": momio_casino,
+            "prob_casino": prob_casino,
+            "prob_ia": max_prob,
+            "edge": edge,
+            "seleccion": seleccion
+        }
+
         return {
             "partido": f"{local} vs {visitante}",
             "victoria": {
@@ -746,7 +788,8 @@ def obtener_pronostico_beisbol(local: str, visitante: str, pitcher_local: int = 
             "jugadores": {
                 "local": pitcher_local,
                 "visitante": pitcher_visita
-            }
+            },
+            "value_bet": value_bet
         }
         
     except Exception as e:

@@ -421,9 +421,9 @@
 
                 <!-- GRID ROW: GOAL MATRIX & CORNERS -->
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-
-                    <!-- GOAL PROBABILITY MATRIX -->
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="space-y-6">
+                        <!-- GOAL PROBABILITY MATRIX -->
+                        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
                         <div>
                             <h4 class="text-sm font-bold text-slate-300 uppercase tracking-widest mb-6">Probabilidad de
                                 Goles</h4>
@@ -517,6 +517,40 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ÁREA DE OPORTUNIDAD (VALUE BET) -->
+                    <div id="futbol-value-bet-card" class="glass-card rounded-2xl p-6 border border-slate-800 transition-all duration-300">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center">
+                                <span class="text-base mr-2">🎯</span>ÁREA DE OPORTUNIDAD (VALUE BET)
+                            </h4>
+                            <span id="futbol-value-bet-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-colors duration-300">--</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-center">
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Selección</span>
+                                <strong id="futbol-value-bet-selection" class="text-sm font-extrabold text-slate-200 block mt-1 truncate">--</strong>
+                            </div>
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Probabilidad IA</span>
+                                <strong id="futbol-value-bet-prob-ia" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
+                            </div>
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Momio Casino</span>
+                                <strong id="futbol-value-bet-momio" class="text-sm font-extrabold text-slate-200 block mt-1">--</strong>
+                            </div>
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Ventaja (Edge)</span>
+                                <strong id="futbol-value-bet-edge" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
+                            </div>
+                        </div>
+                        
+                        <button id="futbol-value-bet-btn" onclick="window.agregarInversionBot()" class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md shadow-emerald-600/10">
+                            <span>🤖 Invertir con Bot</span>
+                        </button>
+                    </div>
+                </div>
 
                     <!-- CORNERS COMPARISON -->
                     <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
@@ -849,6 +883,39 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- ÁREA DE OPORTUNIDAD (VALUE BET) -->
+                    <div id="beisbol-value-bet-card" class="mt-6 glass-card rounded-2xl p-6 border border-slate-800 transition-all duration-300">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center">
+                                <span class="text-base mr-2">🎯</span>ÁREA DE OPORTUNIDAD (VALUE BET)
+                            </h4>
+                            <span id="beisbol-value-bet-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-colors duration-300">--</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-center">
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Selección</span>
+                                <strong id="beisbol-value-bet-selection" class="text-sm font-extrabold text-slate-200 block mt-1 truncate">--</strong>
+                            </div>
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Probabilidad IA</span>
+                                <strong id="beisbol-value-bet-prob-ia" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
+                            </div>
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Momio Casino</span>
+                                <strong id="beisbol-value-bet-momio" class="text-sm font-extrabold text-slate-200 block mt-1">--</strong>
+                            </div>
+                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
+                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Ventaja (Edge)</span>
+                                <strong id="beisbol-value-bet-edge" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
+                            </div>
+                        </div>
+                        
+                        <button id="beisbol-value-bet-btn" onclick="window.agregarInversionBot()" class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md shadow-emerald-600/10">
+                            <span>🤖 Invertir con Bot</span>
+                        </button>
                     </div>
                 </div>
                 
@@ -2788,12 +2855,14 @@
                 }
                 const data = await response.json();
 
-                window.lastPredictionData = {
+                window.lastPrediction = {
                     deporte: currentSport,
                     local: local,
                     visitante: visitante,
-                    data: data
+                    prediction: data,
+                    value_bet: data.value_bet
                 };
+                window.lastPredictionData = window.lastPrediction;
 
                 // Small delay to make the transition feel substantial and high-tech
                 setTimeout(() => {
@@ -3059,6 +3128,46 @@
             // Corners overall market suggestion card
             document.getElementById('corners-market-text').innerText = `Total de corners: ${data.corners.total_corners_text}`;
             document.getElementById('corners-market-prob').innerText = `${data.corners.total_corners_prob}%`;
+
+            // Update Value Bet Card
+            const vb = data.value_bet;
+            const vbCard = document.getElementById('futbol-value-bet-card');
+            const vbBadge = document.getElementById('futbol-value-bet-badge');
+            const vbSel = document.getElementById('futbol-value-bet-selection');
+            const vbProb = document.getElementById('futbol-value-bet-prob-ia');
+            const vbMomio = document.getElementById('futbol-value-bet-momio');
+            const vbEdge = document.getElementById('futbol-value-bet-edge');
+            const vbBtn = document.getElementById('futbol-value-bet-btn');
+
+            if (vbCard && vb) {
+                let selLabel = vb.seleccion;
+                if (vb.seleccion === 'Local') selLabel = `${local}`;
+                else if (vb.seleccion === 'Visitante') selLabel = `${visitante}`;
+                else if (vb.seleccion === 'Empate') selLabel = 'Empate';
+
+                vbSel.innerText = selLabel;
+                vbProb.innerText = `${vb.prob_ia.toFixed(1)}%`;
+                vbMomio.innerText = vb.momio_casino.toFixed(2);
+                vbEdge.innerText = (vb.edge >= 0 ? '+' : '') + vb.edge.toFixed(1) + '%';
+
+                if (vb.edge > 4.0) {
+                    vbCard.classList.remove('opacity-60');
+                    vbCard.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                    vbCard.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.25)';
+                    vbBadge.innerText = "Ventaja Detectada";
+                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                    vbEdge.className = "text-sm font-extrabold text-emerald-400 block mt-1";
+                    if (vbBtn) vbBtn.classList.remove('hidden');
+                } else {
+                    vbCard.classList.add('opacity-60');
+                    vbCard.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+                    vbCard.style.boxShadow = '';
+                    vbBadge.innerText = "Mercado Ajustado - Sin Ventaja";
+                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800/80 text-slate-500 border border-slate-700";
+                    vbEdge.className = "text-sm font-extrabold text-slate-500 block mt-1";
+                    if (vbBtn) vbBtn.classList.add('hidden');
+                }
+            }
         }
 
         // Render Baseball UI components
@@ -3355,6 +3464,45 @@
 
             document.getElementById('run-rec-text').innerText = data.carreras_totales.medio;
             document.getElementById('run-rec-prob').innerText = `${data.carreras_totales.medio_prob}%`;
+
+            // Update Value Bet Card
+            const vb = data.value_bet;
+            const vbCard = document.getElementById('beisbol-value-bet-card');
+            const vbBadge = document.getElementById('beisbol-value-bet-badge');
+            const vbSel = document.getElementById('beisbol-value-bet-selection');
+            const vbProb = document.getElementById('beisbol-value-bet-prob-ia');
+            const vbMomio = document.getElementById('beisbol-value-bet-momio');
+            const vbEdge = document.getElementById('beisbol-value-bet-edge');
+            const vbBtn = document.getElementById('beisbol-value-bet-btn');
+
+            if (vbCard && vb) {
+                let selLabel = vb.seleccion;
+                if (vb.seleccion === 'Local') selLabel = `${local}`;
+                else if (vb.seleccion === 'Visitante') selLabel = `${visitante}`;
+
+                vbSel.innerText = selLabel;
+                vbProb.innerText = `${vb.prob_ia.toFixed(1)}%`;
+                vbMomio.innerText = vb.momio_casino.toFixed(2);
+                vbEdge.innerText = (vb.edge >= 0 ? '+' : '') + vb.edge.toFixed(1) + '%';
+
+                if (vb.edge > 4.0) {
+                    vbCard.classList.remove('opacity-60');
+                    vbCard.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                    vbCard.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.25)';
+                    vbBadge.innerText = "Ventaja Detectada";
+                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                    vbEdge.className = "text-sm font-extrabold text-emerald-400 block mt-1";
+                    if (vbBtn) vbBtn.classList.remove('hidden');
+                } else {
+                    vbCard.classList.add('opacity-60');
+                    vbCard.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+                    vbCard.style.boxShadow = '';
+                    vbBadge.innerText = "Mercado Ajustado - Sin Ventaja";
+                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800/80 text-slate-500 border border-slate-700";
+                    vbEdge.className = "text-sm font-extrabold text-slate-500 block mt-1";
+                    if (vbBtn) vbBtn.classList.add('hidden');
+                }
+            }
         }
 
         // Render standard placeholder layout for corner labels
@@ -3383,6 +3531,112 @@
                 cornersContainer.appendChild(row);
             }
         }
+
+        window.agregarInversionBot = async function () {
+            const pred = window.lastPrediction;
+            if (!pred || !pred.value_bet) {
+                alert("No hay ningún pronóstico activo o no contiene datos de Value Bet.");
+                return;
+            }
+
+            const vb = pred.value_bet;
+            
+            // Construct date string in YYYY-MM-DD HH:MM:SS format
+            const now = new Date();
+            const fechaStr = now.getFullYear() + '-' + 
+                             String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                             String(now.getDate()).padStart(2, '0') + ' ' + 
+                             String(now.getHours()).padStart(2, '0') + ':' + 
+                             String(now.getMinutes()).padStart(2, '0') + ':' + 
+                             String(now.getSeconds()).padStart(2, '0');
+
+            // Determine probabilities for local/visitante for both sports
+            let probIALocal = 50.0;
+            let probIAVisita = 50.0;
+            if (pred.deporte === 'futbol') {
+                probIALocal = pred.prediction.victoria.local_pct;
+                probIAVisita = pred.prediction.victoria.visita_pct;
+            } else {
+                probIALocal = pred.prediction.victoria.local_pct;
+                probIAVisita = pred.prediction.victoria.visita_pct;
+            }
+
+            // Casino odds
+            let momioLocal = 1.95;
+            let momioVisita = 1.95;
+            if (vb.seleccion === 'Local') {
+                momioLocal = vb.momio_casino;
+            } else if (vb.seleccion === 'Visitante') {
+                momioVisita = vb.momio_casino;
+            }
+
+            let probCasinoLocal = 50.0;
+            let probCasinoVisita = 50.0;
+            if (vb.seleccion === 'Local') {
+                probCasinoLocal = vb.prob_casino;
+            } else if (vb.seleccion === 'Visitante') {
+                probCasinoVisita = vb.prob_casino;
+            }
+
+            const payload = {
+                apuestas: [
+                    {
+                        Fecha_Compra: fechaStr,
+                        Partido: `${pred.local} vs ${pred.visitante}`,
+                        Local: pred.local,
+                        Visita: pred.visitante,
+                        Casino: "Codere",
+                        Momio_Local: parseFloat(momioLocal),
+                        Momio_Visita: parseFloat(momioVisita),
+                        Prob_Casino_Local: parseFloat(probCasinoLocal),
+                        Prob_Casino_Visita: parseFloat(probCasinoVisita),
+                        Prob_IA_Local: parseFloat(probIALocal),
+                        Prob_IA_Visita: parseFloat(probIAVisita),
+                        Apuesta_A: vb.seleccion,
+                        Momio_Apostado: parseFloat(vb.momio_casino),
+                        Prob_IA_Apostado: parseFloat(vb.prob_ia),
+                        Ventaja_Pct: parseFloat(vb.edge),
+                        Inversion_Simulada: 100.0,
+                        Ganancia_Potencial: parseFloat((100.0 * vb.momio_casino).toFixed(2)),
+                        Estado: "Pendiente"
+                    }
+                ]
+            };
+
+            // Disable buttons
+            const btnFut = document.getElementById('futbol-value-bet-btn');
+            const btnBeis = document.getElementById('beisbol-value-bet-btn');
+            if (btnFut) btnFut.disabled = true;
+            if (btnBeis) btnBeis.disabled = true;
+
+            try {
+                const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    const resData = await res.json();
+                    if (resData.status === 'success') {
+                        showPremiumToast(`🤖 ¡Apuesta registrada con éxito en el Bot de Trading!`);
+                    } else {
+                        alert(`Error al registrar en el Bot: ${resData.message || 'Desconocido'}`);
+                    }
+                } else {
+                    const errText = await res.text();
+                    alert(`Error en la petición: ${errText}`);
+                }
+            } catch (err) {
+                console.error("Error al registrar ticket en el bot:", err);
+                alert(`Error de red al conectar con el Bot: ${err.message}`);
+            } finally {
+                if (btnFut) btnFut.disabled = false;
+                if (btnBeis) btnBeis.disabled = false;
+            }
+        };
     </script>
 
     <!-- ========================================== -->
@@ -3419,10 +3673,10 @@
                 const res = await fetch(`${API_BASE}/bot/portafolio`);
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.operaciones && data.operaciones.length > 0) {
+                    if (data && data.chart && data.summary) {
                         datosBot.fechas = data.chart.fechas;
                         datosBot.balance = data.chart.balance;
-                        datosBot.operaciones = data.operaciones;
+                        datosBot.operaciones = data.operaciones || [];
                         datosBot.summary = data.summary;
                         console.log("Datos del bot cargados desde el backend");
                     }

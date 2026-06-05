@@ -32,10 +32,10 @@ async function renderizarDashboardBot() {
         const res = await fetch(`${API_BASE}/bot/portafolio`);
         if (res.ok) {
             const data = await res.json();
-            if (data.operaciones && data.operaciones.length > 0) {
+            if (data && data.chart && data.summary) {
                 datosBot.fechas = data.chart.fechas;
                 datosBot.balance = data.chart.balance;
-                datosBot.operaciones = data.operaciones;
+                datosBot.operaciones = data.operaciones || [];
                 datosBot.summary = data.summary;
                 console.log("Datos del bot cargados desde el backend");
             }
