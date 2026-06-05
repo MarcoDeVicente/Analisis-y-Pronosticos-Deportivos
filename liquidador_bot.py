@@ -4,9 +4,7 @@ import pandas as pd
 def liquidar_inversiones():
     print("Iniciando el Liquidador de Portafolio...")
     
-    
     conexion = sqlite3.connect('DB-Fut-Beis.db')
-    
     
     try:
         df_pendientes = pd.read_sql_query("SELECT * FROM bot_portafolio WHERE Estado = 'Pendiente'", conexion)
@@ -28,39 +26,47 @@ def liquidar_inversiones():
     
     for index, row in df_pendientes.iterrows():
         partido = row['Partido']
-        equipo_local = row['Local']
         inversion = row['Inversion_Simulada']
-        ganancia_potencial = row['Ganancia_Potencial']
+        apuesta_a = row.get('Apuesta_A', 'Local')
+        prob_ia_local = row['Prob_IA_Local']
+        momio_apostado = row.get('Momio_Apostado', row['Momio_Local'])
         
-        gano_el_local_en_la_vida_real = True if row['Prob_IA_Local'] > 60.0 else False 
+        prob_ia_apostado = row.get('Prob_IA_Apostado', row['Prob_IA_Local'])
         
-        if gano_el_local_en_la_vida_real:
+        gano_el_local_en_la_vida_real = True if prob_ia_local > 60.0 else False 
+        
+        apuesta_ganada = False
+        if apuesta_a == 'Local':
+            apuesta_ganada = gano_el_local_en_la_vida_real
+        elif apuesta_a == 'Visita':
+            apuesta_ganada = not gano_el_local_en_la_vida_real
+        else:
+            # Apuesta general (totales, parlay, etc.): gana si la prob de la IA para la selección supera el 60%
+            apuesta_ganada = True if prob_ia_apostado > 60.0 else False
+            
+        if apuesta_ganada:
             nuevo_estado = 'Ganada'
-            # Si ganas, recuperas tu inversión + la ganancia del momio
-            retorno_real = ganancia_potencial
+            retorno_real = inversion * momio_apostado
             beneficio_neto = retorno_real - inversion
             ganancia_neta_total += beneficio_neto
-            print(f" ¡GANADA! {partido} -> +${beneficio_neto:.2f}")
+            print(f" ¡GANADA! {partido} (Apostado a {apuesta_a}) -> +${beneficio_neto:.2f}")
         else:
             nuevo_estado = 'Perdida'
-            # Si pierdes, tu retorno es 0 y tu pérdida es la inversión completa
             retorno_real = 0.0
             ganancia_neta_total -= inversion
-            print(f" PERDIDA. {partido} -> -${inversion:.2f}")
+            print(f" PERDIDA. {partido} (Apostado a {apuesta_a}) -> -${inversion:.2f}")
             
-       
         cursor.execute("""
             UPDATE bot_portafolio 
             SET Estado = ?, Ganancia_Potencial = ? 
-            WHERE Partido = ? AND Estado = 'Pendiente'
-        """, (nuevo_estado, retorno_real, partido))
+            WHERE Partido = ? AND Estado = 'Pendiente' AND Apuesta_A = ?
+        """, (nuevo_estado, retorno_real, partido, apuesta_a))
         
         operaciones_cerradas += 1
         
     conexion.commit()
     conexion.close()
     
-   
     print("-" * 60)
     print(f" Liquidación completada: {operaciones_cerradas} tickets cerrados.")
     if ganancia_neta_total > 0:
@@ -70,6 +76,5 @@ def liquidar_inversiones():
     else:
         print(" Balance de la jornada: Tablas ($0.00).")
 
-# Ejecuta el liquidador
 if __name__ == "__main__":
     liquidar_inversiones()

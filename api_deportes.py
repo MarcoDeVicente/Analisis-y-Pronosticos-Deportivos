@@ -1,6 +1,8 @@
 # Force reload submodules
 from fastapi import FastAPI, HTTPException, UploadFile, File, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import List, Optional
 from scipy.stats import poisson
 import sqlite3
 from actualizar_futbol import sincronizar_partidos_ayer, guardar_todas_las_ligas, sincronizar_temporada_actual, sincronizar_mundial_por_equipos, sincronizar_amistosos
@@ -1227,6 +1229,145 @@ def obtener_standings_futbol(liga: str, temporada: str):
         standings = [dict(row) for row in rows]
         return {"standings": standings}
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.get("/api/bot/portafolio")
+def obtener_datos_bot_portafolio():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT Fecha_Compra, Partido, Momio_Local, Momio_Visita, Prob_Casino_Local, Prob_Casino_Visita, Prob_IA_Local, Prob_IA_Visita, Apuesta_A, Momio_Apostado, Prob_IA_Apostado, "Ventaja_%", Inversion_Simulada, Ganancia_Potencial, Estado FROM bot_portafolio ORDER BY Fecha_Compra ASC, rowid ASC')
+        rows = cursor.fetchall()
+        
+        operaciones = []
+        balance_historico = [0.0]
+        fechas_grafica = ["Inicio"]
+        
+        tickets_ganados = 0
+        tickets_perdidos = 0
+        tickets_pendientes = 0
+        
+        ganancia_acumulada = 0.0
+        
+        for row in rows:
+            estado = row["Estado"]
+            inversion = row["Inversion_Simulada"]
+            ganancia_potencial = row["Ganancia_Potencial"]
+            momio_apostado = row["Momio_Apostado"]
+            apuesta_a = row["Apuesta_A"]
+            
+            op = {
+                "fecha": row["Fecha_Compra"],
+                "partido": f"{row['Partido']} ({'L' if apuesta_a == 'Local' else 'V'})",
+                "momio": f"{momio_apostado:.2f}",
+                "edge": f"{row['Ventaja_%']:.1f}%",
+                "estado": estado
+            }
+            operaciones.append(op)
+            
+            if estado == "Ganada":
+                tickets_ganados += 1
+                beneficio = ganancia_potencial - inversion
+                ganancia_acumulada += beneficio
+                balance_historico.append(round(ganancia_acumulada, 2))
+                fechas_grafica.append(row["Fecha_Compra"].split(" ")[1][:5])
+            elif estado == "Perdida":
+                tickets_perdidos += 1
+                beneficio = -inversion
+                ganancia_acumulada += beneficio
+                balance_historico.append(round(ganancia_acumulada, 2))
+                fechas_grafica.append(row["Fecha_Compra"].split(" ")[1][:5])
+            elif estado == "Pendiente":
+                tickets_pendientes += 1
+                
+        total_completados = tickets_ganados + tickets_perdidos
+        win_rate = round((tickets_ganados / total_completados) * 100, 1) if total_completados > 0 else 0.0
+        
+        if len(balance_historico) == 1:
+            balance_historico = [0.0, 0.0]
+            fechas_grafica = ["Inicio", "Hoy"]
+            
+        return {
+            "summary": {
+                "ganancia_neta_total": round(ganancia_acumulada, 2),
+                "win_rate": win_rate,
+                "tickets_pendientes": tickets_pendientes
+            },
+            "chart": {
+                "fechas": fechas_grafica,
+                "balance": balance_historico
+            },
+            "operaciones": operaciones
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+class ApuestaRegistro(BaseModel):
+    Fecha_Compra: str
+    Partido: str
+    Local: str
+    Visita: str
+    Casino: str
+    Momio_Local: float
+    Momio_Visita: float
+    Prob_Casino_Local: float
+    Prob_Casino_Visita: float
+    Prob_IA_Local: float
+    Prob_IA_Visita: float
+    Apuesta_A: str
+    Momio_Apostado: float
+    Prob_IA_Apostado: float
+    Ventaja_Pct: float
+    Inversion_Simulada: float
+    Ganancia_Potencial: float
+    Estado: str
+
+class RegistroTicketPayload(BaseModel):
+    apuestas: List[ApuestaRegistro]
+
+@app.post("/api/bot/reiniciar")
+def reiniciar_bot_portafolio():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM bot_portafolio")
+        conn.commit()
+        return {"status": "success", "message": "Datos de bot_portafolio reiniciados."}
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.post("/api/bot/registrar-ticket")
+def registrar_ticket(payload: RegistroTicketPayload):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        for ap in payload.apuestas:
+            cursor.execute("""
+                INSERT INTO bot_portafolio (
+                    Fecha_Compra, Partido, Local, Visita, Casino,
+                    Momio_Local, Momio_Visita, Prob_Casino_Local, Prob_Casino_Visita,
+                    Prob_IA_Local, Prob_IA_Visita, Apuesta_A, Momio_Apostado,
+                    Prob_IA_Apostado, "Ventaja_%", Inversion_Simulada,
+                    Ganancia_Potencial, Estado
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                ap.Fecha_Compra, ap.Partido, ap.Local, ap.Visita, ap.Casino,
+                ap.Momio_Local, ap.Momio_Visita, ap.Prob_Casino_Local, ap.Prob_Casino_Visita,
+                ap.Prob_IA_Local, ap.Prob_IA_Visita, ap.Apuesta_A, ap.Momio_Apostado,
+                ap.Prob_IA_Apostado, ap.Ventaja_Pct, ap.Inversion_Simulada,
+                ap.Ganancia_Potencial, ap.Estado
+            ))
+        conn.commit()
+        return {"status": "success", "count": len(payload.apuestas)}
+    except Exception as e:
+        conn.rollback()
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         conn.close()

@@ -39,4 +39,4 @@ print(" Esperando la hora programada (10:00 AM) para operar...")
 # Este es el ciclo infinito que mantiene al bot vivo
 while True:
     schedule.run_pending()
-    time.sleep(60) # El bot revisa el reloj cada 1 hora para no agotar el CPU de tu computadora
+    time.sleep(3600) # El bot revisa el reloj cada 1 hora para no agotar el CPU de tu computadora

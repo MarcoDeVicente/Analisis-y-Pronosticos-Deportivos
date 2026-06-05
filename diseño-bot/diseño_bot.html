@@ -1,0 +1,66 @@
+<section id="modulo-bot-trading" class="hidden space-y-8 transition-all duration-300">
+    
+    <div class="flex items-center justify-between mb-2">
+        <div>
+            <h2 class="text-2xl font-extrabold text-white tracking-tight">Portafolio Automatizado</h2>
+            <p class="text-xs text-slate-400 mt-1">Monitoreo de Value Bets y Retorno de Inversión (ROI)</p>
+        </div>
+        <div class="flex items-center space-x-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
+            <div class="relative inline-flex items-center cursor-pointer">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
+                <span class="text-xs font-bold text-emerald-400">Bot Operando</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+            <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Balance General</h3>
+            
+            <div class="space-y-4">
+                <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-4">
+                    <span class="text-xs text-slate-400 block mb-1">Ganancia Neta Simulada</span>
+                    <strong class="text-3xl font-black text-emerald-400" id="bot-ganancia-total">+$430.50</strong>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3">
+                        <span class="text-[10px] text-slate-500 block uppercase font-bold">Win Rate</span>
+                        <strong class="text-lg font-bold text-white mt-1 block" id="bot-win-rate">68.5%</strong>
+                    </div>
+                    <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3">
+                        <span class="text-[10px] text-slate-500 block uppercase font-bold">Tickets Pendientes</span>
+                        <strong class="text-lg font-bold text-blue-400 mt-1 block" id="bot-pendientes">6</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-6 xl:col-span-2">
+            <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Crecimiento del Portafolio</h3>
+            <div class="h-48 relative w-full">
+                <canvas id="chart-bot-roi"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-panel rounded-2xl p-6">
+        <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Registro de Transacciones</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="text-slate-500 border-b border-slate-800 uppercase tracking-wider">
+                        <th class="pb-3 pl-2">Fecha</th>
+                        <th class="pb-3">Partido (Value Bet)</th>
+                        <th class="pb-3 text-center">Momio</th>
+                        <th class="pb-3 text-center">Edge</th>
+                        <th class="pb-3 text-right pr-2">Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-bot-body" class="divide-y divide-slate-800/50 text-slate-300">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</section>

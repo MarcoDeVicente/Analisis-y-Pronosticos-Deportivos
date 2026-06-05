@@ -187,6 +187,11 @@
                     <span class="text-xl">⚾</span>
                     <span class="tracking-wide">Módulo de Béisbol</span>
                 </button>
+                <button id="nav-bot-trading" onclick="switchSport('bot-trading')"
+                    class="w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40">
+                    <span class="text-xl">🤖</span>
+                    <span class="tracking-wide">Bot de Trading</span>
+                </button>
             </nav>
 
 
@@ -248,7 +253,7 @@
         </header>
 
         <!-- Selector de Equipos (Top-Center) -->
-        <div class="glass-panel rounded-2xl p-5 mb-8 border border-slate-700/40 shadow-glass relative z-40">
+        <div id="panel-selector-equipos" class="glass-panel rounded-2xl p-5 mb-8 border border-slate-700/40 shadow-glass relative z-40">
             <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse" id="status-indicator"></span>
                 Configuración de Partido
@@ -898,6 +903,25 @@
                             <span class="mult-badge">✕ 0.0x</span>
                             <span style="font-size:11px;color:#475569">sobre la inversión</span>
                         </div>
+                        
+                        <!-- Parlay Bet Input -->
+                        <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-800/60" id="parlay-bet-amount-container">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Monto Parlay</span>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-xs text-slate-500 font-bold">$</span>
+                                <input type="number" id="parlay-bet-input" class="w-16 bg-slate-900 border border-slate-800 rounded px-2 py-0.5 text-right text-xs text-yellow-400 font-bold outline-none focus:border-yellow-500" value="100" min="1" step="1" />
+                            </div>
+                        </div>
+                        
+                        <!-- Bot Registration Buttons -->
+                        <div class="grid grid-cols-2 gap-2 mt-3">
+                            <button onclick="registrarTicketEnBot('individual')" class="py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded text-[9px] uppercase tracking-wider transition-all cursor-pointer">
+                                Individuales
+                            </button>
+                            <button onclick="registrarTicketEnBot('parlay')" class="py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded text-[9px] uppercase tracking-wider transition-all cursor-pointer">
+                                Parlay Bot
+                            </button>
+                        </div>
                     </div>
 
                     <!-- AI BOX -->
@@ -911,6 +935,74 @@
                         </div>
                         <button class="clear-btn">🗑 Borrar todo el ticket</button>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE: AUTOMATED TRADING BOT -->
+        <section id="modulo-bot-trading" class="hidden space-y-8 transition-all duration-300">
+            
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-white tracking-tight">Portafolio Automatizado</h2>
+                    <p class="text-xs text-slate-400 mt-1">Monitoreo de Value Bets y Retorno de Inversión (ROI)</p>
+                </div>
+                <div class="flex items-center space-x-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
+                    <div class="relative inline-flex items-center cursor-pointer">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
+                        <span class="text-xs font-bold text-emerald-400">Bot Operando</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                
+                <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Balance General</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-4">
+                            <span class="text-xs text-slate-400 block mb-1">Ganancia Neta Simulada</span>
+                            <strong class="text-3xl font-black text-emerald-400" id="bot-ganancia-total">+$0.00</strong>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3">
+                                <span class="text-[10px] text-slate-500 block uppercase font-bold">Win Rate</span>
+                                <strong class="text-lg font-bold text-white mt-1 block" id="bot-win-rate">0.0%</strong>
+                            </div>
+                            <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3">
+                                <span class="text-[10px] text-slate-500 block uppercase font-bold">Tickets Pendientes</span>
+                                <strong class="text-lg font-bold text-blue-400 mt-1 block" id="bot-pendientes">0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 xl:col-span-2">
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Crecimiento del Portafolio</h3>
+                    <div class="h-48 relative w-full">
+                        <canvas id="chart-bot-roi"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6">
+                <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Registro de Transacciones</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="text-slate-500 border-b border-slate-800 uppercase tracking-wider">
+                                <th class="pb-3 pl-2">Fecha</th>
+                                <th class="pb-3">Partido (Value Bet)</th>
+                                <th class="pb-3 text-center">Momio</th>
+                                <th class="pb-3 text-center">Edge</th>
+                                <th class="pb-3 text-right pr-2">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-bot-body" class="divide-y divide-slate-800/50 text-slate-300">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -1105,6 +1197,25 @@
                     <!-- Sync Status -->
                     <div id="sync-status" class="mt-4 text-xs font-semibold hidden">
                         <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Bot de Trading Admin Section -->
+                <div class="p-5 bg-slate-950/40 border border-slate-800 rounded-2xl">
+                    <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                        <span>🤖 Bot de Trading: Administración</span>
+                    </h3>
+                    <p class="text-[11px] text-slate-400 mb-4">Limpia el portafolio y borra todas las transacciones históricas registradas en la base de datos.</p>
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-2">
+                        <div>
+                            <span class="text-[10px] text-slate-500 font-bold uppercase block">Acción Irreversible</span>
+                            <strong class="text-xs text-rose-400 block mt-1">Borrará todo el historial del bot</strong>
+                        </div>
+                        <button onclick="reiniciarBotPortafolio()" id="btn-reiniciar-bot"
+                                class="px-5 py-2.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-xs font-bold rounded-xl shadow-md shadow-rose-600/10 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center space-x-2">
+                            <span>Reiniciar Datos del Bot</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -3272,7 +3383,136 @@
                 cornersContainer.appendChild(row);
             }
         }
-</script>
+    </script>
+
+    <!-- ========================================== -->
+    <!-- LÓGICA DE BOT AUTOMATIZADO INTEGRADA      -->
+    <!-- ========================================== -->
+    <script>
+        let chartBotRoiInstance = null;
+
+        async function renderizarDashboardBot() {
+            document.getElementById('modulo-futbol').classList.add('hidden');
+            document.getElementById('modulo-beisbol').classList.add('hidden');
+            document.getElementById('pantalla-inicio').classList.add('hidden');
+            if (document.getElementById('modulo-parlay')) {
+                document.getElementById('modulo-parlay').classList.add('hidden');
+            }
+            document.getElementById('modulo-bot-trading').classList.remove('hidden');
+
+            let datosBot = {
+                fechas: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Hoy'],
+                balance: [0, -100, 150, 80, 290, 180, 430.50],
+                operaciones: [
+                    { fecha: '2026-06-04 10:15', partido: 'Cubs vs Athletics (L)', momio: '3.40', edge: '43.9%', estado: 'Pendiente' },
+                    { fecha: '2026-06-03 10:02', partido: 'Braves vs Blue Jays (L)', momio: '4.40', edge: '42.0%', estado: 'Ganada' },
+                    { fecha: '2026-06-03 10:02', partido: 'Astros vs Pirates (L)', momio: '2.58', edge: '8.6%', estado: 'Perdida' }
+                ],
+                summary: {
+                    ganancia_neta_total: 430.50,
+                    win_rate: 68.5,
+                    tickets_pendientes: 6
+                }
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/bot/portafolio`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.operaciones && data.operaciones.length > 0) {
+                        datosBot.fechas = data.chart.fechas;
+                        datosBot.balance = data.chart.balance;
+                        datosBot.operaciones = data.operaciones;
+                        datosBot.summary = data.summary;
+                        console.log("Datos del bot cargados desde el backend");
+                    }
+                }
+            } catch (err) {
+                console.warn("No se pudo conectar con el backend para obtener el portafolio del bot, usando datos simulados.", err);
+            }
+
+            const gananciaTotalEl = document.getElementById('bot-ganancia-total');
+            if (gananciaTotalEl) {
+                const total = datosBot.summary.ganancia_neta_total;
+                gananciaTotalEl.innerText = (total >= 0 ? '+' : '-') + '$' + Math.abs(total).toFixed(2);
+                if (total >= 0) {
+                    gananciaTotalEl.className = "text-3xl font-black text-emerald-400";
+                } else {
+                    gananciaTotalEl.className = "text-3xl font-black text-rose-400";
+                }
+            }
+            const winRateEl = document.getElementById('bot-win-rate');
+            if (winRateEl) {
+                winRateEl.innerText = datosBot.summary.win_rate.toFixed(1) + '%';
+            }
+            const pendientesEl = document.getElementById('bot-pendientes');
+            if (pendientesEl) {
+                pendientesEl.innerText = datosBot.summary.tickets_pendientes;
+            }
+
+            const canvasRoi = document.getElementById('chart-bot-roi');
+            if (canvasRoi) {
+                if (chartBotRoiInstance) { chartBotRoiInstance.destroy(); }
+                
+                chartBotRoiInstance = new Chart(canvasRoi.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: datosBot.fechas,
+                        datasets: [{
+                            label: 'Balance Neto ($)',
+                            data: datosBot.balance,
+                            borderColor: '#34d399',
+                            backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#090d16',
+                            pointBorderColor: '#34d399',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#64748b' } },
+                            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                        }
+                    }
+                });
+            }
+
+            const tbody = document.getElementById('tabla-bot-body');
+            if (tbody) {
+                let htmlTabla = '';
+                
+                datosBot.operaciones.forEach(op => {
+                    let colorEstado = 'text-blue-400 bg-blue-400/10 border-blue-400/20';
+                    if (op.estado === 'Ganada') colorEstado = 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
+                    if (op.estado === 'Perdida') colorEstado = 'text-rose-400 bg-rose-400/10 border-rose-400/20';
+
+                    const fechaSimple = op.fecha.includes(' ') ? op.fecha.split(' ')[0] : op.fecha;
+
+                    htmlTabla += `
+                        <tr class="hover:bg-slate-800/30 transition-colors">
+                            <td class="py-3 pl-2 text-slate-400 font-mono">${fechaSimple}</td>
+                            <td class="py-3 font-semibold text-slate-200">${op.partido}</td>
+                            <td class="py-3 text-center text-slate-300 font-mono">${op.momio}</td>
+                            <td class="py-3 text-center text-indigo-400 font-bold">+${op.edge}</td>
+                            <td class="py-3 text-right pr-2">
+                                <span class="px-2 py-1 border rounded-md text-[10px] font-bold uppercase ${colorEstado}">
+                                    ${op.estado}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = htmlTabla;
+            }
+        }
+    </script>
     <!-- ========================================== -->
     <!-- LÓGICA DE PARLAY SOÑADOR INTEGRADA         -->
     <!-- ========================================== -->
@@ -4043,7 +4283,7 @@
                               🏠 <span class="local-name">${activeSavedMatch.local}</span>
                               <span class="prob" style="font-size:11px;font-weight:500;opacity:.7;margin-top:3px;display:block">Local · ${(activeSavedMatch.datos.ganador.local * 100).toFixed(1)}%</span>
                             </button>
-                            <button class="winner-btn" data-winner="visita" onclick="toggleWinnerBeisbol(this, 'visita', ${activeSavedMatch.visitante}, ${activeSavedMatch.datos.ganador.visita})">
+                            <button class="winner-btn" data-winner="visita" onclick="toggleWinnerBeisbol(this, 'visita', ${activeSavedMatch.datos.ganador.visita})">
                               ✈️ <span class="visita-name">${activeSavedMatch.visitante}</span>
                               <span class="prob" style="font-size:11px;font-weight:500;opacity:.7;margin-top:3px;display:block">Visita · ${(activeSavedMatch.datos.ganador.visita * 100).toFixed(1)}%</span>
                             </button>
@@ -4618,6 +4858,151 @@
                 updateButtonText();
             };
 
+            window.actualizarMontoPick = function (partido, val) {
+                if (!window.montoPicks) window.montoPicks = {};
+                window.montoPicks[partido] = parseFloat(val) || 100;
+            };
+
+            window.registrarTicketEnBot = async function (tipo) {
+                if (!window.picks || window.picks.length === 0) {
+                    alert('No hay selecciones en tu ticket para registrar.');
+                    return;
+                }
+
+                const fechaCompra = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+                const groups = {};
+                window.picks.forEach(pick => {
+                    if (!groups[pick.partido]) groups[pick.partido] = [];
+                    groups[pick.partido].push(pick);
+                });
+
+                const listApuestas = [];
+
+                if (tipo === 'individual') {
+                    for (const partido in groups) {
+                        const matchPicks = groups[partido];
+                        const firstPick = matchPicks[0];
+                        const deporte = firstPick.deporte;
+                        const savedMatch = window.savedMatches.find(m => m.partido === partido);
+
+                        let probIaLocal = 50.0;
+                        let probIaVisita = 50.0;
+                        let localTeam = savedMatch ? savedMatch.local : 'Local';
+                        let visitaTeam = savedMatch ? savedMatch.visitante : 'Visitante';
+
+                        if (savedMatch && savedMatch.datos) {
+                            if (deporte === 'futbol') {
+                                probIaLocal = savedMatch.datos.victoria.local_pct || 50.0;
+                                probIaVisita = savedMatch.datos.victoria.visita_pct || 50.0;
+                            } else if (deporte === 'beisbol') {
+                                probIaLocal = (savedMatch.datos.ganador.local * 100) || 50.0;
+                                probIaVisita = (savedMatch.datos.ganador.visita * 100) || 50.0;
+                            }
+                        }
+
+                        const combinedProb = matchPicks.reduce((acc, p) => acc * p.probabilidad, 1);
+                        const combinedOdds = 1 / combinedProb;
+                        const nombresMercados = matchPicks.map(p => p.mercado).join(' + ');
+                        const inversion = window.montoPicks && window.montoPicks[partido] ? window.montoPicks[partido] : 100;
+
+                        listApuestas.push({
+                            Fecha_Compra: fechaCompra,
+                            Partido: partido,
+                            Local: localTeam,
+                            Visita: visitaTeam,
+                            Casino: "Parlay Soñador (Individual)",
+                            Momio_Local: parseFloat((100 / probIaLocal).toFixed(2)),
+                            Momio_Visita: parseFloat((100 / probIaVisita).toFixed(2)),
+                            Prob_Casino_Local: parseFloat(probIaLocal.toFixed(1)),
+                            Prob_Casino_Visita: parseFloat(probIaVisita.toFixed(1)),
+                            Prob_IA_Local: parseFloat(probIaLocal.toFixed(1)),
+                            Prob_IA_Visita: parseFloat(probIaVisita.toFixed(1)),
+                            Apuesta_A: nombresMercados,
+                            Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
+                            Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
+                            Ventaja_Pct: 0.0,
+                            Inversion_Simulada: parseFloat(inversion),
+                            Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
+                            Estado: "Pendiente"
+                        });
+                    }
+                } else if (tipo === 'parlay') {
+                    const listPartidos = Object.keys(groups);
+                    const partidoConcat = listPartidos.join(' + ');
+                    const marketsConcat = window.picks.map(p => p.mercado).join(' + ');
+
+                    const combinedProb = window.picks.reduce((acc, p) => acc * p.probabilidad, 1);
+                    const combinedOdds = 1 / combinedProb;
+
+                    const parlayInput = document.getElementById('parlay-bet-input');
+                    const inversion = parlayInput ? parseFloat(parlayInput.value) || 100 : 100;
+
+                    listApuestas.push({
+                        Fecha_Compra: fechaCompra,
+                        Partido: partidoConcat,
+                        Local: "Parlay Combinado",
+                        Visita: `${listPartidos.length} partidos`,
+                        Casino: "Parlay Soñador (Parlay)",
+                        Momio_Local: 1.0,
+                        Momio_Visita: 1.0,
+                        Prob_Casino_Local: 0.0,
+                        Prob_Casino_Visita: 0.0,
+                        Prob_IA_Local: parseFloat((combinedProb * 100).toFixed(1)),
+                        Prob_IA_Visita: 0.0,
+                        Apuesta_A: marketsConcat,
+                        Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
+                        Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
+                        Ventaja_Pct: 0.0,
+                        Inversion_Simulada: parseFloat(inversion),
+                        Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
+                        Estado: "Pendiente"
+                    });
+                }
+
+                try {
+                    const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ apuestas: listApuestas })
+                    });
+                    if (res.ok) {
+                        showPremiumToast(`🤖 ${listApuestas.length} apuesta(s) registrada(s) en el Bot.`);
+                        window.clearTicket();
+                    } else {
+                        const data = await res.json();
+                        alert('Error al registrar jugada en el bot: ' + (data.detail || 'Error desconocido'));
+                    }
+                } catch (e) {
+                    console.error("Error al registrar apuesta:", e);
+                    alert('Error de conexión con el backend.');
+                }
+            };
+
+            window.reiniciarBotPortafolio = async function () {
+                if (!confirm("¿Estás seguro de que deseas reiniciar todos los datos del bot de trading? Esta acción no se puede deshacer y borrará todo el historial.")) {
+                    return;
+                }
+                const btn = document.getElementById('btn-reiniciar-bot');
+                if (btn) btn.disabled = true;
+                try {
+                    const res = await fetch(`${API_BASE}/bot/reiniciar`, { method: 'POST' });
+                    if (res.ok) {
+                        showPremiumToast("🤖 Datos del bot reiniciados correctamente.");
+                        if (typeof renderizarDashboardBot === 'function') {
+                            await renderizarDashboardBot();
+                        }
+                    } else {
+                        showPremiumToast("❌ Error al reiniciar datos del bot.");
+                    }
+                } catch (err) {
+                    console.error("Error al reiniciar bot:", err);
+                    showPremiumToast("❌ Error de conexión al reiniciar bot.");
+                } finally {
+                    if (btn) btn.disabled = false;
+                }
+            };
+
             // --- RENDERIZADO DEL TICKET ---
             function getProbColor(prob, sport) {
                 if (prob >= 0.70) return '#34d399'; // Verde
@@ -4671,6 +5056,9 @@
                     groupCard.style.setProperty('--sgp-color', sgpColor);
                     groupCard.style.setProperty('--sgp-dot-color', sgpDotColor);
 
+                    if (!window.montoPicks) window.montoPicks = {};
+                    if (!window.montoPicks[partido]) window.montoPicks[partido] = 100;
+
                     const selectionsHtml = matchPicks.map(pick => {
                         const probPercent = Math.round(pick.probabilidad * 100);
                         const probColor = getProbColor(pick.probabilidad, pick.deporte);
@@ -4706,11 +5094,23 @@
                             </div>
                             <div class="sgp-header-right">
                                 <div class="sgp-group-prob" title="Cuota combinada del partido">✕ ${groupOdds}x</div>
-                                <button class="sgp-group-del" title="Eliminar partido completo" onclick="deleteMatchGroup('${partido}')">✕</button>
+                                <button class="sgp-group-del" title="Eliminar partido completo" onclick="deleteMatchGroup(\'${partido}\')">✕</button>
                             </div>
                         </div>
                         <div class="sgp-selections-container">
                             ${selectionsHtml}
+                        </div>
+                        <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-800/40">
+                            <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Monto Apuesta</span>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-[10px] text-slate-600 font-bold">$</span>
+                                <input type="number" 
+                                       class="w-16 bg-slate-950/80 border border-slate-800/80 rounded px-1.5 py-0.5 text-right text-[10px] text-emerald-400 font-bold outline-none focus:border-emerald-500" 
+                                       value="${window.montoPicks[partido]}" 
+                                       min="1" 
+                                       step="1" 
+                                       onchange="window.actualizarMontoPick('${partido.replace(/'/g, "\\'")}', this.value)" />
+                            </div>
                         </div>
                     `;
                     
@@ -4793,6 +5193,19 @@
             if (typeof window.switchSport === 'function') {
                 const originalSwitchSport = window.switchSport;
                 window.switchSport = function (sport) {
+                    const modFutbol = document.getElementById('modulo-futbol');
+                    const modBeisbol = document.getElementById('modulo-beisbol');
+                    const modParlay = document.getElementById('modulo-parlay');
+                    const modBot = document.getElementById('modulo-bot-trading');
+                    const pantInicio = document.getElementById('pantalla-inicio');
+                    const pantCarga = document.getElementById('pantalla-carga');
+                    const selectorPanel = document.getElementById('panel-selector-equipos');
+
+                    const btnFutbol = document.getElementById('nav-futbol');
+                    const btnBeisbol = document.getElementById('nav-beisbol');
+                    const btnParlay = document.getElementById('nav-parlay');
+                    const btnBot = document.getElementById('nav-bot-trading');
+
                     if (sport === 'parlay') {
                         const displayPartido = document.getElementById('display-partido');
                         if (displayPartido) displayPartido.innerText = "Parlay Soñador";
@@ -4803,38 +5216,56 @@
                             breadcrumbDeporte.className = "text-xs font-bold text-yellow-500 uppercase tracking-widest";
                         }
 
-                        const modFutbol = document.getElementById('modulo-futbol');
-                        const modBeisbol = document.getElementById('modulo-beisbol');
-                        const modParlay = document.getElementById('modulo-parlay');
-                        const pantInicio = document.getElementById('pantalla-inicio');
-                        const pantCarga = document.getElementById('pantalla-carga');
-
                         if (modFutbol) modFutbol.classList.add('hidden');
                         if (modBeisbol) modBeisbol.classList.add('hidden');
+                        if (modBot) modBot.classList.add('hidden');
                         if (pantInicio) pantInicio.classList.add('hidden');
                         if (pantCarga) pantCarga.classList.add('hidden');
+                        if (selectorPanel) selectorPanel.classList.add('hidden');
                         if (modParlay) modParlay.classList.remove('hidden');
-
-                        const btnFutbol = document.getElementById('nav-futbol');
-                        const btnBeisbol = document.getElementById('nav-beisbol');
-                        const btnParlay = document.getElementById('nav-parlay');
 
                         if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
                         if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                        if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
                         if (btnParlay) {
                             btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-yellow-500/30 bg-yellow-600/20 text-white shadow-[0_0_15px_rgba(234,179,8,0.25)]";
                         }
 
                         setSport(currentSport);
                         renderPicks();
-                    } else {
-                        const modParlay = document.getElementById('modulo-parlay');
-                        if (modParlay) modParlay.classList.add('hidden');
+                    } else if (sport === 'bot-trading') {
+                        const displayPartido = document.getElementById('display-partido');
+                        if (displayPartido) displayPartido.innerText = "Monitoreo Financiero y ROI";
 
-                        const btnParlay = document.getElementById('nav-parlay');
-                        if (btnParlay) {
-                            btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                        const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
+                        if (breadcrumbDeporte) {
+                            breadcrumbDeporte.innerText = "🤖 Bot de Trading";
+                            breadcrumbDeporte.className = "text-xs font-bold text-emerald-400 uppercase tracking-widest";
                         }
+
+                        if (modFutbol) modFutbol.classList.add('hidden');
+                        if (modBeisbol) modBeisbol.classList.add('hidden');
+                        if (modParlay) modParlay.classList.add('hidden');
+                        if (pantInicio) pantInicio.classList.add('hidden');
+                        if (pantCarga) pantCarga.classList.add('hidden');
+                        if (selectorPanel) selectorPanel.classList.add('hidden');
+                        if (modBot) modBot.classList.remove('hidden');
+
+                        if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                        if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                        if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                        if (btnBot) {
+                            btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-emerald-500/30 bg-emerald-600/20 text-white shadow-[0_0_15px_rgba(16,185,129,0.25)]";
+                        }
+
+                        renderizarDashboardBot();
+                    } else {
+                        if (modParlay) modParlay.classList.add('hidden');
+                        if (modBot) modBot.classList.add('hidden');
+                        if (selectorPanel) selectorPanel.classList.remove('hidden');
+
+                        if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                        if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
 
                         originalSwitchSport(sport);
                     }
