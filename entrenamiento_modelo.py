@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-# Si no la guardaste como CSV, puedes traerte el DataFrame df_equipos directamente aquí
+
 try:
     df = pd.read_csv('Dataset_Futbol_ML.csv')
 except FileNotFoundError:

@@ -1,0 +1,39 @@
+<div id="panel-value-bet" class="hidden mt-6 bg-slate-900 border border-slate-700 rounded-2xl p-5 shadow-2xl max-w-2xl mx-auto">
+    
+    <div class="flex justify-between items-center mb-5">
+        <div class="flex items-center space-x-2">
+            <span class="text-xl">🎯</span>
+            <h3 class="text-slate-300 font-bold tracking-wider text-sm uppercase">Área de Oportunidad (Value Bet)</h3>
+        </div>
+        <div class="bg-emerald-900/50 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1 rounded-full font-semibold">
+            Ventaja Detectada
+        </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-3 mb-5">
+        <div class="bg-slate-800 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-700/50">
+            <span class="text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-1">Selección</span>
+            <span id="vb-seleccion" class="text-white font-bold text-sm text-center leading-tight">...</span>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-700/50">
+            <span class="text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-1">Probabilidad IA</span>
+            <span id="vb-prob-ia" class="text-white font-bold text-lg">0.0%</span>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-700/50">
+            <span class="text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-1">Momio Casino</span>
+            <span id="vb-momio" class="text-white font-bold text-lg">0.00</span>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-700/50">
+            <span class="text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-1">Ventaja (Edge)</span>
+            <span id="vb-edge" class="text-emerald-400 font-black text-lg">+0.0%</span>
+        </div>
+    </div>
+
+    <button onclick="enviarAlPortafolio()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] flex justify-center items-center space-x-2">
+        <span>🤖</span>
+        <span>Invertir con Bot</span>
+    </button>
+</div>

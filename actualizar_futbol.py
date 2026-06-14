@@ -661,14 +661,14 @@ def sincronizar_mundial_por_equipos():
     }
 
 
-def sincronizar_amistosos():
+def sincronizar_amistosos(custom_dates=None):
     # Check if we have credits remaining
     remaining = get_api_football_remaining()
     if remaining <= 0:
         print("Límite de créditos diarios de API-Football alcanzado (0). Cancelando sincronización.")
         return {"status": "error", "mensaje": "Límite de créditos diarios de API-Football alcanzado (0/100). Inténtalo mañana cuando se restablezcan."}
 
-    target_dates = ["2026-05-27", "2026-05-28", "2026-05-29", "2026-05-31", "2026-06-01"]
+    target_dates = custom_dates if custom_dates else ["2026-05-27", "2026-05-28", "2026-05-29", "2026-05-31", "2026-06-01"]
     headers = {"x-apisports-key": API_KEY}
     
     conexion = sqlite3.connect(DB_NAME)

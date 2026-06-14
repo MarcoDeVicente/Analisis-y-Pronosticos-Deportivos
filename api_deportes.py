@@ -1,4 +1,6 @@
 # Force reload submodules
+import pandas as pd
+import numpy as np
 from fastapi import FastAPI, HTTPException, UploadFile, File, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -30,6 +32,23 @@ def get_db_connection():
     return conn
 
 # --- ENDPOINTS PARA OBTENER EQUIPOS ---
+
+def obtener_puntos_fifa_desde_csv(equipo_local, equipo_visitante):
+    
+    try:
+        # Asegúrate de que el nombre coincide exactamente con tu archivo
+        df_ranking = pd.read_csv("FIFA_Ranking_WC2026.csv")
+        
+        dict_ranking = {str(k).strip().lower(): float(v) for k, v in zip(df_ranking['Team'], df_ranking['FIFA_Points'])}
+        
+        # Si un equipo no existe, le damos 1500 puntos (nivel promedio)
+        puntos_local = dict_ranking.get(equipo_local.strip().lower(), 1500.0)
+        puntos_visitante = dict_ranking.get(equipo_visitante.strip().lower(), 1500.0)
+        
+        return float(puntos_local), float(puntos_visitante)
+    except Exception as e:
+        print(f"Error leyendo CSV de FIFA: {e}")
+        return 1500.0, 1500.0
 
 @app.get("/api/equipos/futbol")
 def obtener_equipos_futbol():
@@ -160,13 +179,41 @@ def obtener_equipos_beisbol():
     finally:
         conn.close()
 
+def procesar_partido_con_ranking(equipo_local, equipo_visita):
+    
+    try:
+        # Asegúrate de que el CSV esté en la misma carpeta que api_deportes.py
+        df_ranking = pd.read_csv("FIFA_Ranking_WC2026.csv")
+        
+        # Ajusta 'Equipo' y 'Puntos' si tus columnas se llaman diferente en el CSV
+        dict_ranking = dict(zip(df_ranking['Team'], df_ranking['FIFA_Points']))
+        
+        puntos_local = dict_ranking.get(equipo_local, 1500.0)
+        puntos_visita = dict_ranking.get(equipo_visita, 1500.0)
+        
+        diferencia_calidad = puntos_local - puntos_visita
+        
+        # Estructura final que se le pasará al modelo
+        df_prediccion = pd.DataFrame({
+            'Puntos_FIFA_Local': [puntos_local],
+            'Puntos_FIFA_Visita': [puntos_visita],
+            'Diferencia_Calidad': [diferencia_calidad]
+        })
+        
+        return df_prediccion, diferencia_calidad
+        
+    except Exception as e:
+        print(f"Error procesando ranking: {e}")
+        # Si falla el CSV, devuelve valores neutros para que la API no colapse
+        return pd.DataFrame(), 0.0
+
 # --- PREDICCIÓN DE FÚTBOL ---
 
 @app.get("/api/pronostico/futbol")
 def obtener_pronostico_futbol(local: str, visitante: str):
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     try:
         # Obtener IDs y ranking mundial
         cursor.execute("SELECT Equipo_ID, rank_mundial FROM futbol_equipos WHERE Nombre = ?", (local,))
@@ -244,27 +291,30 @@ def obtener_pronostico_futbol(local: str, visitante: str):
         lam_local = atq_local * def_visit * avg_goles_l
         lam_visit = atq_visit * def_local * avg_goles_v
         
-        # Ajuste por Ranking FIFA (si ambos son selecciones y tienen ranking disponible)
         try:
-            if rank_l_str is not None and rank_v_str is not None:
-                rank_local = int(rank_l_str)
-                rank_visit = int(rank_v_str)
-                
-                # Diferencia de ranking (positivo indica que local tiene mejor ranking, ej: #1 vs #34)
-                rank_diff = rank_visit - rank_local
-                
-                # Multiplicador: 0.5% de ajuste por cada posición de diferencia
-                mult_local = 1.0 + (rank_diff * 0.005)
-                mult_visit = 1.0 - (rank_diff * 0.005)
-                
-                # Limitar el multiplicador entre [0.7, 1.3] (máximo 30% de ajuste)
-                mult_local = max(0.7, min(1.3, mult_local))
-                mult_visit = max(0.7, min(1.3, mult_visit))
-                
-                lam_local = lam_local * mult_local
-                lam_visit = lam_visit * mult_visit
+            # 1. Sacamos los puntos exactos del CSV
+            puntos_local, puntos_visit = obtener_puntos_fifa_desde_csv(local, visitante)
+            
+            # 2. Calculamos la Diferencia de Calidad (Positivo = Local es superior)
+            dif_calidad = puntos_local - puntos_visit
+            
+            # 3. Matemática del Multiplicador: 
+            # Por cada 100 puntos de diferencia, damos un 5% de ventaja/desventaja
+            ajuste = (dif_calidad / 100.0) * 0.05
+            
+            mult_local = 1.0 + ajuste
+            mult_visit = 1.0 - ajuste
+            
+            # 4. Limitar el multiplicador para que un equipo muy bueno no rompa la matemática 
+            mult_local = max(0.7, min(1.3, mult_local))
+            mult_visit = max(0.7, min(1.3, mult_visit))
+            
+            # 5. Aplicamos la ventaja a los Goles Esperados (Lambdas)
+            lam_local = lam_local * mult_local
+            lam_visit = lam_visit * mult_visit
+            
         except Exception as e:
-            # En caso de error de formato o conversión, no aplicar el ajuste
+            # En caso de error, el modelo sigue funcionando con los Lambdas originales
             pass
         
         # Probabilidades de victoria (Simulación Poisson 15x15)
@@ -474,6 +524,8 @@ def obtener_pronostico_futbol(local: str, visitante: str):
     finally:
         conn.close()
 
+
+
 # --- PREDICCIÓN DE BÉISBOL (MLB) ---
 
 @app.get("/api/pitchers")
@@ -663,6 +715,43 @@ def obtener_pronostico_beisbol(local: str, visitante: str, pitcher_local: int = 
             prob_visita = round((prob_visita_win / total_prob) * 100, 1)
         else:
             prob_local, prob_visita = 50.0, 50.0
+
+        # --- APLICAR VENTAJA CONTEXTUAL DE PITCHEO ---
+        try:
+            # 1. Extracción segura (Type Casting y Fallback)
+            era_loc = float(pitcher_local.get("era") or 4.50)
+            k9_loc = float(pitcher_local.get("k9") or 6.50)
+            
+            era_vis = float(pitcher_visita.get("era") or 4.50)
+            k9_vis = float(pitcher_visita.get("k9") or 6.50)
+
+            # 2. Calculamos las ventajas relativas
+            ventaja_era_local = era_vis - era_loc 
+            ventaja_k9_local = k9_loc - k9_vis
+
+            # 3. Matemática del Multiplicador
+            ajuste_era = ventaja_era_local * 0.05
+            ajuste_k9 = ventaja_k9_local * 0.02
+            ajuste_total = ajuste_era + ajuste_k9
+
+            # 4. Creamos los multiplicadores con límites estrictos (+/- 25%)
+            mult_local = max(0.75, min(1.25, 1.0 + ajuste_total))
+            mult_visit = max(0.75, min(1.25, 1.0 - ajuste_total))
+
+            # 5. Aplicamos el ajuste a las probabilidades Poisson
+            prob_local_ajustada = prob_local * mult_local
+            prob_visita_ajustada = prob_visita * mult_visit
+            
+            suma_total = prob_local_ajustada + prob_visita_ajustada
+
+            # 6. Normalización Matemática y actualización
+            if suma_total > 0:
+                prob_local = round((prob_local_ajustada / suma_total) * 100, 1)
+                prob_visita = round((prob_visita_ajustada / suma_total) * 100, 1)
+
+        except (TypeError, ValueError, ZeroDivisionError) as e:
+            # Fallback elegante: el modelo usará las probabilidades Poisson originales
+            print(f"⚠️ [Pitcher Advantage] Advertencia de cálculo, usando base Poisson: {e}")
             
         # 5. Over/Under Apuestas (Líneas 6.5, 7.5, 8.5, 9.5, 10.5)
         over_65 = round((1 - poisson.cdf(6, total_carreras)) * 100, 1)
@@ -796,6 +885,7 @@ def obtener_pronostico_beisbol(local: str, visitante: str, pitcher_local: int = 
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         conn.close()
+
 
 # --- ADMINISTRATIVE ENDPOINTS ---
 
@@ -1249,7 +1339,7 @@ def actualizar_db_amistosos():
         return {"mensaje": "Sincronización de amistosos completada", "detalles": resultado}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
+    
 @app.post("/api/sync/futbol-data")
 def trigger_futbol_data_sync(background_tasks: BackgroundTasks, token: str = None):
     from sincronizar_football_data import sincronizar_todo
@@ -1413,4 +1503,4 @@ def registrar_ticket(payload: RegistroTicketPayload):
         conn.rollback()
         raise HTTPException(status_code=500, detail=str(e))
     finally:
-        conn.close()
+        conn.close()

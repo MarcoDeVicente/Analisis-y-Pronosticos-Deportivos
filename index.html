@@ -545,9 +545,10 @@
                                 <strong id="futbol-value-bet-edge" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
                             </div>
                         </div>
-                        
-                        <button id="futbol-value-bet-btn" onclick="window.agregarInversionBot()" class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md shadow-emerald-600/10">
-                            <span>🤖 Invertir con Bot</span>
+
+                        <button id="futbol-value-bet-btn" onclick="enviarAlPortafolio('futbol')" class="hidden w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] flex justify-center items-center space-x-2 mt-2">
+                            <span>🤖</span>
+                            <span>Invertir con Bot</span>
                         </button>
                     </div>
                 </div>
@@ -912,9 +913,10 @@
                                 <strong id="beisbol-value-bet-edge" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
                             </div>
                         </div>
-                        
-                        <button id="beisbol-value-bet-btn" onclick="window.agregarInversionBot()" class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-md shadow-emerald-600/10">
-                            <span>🤖 Invertir con Bot</span>
+
+                        <button id="beisbol-value-bet-btn" onclick="enviarAlPortafolio('beisbol')" class="hidden w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] flex justify-center items-center space-x-2 mt-2">
+                            <span>🤖</span>
+                            <span>Invertir con Bot</span>
                         </button>
                     </div>
                 </div>
@@ -1217,6 +1219,12 @@
                                 class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-xl border border-slate-700 hover:border-slate-600 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center space-x-2">
                                 <span>Sincronizar Amistosos (API-Football)</span>
                                 <span id="sync-amistosos-spinner"
+                                    class="animate-spin inline-block w-3.5 h-3.5 border-2 border-slate-400 border-t-transparent rounded-full hidden"></span>
+                            </button>
+                            <button onclick="syncExcelAmistosos()" id="btn-sync-excel-amistosos"
+                                class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-xl border border-slate-700 hover:border-slate-600 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center space-x-2">
+                                <span>Importar Amistosos 2026 (Excel)</span>
+                                <span id="sync-excel-spinner"
                                     class="animate-spin inline-block w-3.5 h-3.5 border-2 border-slate-400 border-t-transparent rounded-full hidden"></span>
                             </button>
                             <button onclick="descargarCatalogoLigas()" id="btn-descargar-ligas"
@@ -1763,6 +1771,46 @@
             } catch (err) {
                 statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
                 statusDiv.innerText = `❌ Error en la sincronización de amistosos: ${err.message}`;
+            } finally {
+                btn.disabled = false;
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // Sync Excel Amistosos
+        async function syncExcelAmistosos() {
+            if (!isBackendOnline || isBackendManuallyDisabled) {
+                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-sync-excel-amistosos');
+            const spinner = document.getElementById('sync-excel-spinner');
+            const statusDiv = document.getElementById('sync-futbol-status');
+
+            btn.disabled = true;
+            spinner.classList.remove('hidden');
+            statusDiv.classList.remove('hidden');
+            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+            statusDiv.innerText = "Sincronizando Excel Amistosos... Esto puede tardar unos segundos.";
+
+            try {
+                const res = await fetch(`${API_BASE}/sincronizar-excel-amistosos`);
+                const data = await res.json();
+                if (res.ok) {
+                    const det = data.detalles || {};
+                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+                    statusDiv.innerText = `✅ ¡Excel importado con éxito! Partidos agregados: ${det.inserted_matches || 0}, Equipos nuevos: ${det.teams_created || 0}.`;
+                    // Refresh stats
+                    fetchAdminStats();
+                    // Reload team dropdowns
+                    cargarEquipos();
+                } else {
+                    throw new Error(data.detail || "Error en la petición");
+                }
+            } catch (err) {
+                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+                statusDiv.innerText = `❌ Error: ${err.message}`;
             } finally {
                 btn.disabled = false;
                 spinner.classList.add('hidden');
@@ -4176,6 +4224,9 @@
                     return;
                 }
 
+                // Asegurar compatibilidad: los datos de la API están en pred.prediction
+                pred.data = pred.prediction || pred.data;
+
                 const selectLocalEl = document.getElementById('select-local');
                 let ligaVal = getSelectedGroupName(selectLocalEl);
                 if (!ligaVal) {
@@ -5536,6 +5587,14 @@
                     nav.appendChild(parlayBtn);
                 }
             }
+
+            // --- VALUE BET ACTION ---
+            window.enviarAlPortafolio = function(deporte) {
+                const seleccion = document.getElementById(`${deporte}-value-bet-selection`).textContent;
+                const edge = document.getElementById(`${deporte}-value-bet-edge`).textContent;
+                alert(`Enviando orden a SQLite: Apostar a ${seleccion} con ventaja de ${edge}`);
+                // Aquí luego conectaremos otra ruta POST a FastAPI para guardar en BD
+            };
         })();
     </script>
 
