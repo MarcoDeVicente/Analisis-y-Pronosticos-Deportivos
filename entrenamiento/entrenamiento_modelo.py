@@ -12,9 +12,30 @@ except FileNotFoundError:
     print("Error: No se encontró la matriz. Asegúrate de exportar dataset_final a CSV en el script anterior.")
     exit()
 
+def preparar_features_con_cuotas(df):
+    columnas_cuotas = [
+        'prob_H_PSC', 'prob_D_PSC', 'prob_A_PSC', 'vig_PSC', 
+        'prob_H_MaxC', 'prob_D_MaxC', 'prob_A_MaxC', 'vig_MaxC', 
+        'prob_H_AvgC', 'prob_D_AvgC', 'prob_A_AvgC', 'vig_AvgC'
+    ]
+    
+    cols_presentes = [c for c in columnas_cuotas if c in df.columns]
+    
+    if len(cols_presentes) == 0:
+        print("No se encontraron columnas de cuotas. Entrenando con features básicos...")
+        features = ['Local_GF_Prom', 'Local_GC_Prom', 'Visita_GF_Prom', 'Visita_GC_Prom']
+        return df.dropna(subset=features)[features], df.dropna(subset=features)['Target_Ganador'], features
+        
+    print(f"Se encontraron {len(cols_presentes)} columnas de cuotas. Integrando al modelo...")
+    features = ['Local_GF_Prom', 'Local_GC_Prom', 'Visita_GF_Prom', 'Visita_GC_Prom'] + cols_presentes
+    
+    df_clean = df.dropna(subset=features)
+    print(f"Filas válidas para entrenamiento con cuotas: {len(df_clean)} de {len(df)}")
+    
+    return df_clean[features], df_clean['Target_Ganador'], features
+
 # 2. Separar las Variables (X) y el Resultado a predecir (y)
-X = df[['Local_GF_Prom', 'Local_GC_Prom', 'Visita_GF_Prom', 'Visita_GC_Prom']]
-y = df['Target_Ganador']
+X, y, feature_names = preparar_features_con_cuotas(df)
 
 # Dividir datos: 80% para estudiar, 20% para examen
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -28,6 +49,13 @@ modelo_victoria.fit(X_train, y_train)
 precision = accuracy_score(y_test, modelo_victoria.predict(X_test))
 print(f"Precision del modelo en datos historicos: {precision * 100:.1f}%\n")
 
+print("--- Importancia de Features ---")
+importancias = list(zip(feature_names, modelo_victoria.feature_importances_))
+importancias.sort(key=lambda x: x[1], reverse=True)
+for feat, imp in importancias:
+    print(f"{feat:25s}: {imp*100:.2f}%")
+print("\n")
+
 # ==========================================
 # SIMULACIÓN DE LA FINAL: PSG vs ARSENAL
 # ==========================================
@@ -35,12 +63,23 @@ print("--- PREDICCION FINAL CHAMPIONS LEAGUE ---")
 
 # (Datos de ejemplo basados en tu base de datos)
 # Supongamos que el PSG promedia 2.8 GF y 0.8 GC, y Arsenal 2.2 GF y 0.9 GC
-datos_final = pd.DataFrame({
+datos_dict = {
     'Local_GF_Prom': [2.8],
     'Local_GC_Prom': [0.8],
     'Visita_GF_Prom': [2.2],
     'Visita_GC_Prom': [0.9]
-})
+}
+
+# Llenar las features de cuotas con un valor neutro (33.3% para todos, o vig 0.05) para la predicción de prueba
+if len(feature_names) > 4:
+    for feat in feature_names:
+        if feat not in datos_dict:
+            if 'vig' in feat:
+                datos_dict[feat] = [0.05]
+            else:
+                datos_dict[feat] = [0.333333]
+
+datos_final = pd.DataFrame(datos_dict)[feature_names] # Asegurar el mismo orden
 
 # A. Predicción de Victoria (Machine Learning)
 probabilidades = modelo_victoria.predict_proba(datos_final)[0]

@@ -415,6 +415,24 @@
                                 El modelo predictivo analizará la ventaja de localía, fuerza ofensiva y solidez
                                 defensiva al generar el pronóstico.
                             </div>
+                            
+                            <!-- Odds Comparison Panel -->
+                            <div id="odds-comparison-panel" class="hidden mt-4 p-4 glass-panel rounded-xl border border-slate-700/50">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="text-xs font-bold text-slate-300 uppercase tracking-widest">Cuotas del Mercado</h4>
+                                    <span id="odds-edge-badge" class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-400">EDGE: --</span>
+                                </div>
+                                <div class="w-full bg-slate-800 rounded-full h-3 mb-2 flex overflow-hidden">
+                                    <div id="odds-bar-local" class="bg-yellow-500 h-full transition-all" style="width: 33%"></div>
+                                    <div id="odds-bar-draw" class="bg-gray-400 h-full transition-all" style="width: 33%"></div>
+                                    <div id="odds-bar-visit" class="bg-orange-500 h-full transition-all" style="width: 34%"></div>
+                                </div>
+                                <div class="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
+                                    <span id="odds-lbl-local" class="text-yellow-500">L: --%</span>
+                                    <span id="odds-lbl-draw" class="text-gray-400">E: --%</span>
+                                    <span id="odds-lbl-visit" class="text-orange-500">V: --%</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1883,12 +1901,31 @@
             "Sevilla": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
 
             // ── LIGA MX ──────────────────────────────────────────────────────────────
-            "America": { "primary": "#F7D117", "secondary": "#002B49", "text": "#002B49" },
-            "Chivas": { "primary": "#C8102E", "secondary": "#002855", "text": "#FFFFFF" },
-            "Cruz Azul": { "primary": "#003FA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Pumas": { "primary": "#1D2D44", "secondary": "#C5A059", "text": "#C5A059" },
-            "Tigres": { "primary": "#0056B3", "secondary": "#FFD700", "text": "#FFD700" },
-            "Monterrey": { "primary": "#002040", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "America": { "primary": "#FFF200", "secondary": "#001C57", "text": "#001C57" },
+            "Club America": { "primary": "#FFF200", "secondary": "#001C57", "text": "#001C57" },
+            "Atlante": { "primary": "#9B1B30", "secondary": "#000080", "text": "#FFFFFF" },
+            "Atlas": { "primary": "#E31837", "secondary": "#000000", "text": "#FFFFFF" },
+            "Atletico de San Luis": { "primary": "#DA291C", "secondary": "#0C2340", "text": "#FFFFFF" },
+            "Atl. San Luis": { "primary": "#DA291C", "secondary": "#0C2340", "text": "#FFFFFF" },
+            "Cruz Azul": { "primary": "#0033A0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "FC Juarez": { "primary": "#13B44B", "secondary": "#E31837", "text": "#FFFFFF" },
+            "Juarez": { "primary": "#13B44B", "secondary": "#E31837", "text": "#FFFFFF" },
+            "Guadalajara": { "primary": "#ED1B24", "secondary": "#002855", "text": "#FFFFFF" },
+            "Guadalajara Chivas": { "primary": "#ED1B24", "secondary": "#002855", "text": "#FFFFFF" },
+            "Leon": { "primary": "#135B3B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "Club Leon": { "primary": "#135B3B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "Monterrey": { "primary": "#00205B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "Necaxa": { "primary": "#ED1B24", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "Pachuca": { "primary": "#00244E", "secondary": "#8A8D8F", "text": "#FFFFFF" },
+            "Puebla": { "primary": "#003876", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "Pumas UNAM": { "primary": "#B38E5D", "secondary": "#00205B", "text": "#FFFFFF" },
+            "UNAM Pumas": { "primary": "#B38E5D", "secondary": "#00205B", "text": "#FFFFFF" },
+            "Queretaro": { "primary": "#000000", "secondary": "#0050A4", "text": "#FFFFFF" },
+            "Santos Laguna": { "primary": "#006847", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+            "Tigres UANL": { "primary": "#FDBD31", "secondary": "#003E7E", "text": "#003E7E" },
+            "Tijuana": { "primary": "#CF0A2C", "secondary": "#000000", "text": "#FFFFFF" },
+            "Club Tijuana": { "primary": "#CF0A2C", "secondary": "#000000", "text": "#FFFFFF" },
+            "Toluca": { "primary": "#DA291C", "secondary": "#FFFFFF", "text": "#FFFFFF" },
 
             // ── BUNDESLIGA ───────────────────────────────────────────────────────────
             "Leipzig": { "primary": "#DD013F", "secondary": "#0C2340", "text": "#FFFFFF" },
@@ -2324,8 +2361,8 @@
             if (visitVal) {
                 const color = getTeamColor(visitVal);
                 if (visitBtn) {
-                    visitBtn.style.borderColor = color.primary;
-                    visitBtn.style.boxShadow = `0 0 12px ${color.primary}44`;
+                    visitBtn.style.borderColor = color.secondary;
+                    visitBtn.style.boxShadow = `0 0 12px ${color.secondary}44`;
                 }
             } else {
                 if (visitBtn) {
@@ -2956,7 +2993,7 @@
             const dotL = document.getElementById('futbol-legend-dot-local');
             const dotV = document.getElementById('futbol-legend-dot-visit');
             if (dotL) dotL.style.backgroundColor = localColor.primary;
-            if (dotV) dotV.style.backgroundColor = visitColor.primary;
+            if (dotV) dotV.style.backgroundColor = visitColor.secondary;
 
             // Determine favorite team and update center text
             let maxPct = Math.max(lPct, ePct, vPct);
@@ -2980,6 +3017,48 @@
             insightText += ` El mercado de tiros de esquina sugiere **${data.corners.total_corners_text}** con un **${data.corners.total_corners_prob}%** de confianza.`;
             document.getElementById('futbol-analysis-insight').innerHTML = insightText;
 
+            // Render Odds Comparison Panel
+            const oddsPanel = document.getElementById('odds-comparison-panel');
+            if (data.cuotas_mercado) {
+                oddsPanel.classList.remove('hidden');
+                const odds = data.cuotas_mercado;
+                
+                document.getElementById('odds-bar-local').style.width = `${odds.prob_local_norm}%`;
+                document.getElementById('odds-bar-draw').style.width = `${odds.prob_empate_norm}%`;
+                document.getElementById('odds-bar-visit').style.width = `${odds.prob_visita_norm}%`;
+                
+                document.getElementById('odds-lbl-local').innerText = `L: ${odds.prob_local_norm}%`;
+                document.getElementById('odds-lbl-draw').innerText = `E: ${odds.prob_empate_norm}%`;
+                document.getElementById('odds-lbl-visit').innerText = `V: ${odds.prob_visita_norm}%`;
+                
+                // Calculate edge (Model vs Market for the favorite selection)
+                let edge = 0;
+                let edgeColor = "text-slate-400";
+                let edgeBg = "bg-slate-800";
+                if (maxPct === lPct) {
+                    edge = (lPct - odds.prob_local_norm).toFixed(1);
+                } else if (maxPct === vPct) {
+                    edge = (vPct - odds.prob_visita_norm).toFixed(1);
+                } else {
+                    edge = (ePct - odds.prob_empate_norm).toFixed(1);
+                }
+                
+                if (edge > 0) {
+                    edgeColor = "text-green-400";
+                    edgeBg = "bg-green-400/10 border border-green-400/20";
+                } else if (edge < 0) {
+                    edgeColor = "text-red-400";
+                    edgeBg = "bg-red-400/10 border border-red-400/20";
+                }
+                
+                const edgeBadge = document.getElementById('odds-edge-badge');
+                edgeBadge.className = `text-[10px] font-bold px-2 py-1 rounded ${edgeBg} ${edgeColor}`;
+                edgeBadge.innerText = `EDGE: ${edge > 0 ? '+' : ''}${edge}%`;
+                
+            } else {
+                if (oddsPanel) oddsPanel.classList.add('hidden');
+            }
+
             // Build Doughnut Chart
             if (chartFutbolProbInstance) {
                 chartFutbolProbInstance.destroy();
@@ -2997,7 +3076,7 @@
                             backgroundColor: [
                                 localColor.primary,
                                 '#e2e8f0', // soft white/slate-200 for draw
-                                visitColor.primary
+                                visitColor.secondary
                             ],
                             borderWidth: 2,
                             borderColor: '#090d16',
@@ -3065,7 +3144,7 @@
                 legendL.innerText = `L (${local.substring(0, 3).toUpperCase()})`;
             }
             if (legendV) {
-                legendV.style.color = visitColor.primary;
+                legendV.style.color = visitColor.secondary;
                 legendV.innerText = `V (${visitante.substring(0, 3).toUpperCase()}) ►`;
             }
 
@@ -3077,7 +3156,7 @@
                     lblL.style.opacity = '0.8';
                 }
                 if (lblV) {
-                    lblV.style.color = visitColor.primary;
+                    lblV.style.color = visitColor.secondary;
                     lblV.style.opacity = '0.8';
                 }
             }
@@ -3110,7 +3189,7 @@
                             {
                                 label: visitante,
                                 data: data.corners.visitante,
-                                backgroundColor: visitColor.primary,
+                                backgroundColor: visitColor.secondary,
                                 borderRadius: 4
                             }
                         ]
@@ -3239,7 +3318,7 @@
             const dotL = document.getElementById('beisbol-legend-dot-local');
             const dotV = document.getElementById('beisbol-legend-dot-visit');
             if (dotL) dotL.style.backgroundColor = localColor.primary;
-            if (dotV) dotV.style.backgroundColor = visitColor.primary;
+            if (dotV) dotV.style.backgroundColor = visitColor.secondary;
 
             // Determine favorite and update center text
             let maxPct = Math.max(lPct, vPct);
@@ -3268,7 +3347,7 @@
                             data: [lPct, vPct],
                             backgroundColor: [
                                 localColor.primary,
-                                visitColor.primary
+                                visitColor.secondary
                             ],
                             borderWidth: 2,
                             borderColor: '#090d16',
@@ -3301,7 +3380,7 @@
 
             document.getElementById('pitch-team-v').innerText = visitante;
             const customPitchVBtn = document.getElementById('custom-select-pitcher-v-btn');
-            if (customPitchVBtn) customPitchVBtn.style.color = visitColor.primary;
+            if (customPitchVBtn) customPitchVBtn.style.color = visitColor.secondary;
             document.getElementById('pitch-form-v').innerText = `Forma: ${data.jugadores.visitante.forma}`;
 
             // Load pitchers dropdowns
@@ -3345,12 +3424,12 @@
                             {
                                 label: pVisit.nombre,
                                 data: pVisitScores,
-                                backgroundColor: visitColor.primary + '25',
-                                borderColor: visitColor.primary,
-                                pointBackgroundColor: visitColor.primary,
+                                backgroundColor: visitColor.secondary + '25',
+                                borderColor: visitColor.secondary,
+                                pointBackgroundColor: visitColor.secondary,
                                 pointBorderColor: '#fff',
                                 pointHoverBackgroundColor: '#fff',
-                                pointHoverBorderColor: visitColor.primary,
+                                pointHoverBorderColor: visitColor.secondary,
                                 borderWidth: 2
                             }
                         ]
@@ -3457,7 +3536,7 @@
                         labels: [local, visitante],
                         datasets: [{
                             data: [data.carreras.local_esperado, data.carreras.visitante_esperado],
-                            backgroundColor: [localColor.primary, visitColor.primary],
+                            backgroundColor: [localColor.primary, visitColor.secondary],
                             borderRadius: 6,
                             borderWidth: 0,
                             barThickness: 16

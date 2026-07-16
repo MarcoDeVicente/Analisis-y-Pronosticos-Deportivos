@@ -1,4 +1,5 @@
 # Force reload submodules
+
 import pandas as pd
 import numpy as np
 from fastapi import FastAPI, HTTPException, UploadFile, File, BackgroundTasks
@@ -102,6 +103,16 @@ def obtener_equipos_futbol():
                     grupos["Champions League"].append(item)
             elif liga == "Champions League":
                 grupos["Champions League"].append(item)
+            elif liga == "Liga MX":
+                # Filter allowed teams for Liga MX
+                allowed_liga_mx = {
+                    "Club America", "Atlante", "Atlas", "Atl. San Luis", "Cruz Azul", 
+                    "Juarez", "Guadalajara Chivas", "Club Leon", "Monterrey", "Necaxa", 
+                    "Pachuca", "Puebla", "UNAM Pumas", "Queretaro", "Santos Laguna", 
+                    "Tigres UANL", "Club Tijuana", "Toluca"
+                }
+                if name in allowed_liga_mx:
+                    grupos["Liga MX"].append(item)
             else:
                 if liga not in grupos:
                     grupos[liga] = []
@@ -214,6 +225,64 @@ def obtener_pronostico_futbol(local: str, visitante: str):
     conn = get_db_connection()
     cursor = conn.cursor()
 
+    def calc_weighted_goles(query, params):
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+        if not rows:
+            return None, None
+        tot_gf, tot_gc, w_tot = 0.0, 0.0, 0.0
+        for i, row in enumerate(rows):
+            w = 3.0 if i < 2 else 1.0
+            tot_gf += row[0] * w
+            tot_gc += row[1] * w
+            w_tot += w
+        return (tot_gf / w_tot, tot_gc / w_tot) if w_tot > 0 else (None, None)
+
+    def calc_weighted_val(query, params):
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+        if not rows:
+            return None
+        tot, w_tot = 0.0, 0.0
+        for i, row in enumerate(rows):
+            w = 3.0 if i < 2 else 1.0
+            tot += row[0] * w
+            w_tot += w
+        return (tot / w_tot) if w_tot > 0 else None
+
+    def calcular_referencia_mercado(local_ids, visit_ids):
+        placeholders_l = ",".join("?" for _ in local_ids)
+        placeholders_v = ",".join("?" for _ in visit_ids)
+        query = f'''
+            SELECT MaxCH, MaxCD, MaxCA, AvgCH, AvgCD, AvgCA
+            FROM futbol_partidos 
+            WHERE Local_ID IN ({placeholders_l}) AND Visitante_ID IN ({placeholders_v})
+            AND AvgCH IS NOT NULL AND AvgCH > 0
+            ORDER BY Fecha DESC LIMIT 1
+        '''
+        cursor.execute(query, local_ids + visit_ids)
+        row = cursor.fetchone()
+        if not row:
+            return None
+            
+        try:
+            prob_h = (1 / row['AvgCH'])
+            prob_d = (1 / row['AvgCD'])
+            prob_a = (1 / row['AvgCA'])
+            total = prob_h + prob_d + prob_a
+            
+            return {
+                "avg_ch": row['AvgCH'],
+                "avg_cd": row['AvgCD'],
+                "avg_ca": row['AvgCA'],
+                "prob_local_norm": round((prob_h / total) * 100, 1),
+                "prob_empate_norm": round((prob_d / total) * 100, 1),
+                "prob_visita_norm": round((prob_a / total) * 100, 1),
+                "vig": round((total - 1) * 100, 1)
+            }
+        except Exception:
+            return None
+
     try:
         # Obtener IDs y ranking mundial
         cursor.execute("SELECT Equipo_ID, rank_mundial FROM futbol_equipos WHERE Nombre = ?", (local,))
@@ -268,18 +337,16 @@ def obtener_pronostico_futbol(local: str, visitante: str):
         avg_goles_v = avg_goles_v or 1.0
         
         # A. GOLES: Fuerza atacante y defensiva del Local
-        cursor.execute(f"SELECT AVG(Goles_Local) as gf, AVG(Goles_Visitante) as gc FROM futbol_partidos WHERE Local_ID IN ({placeholders_l})", local_ids)
-        stats_l_local = cursor.fetchone()
+        l_gf, l_gc = calc_weighted_goles(f"SELECT Goles_Local, Goles_Visitante FROM futbol_partidos WHERE Local_ID IN ({placeholders_l}) ORDER BY Fecha DESC", local_ids)
         
         # Fuerza atacante y defensiva del Visitante
-        cursor.execute(f"SELECT AVG(Goles_Visitante) as gf, AVG(Goles_Local) as gc FROM futbol_partidos WHERE Visitante_ID IN ({placeholders_v})", visit_ids)
-        stats_v_visit = cursor.fetchone()
+        v_gf, v_gc = calc_weighted_goles(f"SELECT Goles_Visitante, Goles_Local FROM futbol_partidos WHERE Visitante_ID IN ({placeholders_v}) ORDER BY Fecha DESC", visit_ids)
         
         # Fallbacks si no hay suficientes partidos
-        l_gf = stats_l_local["gf"] if stats_l_local and stats_l_local["gf"] is not None else avg_goles_l
-        l_gc = stats_l_local["gc"] if stats_l_local and stats_l_local["gc"] is not None else avg_goles_v
-        v_gf = stats_v_visit["gf"] if stats_v_visit and stats_v_visit["gf"] is not None else avg_goles_v
-        v_gc = stats_v_visit["gc"] if stats_v_visit and stats_v_visit["gc"] is not None else avg_goles_l
+        l_gf = l_gf if l_gf is not None else avg_goles_l
+        l_gc = l_gc if l_gc is not None else avg_goles_v
+        v_gf = v_gf if v_gf is not None else avg_goles_v
+        v_gc = v_gc if v_gc is not None else avg_goles_l
         
         # Fuerza relativa (floored at 0.2 to avoid 0% probabilities from streaks)
         atq_local = max(0.2, l_gf / avg_goles_l)
@@ -376,52 +443,56 @@ def obtener_pronostico_futbol(local: str, visitante: str):
         avg_ac = cursor.fetchone()[0] or 4.08
         
         # Team averages only considering matches that have actual stats
-        cursor.execute(f'''
-            SELECT AVG(e.Corners) FROM futbol_estadisticas e 
+        local_hc_mean = calc_weighted_val(f'''
+            SELECT e.Corners 
+            FROM futbol_estadisticas e 
+            JOIN futbol_partidos p ON e.Partido_ID = p.Partido_ID
             WHERE e.Equipo_ID IN ({placeholders_l}) AND e.Es_Local = 1 AND EXISTS (
                 SELECT 1 FROM futbol_estadisticas e2 
                 WHERE e2.Partido_ID = e.Partido_ID AND (e2.Corners > 0 OR e2.Tiros > 0)
             )
+            ORDER BY p.Fecha DESC
         ''', local_ids)
-        local_hc_mean = cursor.fetchone()[0]
         if local_hc_mean is None:
             local_hc_mean = avg_hc
             
-        cursor.execute(f'''
-            SELECT AVG(e.Corners) 
+        local_ac_conceded = calc_weighted_val(f'''
+            SELECT e.Corners 
             FROM futbol_estadisticas e 
             JOIN futbol_partidos p ON e.Partido_ID = p.Partido_ID
             WHERE p.Local_ID IN ({placeholders_l}) AND e.Es_Local = 0 AND EXISTS (
                 SELECT 1 FROM futbol_estadisticas e2 
                 WHERE e2.Partido_ID = e.Partido_ID AND (e2.Corners > 0 OR e2.Tiros > 0)
             )
+            ORDER BY p.Fecha DESC
         ''', local_ids)
-        local_ac_conceded = cursor.fetchone()[0]
         if local_ac_conceded is None:
             local_ac_conceded = avg_ac
             
         # Corners generados/recibidos por Visitante
-        cursor.execute(f'''
-            SELECT AVG(e.Corners) FROM futbol_estadisticas e 
+        visit_ac_mean = calc_weighted_val(f'''
+            SELECT e.Corners 
+            FROM futbol_estadisticas e 
+            JOIN futbol_partidos p ON e.Partido_ID = p.Partido_ID
             WHERE e.Equipo_ID IN ({placeholders_v}) AND e.Es_Local = 0 AND EXISTS (
                 SELECT 1 FROM futbol_estadisticas e2 
                 WHERE e2.Partido_ID = e.Partido_ID AND (e2.Corners > 0 OR e2.Tiros > 0)
             )
+            ORDER BY p.Fecha DESC
         ''', visit_ids)
-        visit_ac_mean = cursor.fetchone()[0]
         if visit_ac_mean is None:
             visit_ac_mean = avg_ac
             
-        cursor.execute(f'''
-            SELECT AVG(e.Corners) 
+        visit_hc_conceded = calc_weighted_val(f'''
+            SELECT e.Corners 
             FROM futbol_estadisticas e 
             JOIN futbol_partidos p ON e.Partido_ID = p.Partido_ID
             WHERE p.Visitante_ID IN ({placeholders_v}) AND e.Es_Local = 1 AND EXISTS (
                 SELECT 1 FROM futbol_estadisticas e2 
                 WHERE e2.Partido_ID = e.Partido_ID AND (e2.Corners > 0 OR e2.Tiros > 0)
             )
+            ORDER BY p.Fecha DESC
         ''', visit_ids)
-        visit_hc_conceded = cursor.fetchone()[0]
         if visit_hc_conceded is None:
             visit_hc_conceded = avg_hc
         
@@ -498,6 +569,8 @@ def obtener_pronostico_futbol(local: str, visitante: str):
             "seleccion": seleccion
         }
 
+        cuotas_mercado = calcular_referencia_mercado(local_ids, visit_ids)
+
         return {
             "partido": f"{local} vs {visitante}",
             "victoria": {
@@ -516,7 +589,8 @@ def obtener_pronostico_futbol(local: str, visitante: str):
                 "total_corners_text": best_corners_text,
                 "total_corners_prob": best_corners_prob
             },
-            "value_bet": value_bet
+            "value_bet": value_bet,
+            "cuotas_mercado": cuotas_mercado
         }
         
     except Exception as e:
@@ -834,6 +908,8 @@ def obtener_pronostico_beisbol(local: str, visitante: str, pitcher_local: int = 
             "edge": edge,
             "seleccion": seleccion
         }
+
+        cuotas_mercado = calcular_referencia_mercado(local_ids, visit_ids)
 
         return {
             "partido": f"{local} vs {visitante}",

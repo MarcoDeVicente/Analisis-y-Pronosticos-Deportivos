@@ -90,6 +90,8 @@ def get_mapped_name(api_name, league_id):
         "México": "Mexico",
         "Canada": "Canada",
         "Canadá": "Canada",
+        "DR Congo": "D.R. Congo",
+        "Congo DR": "D.R. Congo",
         "Wolverhampton Wanderers": "Wolves",
         "Wolverhampton": "Wolves",
         "Nottingham Forest": "Nott'm Forest",
