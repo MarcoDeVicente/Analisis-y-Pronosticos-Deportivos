@@ -1103,8 +1103,20 @@ def upload_futbol_csv(file: UploadFile = File(...)):
         default_liga = "Otros"
         if "e0" in fn:
             default_liga = "Premier League"
+        elif "sp1" in fn:
+            default_liga = "La Liga"
+        elif "i1" in fn:
+            default_liga = "Serie A"
+        elif "d1" in fn:
+            default_liga = "Bundesliga"
         elif "f1" in fn:
             default_liga = "Ligue 1"
+        elif "n1" in fn:
+            default_liga = "Eredivisie"
+        elif "p1" in fn:
+            default_liga = "Primeira Liga"
+        elif "mex" in fn:
+            default_liga = "Liga MX"
         elif "ucl" in fn or "champions" in fn:
             default_liga = "Champions League"
         elif "worldcup" in fn or "mundial" in fn:
