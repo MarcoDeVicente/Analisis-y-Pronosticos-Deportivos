@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+numpy
+scipy
+requests
+unidecode
+pydantic
+python-multipart

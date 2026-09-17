@@ -187,11 +187,6 @@
                     <span class="text-xl">⚾</span>
                     <span class="tracking-wide">Módulo de Béisbol</span>
                 </button>
-                <button id="nav-bot-trading" onclick="switchSport('bot-trading')"
-                    class="w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40">
-                    <span class="text-xl">🤖</span>
-                    <span class="tracking-wide">Bot de Trading</span>
-                </button>
             </nav>
 
 
@@ -536,38 +531,84 @@
                         </div>
                     </div>
 
-                    <!-- ÁREA DE OPORTUNIDAD (VALUE BET) -->
-                    <div id="futbol-value-bet-card" class="glass-card rounded-2xl p-6 border border-slate-800 transition-all duration-300">
-                        <div class="flex justify-between items-center mb-4">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center">
-                                <span class="text-base mr-2">🎯</span>ÁREA DE OPORTUNIDAD (VALUE BET)
-                            </h4>
-                            <span id="futbol-value-bet-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-colors duration-300">--</span>
+                    <!-- Over/Under Markets Card (Goles Totales) -->
+                    <div class="mt-6 p-5 bg-slate-900/60 border border-slate-800/80 rounded-2xl shadow-glass">
+                        <div class="flex items-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+                            <span class="text-soccerGreen mr-2">📈</span>
+                            <span>MERCADOS DE APUESTAS — GOLES TOTALES</span>
                         </div>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-center">
-                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
-                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Selección</span>
-                                <strong id="futbol-value-bet-selection" class="text-sm font-extrabold text-slate-200 block mt-1 truncate">--</strong>
+                        <div class="space-y-4">
+                            <!-- Linea 0.5 -->
+                            <div class="border-b border-slate-800/30 pb-3">
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <span class="text-xs font-semibold text-slate-200">Línea 0.5</span>
+                                    <div class="flex space-x-2 text-[10px] font-bold">
+                                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-05-over">Over --%</span>
+                                        <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-05-under">Under --%</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-1 bg-slate-950 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-emerald-500/80 duration-500" id="bar-fut-05-over" style="width: 50%;"></div>
+                                    <div class="h-full bg-rose-500/80 duration-500" id="bar-fut-05-under" style="width: 50%;"></div>
+                                </div>
                             </div>
-                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
-                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Probabilidad IA</span>
-                                <strong id="futbol-value-bet-prob-ia" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
+                            <!-- Linea 1.5 -->
+                            <div class="border-b border-slate-800/30 pb-3">
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <span class="text-xs font-semibold text-slate-200">Línea 1.5</span>
+                                    <div class="flex space-x-2 text-[10px] font-bold">
+                                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-15-over">Over --%</span>
+                                        <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-15-under">Under --%</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-1 bg-slate-950 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-emerald-500/80 duration-500" id="bar-fut-15-over" style="width: 50%;"></div>
+                                    <div class="h-full bg-rose-500/80 duration-500" id="bar-fut-15-under" style="width: 50%;"></div>
+                                </div>
                             </div>
-                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
-                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Momio Casino</span>
-                                <strong id="futbol-value-bet-momio" class="text-sm font-extrabold text-slate-200 block mt-1">--</strong>
+                            <!-- Linea 2.5 -->
+                            <div class="border-b border-slate-800/30 pb-3">
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <span class="text-xs font-semibold text-slate-200">Línea 2.5</span>
+                                    <div class="flex space-x-2 text-[10px] font-bold">
+                                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-25-over">Over --%</span>
+                                        <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-25-under">Under --%</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-1 bg-slate-950 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-emerald-500/80 duration-500" id="bar-fut-25-over" style="width: 50%;"></div>
+                                    <div class="h-full bg-rose-500/80 duration-500" id="bar-fut-25-under" style="width: 50%;"></div>
+                                </div>
                             </div>
-                            <div class="bg-slate-950/40 border border-slate-800/60 rounded-xl p-3">
-                                <span class="text-[9px] text-slate-500 block uppercase font-bold">Ventaja (Edge)</span>
-                                <strong id="futbol-value-bet-edge" class="text-sm font-extrabold text-slate-200 block mt-1">--%</strong>
+                            <!-- Linea 3.5 -->
+                            <div class="border-b border-slate-800/30 pb-3">
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <span class="text-xs font-semibold text-slate-200">Línea 3.5</span>
+                                    <div class="flex space-x-2 text-[10px] font-bold">
+                                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-35-over">Over --%</span>
+                                        <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-35-under">Under --%</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-1 bg-slate-950 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-emerald-500/80 duration-500" id="bar-fut-35-over" style="width: 50%;"></div>
+                                    <div class="h-full bg-rose-500/80 duration-500" id="bar-fut-35-under" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            <!-- Linea 4.5 -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <span class="text-xs font-semibold text-slate-200">Línea 4.5</span>
+                                    <div class="flex space-x-2 text-[10px] font-bold">
+                                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-45-over">Over --%</span>
+                                        <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2.5 py-0.5 rounded-full" id="mkt-fut-45-under">Under --%</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-1 bg-slate-950 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-emerald-500/80 duration-500" id="bar-fut-45-over" style="width: 50%;"></div>
+                                    <div class="h-full bg-rose-500/80 duration-500" id="bar-fut-45-under" style="width: 50%;"></div>
+                                </div>
                             </div>
                         </div>
-
-                        <button id="futbol-value-bet-btn" onclick="enviarAlPortafolio('futbol')" class="hidden w-full bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.3)] flex justify-center items-center space-x-2 mt-2">
-                            <span>🤖</span>
-                            <span>Invertir con Bot</span>
-                        </button>
                     </div>
                 </div>
 
@@ -602,13 +643,7 @@
                         </div>
                     </div>
                     
-                    <!-- Guardar en datos del partido button -->
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center space-y-3">
-                        <span class="text-xs text-slate-400">¿Quieres usar este pronóstico en tu Parlay?</span>
-                        <button onclick="guardarDatosPartido('futbol')" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all cursor-pointer flex items-center space-x-2 text-sm">
-                            <span>💾 Guardar en datos del partido</span>
-                        </button>
-                    </div>
+
                 </div>
 
                 <!-- Soccer Standings Sub-tab Container -->
@@ -941,7 +976,6 @@
                 
                 <!-- Guardar en datos del partido button -->
                 <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center space-y-3 mt-6">
-                    <span class="text-xs text-slate-400">¿Quieres usar este pronóstico en tu Parlay?</span>
                     <button onclick="guardarDatosPartido('beisbol')" class="px-6 py-3 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold rounded-xl shadow-lg shadow-red-500/20 active:scale-[0.98] transition-all cursor-pointer flex items-center space-x-2 text-sm">
                         <span>💾 Guardar en datos del partido</span>
                     </button>
@@ -950,149 +984,10 @@
         </section>
 
         <!-- MODULE: PARLAY SOÑADOR -->
-        <section id="modulo-parlay" class="hidden transition-all duration-300 mt-6">
-            <div class="columns">
-                <!-- ══ LEFT PANEL ══ -->
-                <div class="glass-panel left-panel">
-                    <div>
-                        <div class="section-label">CONFIGURADOR DE JUGADA</div>
-                        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
-                            <div class="sport-toggle">
-                                <button class="toggle-btn active" onclick="setSport('futbol')">⚽ Fútbol</button>
-                                <button class="toggle-btn" onclick="setSport('beisbol')">⚾ Béisbol</button>
-                            </div>
-                        </div>
-                        <div id="dynamic-configurator">
-                            <!-- populated dynamically by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ══ RIGHT PANEL (TICKET) ══ -->
-                <div class="right-panel">
-                    <div class="ticket-header">
-                        <div class="ticket-title-row">
-                            <span class="lightning">⚡</span>
-                            <span class="ticket-title">TICKET DE PARLAY</span>
-                        </div>
-                        <div class="ticket-sub">MULTIPLICADOR DE CUOTAS ACTIVO</div>
-                    </div>
-
-                    <div class="picks-list">
-                        <!-- dynamic pick cards -->
-                    </div>
-
-                    <!-- TOTAL -->
-                    <div class="ticket-total">
-                        <div class="total-label">PROBABILIDAD COMBINADA DE ÉXITO</div>
-                        <div class="total-value">0%</div>
-                        <div class="multiplier-row">
-                            <span class="mult-badge">✕ 0.0x</span>
-                            <span style="font-size:11px;color:#475569">sobre la inversión</span>
-                        </div>
-                        
-                        <!-- Parlay Bet Input -->
-                        <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-800/60" id="parlay-bet-amount-container">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Monto Parlay</span>
-                            <div class="flex items-center space-x-1">
-                                <span class="text-xs text-slate-500 font-bold">$</span>
-                                <input type="number" id="parlay-bet-input" class="w-16 bg-slate-900 border border-slate-800 rounded px-2 py-0.5 text-right text-xs text-yellow-400 font-bold outline-none focus:border-yellow-500" value="100" min="1" step="1" />
-                            </div>
-                        </div>
-                        
-                        <!-- Bot Registration Buttons -->
-                        <div class="grid grid-cols-2 gap-2 mt-3">
-                            <button onclick="registrarTicketEnBot('individual')" class="py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded text-[9px] uppercase tracking-wider transition-all cursor-pointer">
-                                Individuales
-                            </button>
-                            <button onclick="registrarTicketEnBot('parlay')" class="py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded text-[9px] uppercase tracking-wider transition-all cursor-pointer">
-                                Parlay Bot
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- AI BOX -->
-                    <div class="ai-box">
-                        <div class="ai-header">
-                            <span class="ai-icon">🤖</span>
-                            <span class="ai-title">SUGERENCIA IA</span>
-                        </div>
-                        <div class="ai-text">
-                            <!-- dynamic suggestion -->
-                        </div>
-                        <button class="clear-btn">🗑 Borrar todo el ticket</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
 
         <!-- MODULE: AUTOMATED TRADING BOT -->
-        <section id="modulo-bot-trading" class="hidden space-y-8 transition-all duration-300">
-            
-            <div class="flex items-center justify-between mb-2">
-                <div>
-                    <h2 class="text-2xl font-extrabold text-white tracking-tight">Portafolio Automatizado</h2>
-                    <p class="text-xs text-slate-400 mt-1">Monitoreo de Value Bets y Retorno de Inversión (ROI)</p>
-                </div>
-                <div class="flex items-center space-x-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
-                    <div class="relative inline-flex items-center cursor-pointer">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
-                        <span class="text-xs font-bold text-emerald-400">Bot Operando</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                
-                <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
-                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Balance General</h3>
-                    
-                    <div class="space-y-4">
-                        <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-4">
-                            <span class="text-xs text-slate-400 block mb-1">Ganancia Neta Simulada</span>
-                            <strong class="text-3xl font-black text-emerald-400" id="bot-ganancia-total">+$0.00</strong>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3">
-                                <span class="text-[10px] text-slate-500 block uppercase font-bold">Win Rate</span>
-                                <strong class="text-lg font-bold text-white mt-1 block" id="bot-win-rate">0.0%</strong>
-                            </div>
-                            <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3">
-                                <span class="text-[10px] text-slate-500 block uppercase font-bold">Tickets Pendientes</span>
-                                <strong class="text-lg font-bold text-blue-400 mt-1 block" id="bot-pendientes">0</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-6 xl:col-span-2">
-                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Crecimiento del Portafolio</h3>
-                    <div class="h-48 relative w-full">
-                        <canvas id="chart-bot-roi"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-panel rounded-2xl p-6">
-                <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Registro de Transacciones</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead>
-                            <tr class="text-slate-500 border-b border-slate-800 uppercase tracking-wider">
-                                <th class="pb-3 pl-2">Fecha</th>
-                                <th class="pb-3">Partido (Value Bet)</th>
-                                <th class="pb-3 text-center">Momio</th>
-                                <th class="pb-3 text-center">Edge</th>
-                                <th class="pb-3 text-right pr-2">Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-bot-body" class="divide-y divide-slate-800/50 text-slate-300">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+        
 
     </main>
 
@@ -2920,9 +2815,10 @@
             document.getElementById('display-partido').innerText = `${local} vs ${visitante}`;
 
             try {
+                const selectedLeague = document.getElementById('select-liga').value;
                 // Fetch endpoint based on current selected tab
                 let endpoint = currentSport === 'futbol'
-                    ? `${API_BASE}/pronostico/futbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}`
+                    ? `${API_BASE}/pronostico/futbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}&liga=${encodeURIComponent(selectedLeague)}`
                     : `${API_BASE}/pronostico/beisbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}`;
 
                 if (currentSport === 'beisbol') {
@@ -3256,44 +3152,39 @@
             document.getElementById('corners-market-text').innerText = `Total de corners: ${data.corners.total_corners_text}`;
             document.getElementById('corners-market-prob').innerText = `${data.corners.total_corners_prob}%`;
 
-            // Update Value Bet Card
-            const vb = data.value_bet;
-            const vbCard = document.getElementById('futbol-value-bet-card');
-            const vbBadge = document.getElementById('futbol-value-bet-badge');
-            const vbSel = document.getElementById('futbol-value-bet-selection');
-            const vbProb = document.getElementById('futbol-value-bet-prob-ia');
-            const vbMomio = document.getElementById('futbol-value-bet-momio');
-            const vbEdge = document.getElementById('futbol-value-bet-edge');
-            const vbBtn = document.getElementById('futbol-value-bet-btn');
+            // Update Goles Totales Markets
+            if (data.mercados) {
+                const mkts = data.mercados;
+                
+                // 0.5
+                document.getElementById('mkt-fut-05-over').innerText = `Over ${mkts.over_0_5}%`;
+                document.getElementById('mkt-fut-05-under').innerText = `Under ${mkts.under_0_5}%`;
+                document.getElementById('bar-fut-05-over').style.width = `${mkts.over_0_5}%`;
+                document.getElementById('bar-fut-05-under').style.width = `${mkts.under_0_5}%`;
 
-            if (vbCard && vb) {
-                let selLabel = vb.seleccion;
-                if (vb.seleccion === 'Local') selLabel = `${local}`;
-                else if (vb.seleccion === 'Visitante') selLabel = `${visitante}`;
-                else if (vb.seleccion === 'Empate') selLabel = 'Empate';
+                // 1.5
+                document.getElementById('mkt-fut-15-over').innerText = `Over ${mkts.over_1_5}%`;
+                document.getElementById('mkt-fut-15-under').innerText = `Under ${mkts.under_1_5}%`;
+                document.getElementById('bar-fut-15-over').style.width = `${mkts.over_1_5}%`;
+                document.getElementById('bar-fut-15-under').style.width = `${mkts.under_1_5}%`;
 
-                vbSel.innerText = selLabel;
-                vbProb.innerText = `${vb.prob_ia.toFixed(1)}%`;
-                vbMomio.innerText = vb.momio_casino.toFixed(2);
-                vbEdge.innerText = (vb.edge >= 0 ? '+' : '') + vb.edge.toFixed(1) + '%';
+                // 2.5
+                document.getElementById('mkt-fut-25-over').innerText = `Over ${mkts.over_2_5}%`;
+                document.getElementById('mkt-fut-25-under').innerText = `Under ${mkts.under_2_5}%`;
+                document.getElementById('bar-fut-25-over').style.width = `${mkts.over_2_5}%`;
+                document.getElementById('bar-fut-25-under').style.width = `${mkts.under_2_5}%`;
 
-                if (vb.edge > 4.0) {
-                    vbCard.classList.remove('opacity-60');
-                    vbCard.style.borderColor = 'rgba(16, 185, 129, 0.3)';
-                    vbCard.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.25)';
-                    vbBadge.innerText = "Ventaja Detectada";
-                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
-                    vbEdge.className = "text-sm font-extrabold text-emerald-400 block mt-1";
-                    if (vbBtn) vbBtn.classList.remove('hidden');
-                } else {
-                    vbCard.classList.add('opacity-60');
-                    vbCard.style.borderColor = 'rgba(255, 255, 255, 0.05)';
-                    vbCard.style.boxShadow = '';
-                    vbBadge.innerText = "Mercado Ajustado - Sin Ventaja";
-                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800/80 text-slate-500 border border-slate-700";
-                    vbEdge.className = "text-sm font-extrabold text-slate-500 block mt-1";
-                    if (vbBtn) vbBtn.classList.add('hidden');
-                }
+                // 3.5
+                document.getElementById('mkt-fut-35-over').innerText = `Over ${mkts.over_3_5}%`;
+                document.getElementById('mkt-fut-35-under').innerText = `Under ${mkts.under_3_5}%`;
+                document.getElementById('bar-fut-35-over').style.width = `${mkts.over_3_5}%`;
+                document.getElementById('bar-fut-35-under').style.width = `${mkts.under_3_5}%`;
+
+                // 4.5
+                document.getElementById('mkt-fut-45-over').innerText = `Over ${mkts.over_4_5}%`;
+                document.getElementById('mkt-fut-45-under').innerText = `Under ${mkts.under_4_5}%`;
+                document.getElementById('bar-fut-45-over').style.width = `${mkts.over_4_5}%`;
+                document.getElementById('bar-fut-45-under').style.width = `${mkts.under_4_5}%`;
             }
         }
 
@@ -5655,16 +5546,7 @@
                     }
                 };
 
-                // Agregar dinámicamente la pestaña Parlay Soñador si no existe
-                const nav = document.querySelector('aside nav');
-                if (nav && !document.getElementById('nav-parlay')) {
-                    const parlayBtn = document.createElement('button');
-                    parlayBtn.id = 'nav-parlay';
-                    parlayBtn.onclick = () => switchSport('parlay');
-                    parlayBtn.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                    parlayBtn.innerHTML = `<span class="text-xl">✨</span><span class="tracking-wide">Parlay Soñador</span>`;
-                    nav.appendChild(parlayBtn);
-                }
+
             }
 
             // --- VALUE BET ACTION ---

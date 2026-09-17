@@ -54,9 +54,40 @@ def obtener_equipos_futbol():
             "Mexico": "México"
         }
         
-        # List of teams that play in Champions League but are primarily in Premier League or Ligue 1 in DB
-        ucl_crossover_teams = {"Arsenal", "Chelsea", "Liverpool", "Tottenham", "Marseille", "Monaco"}
+        # Read Champions League teams dynamically
+        ucl_aliases = {
+            'psg', 'paris saint-germain', 'paris sg', 'paris',
+            'real madrid', 'arsenal', 'man city', 'manchester city',
+            'barcelona', 'fc bayern', 'bayern munich', 'bayern munchen',
+            'liverpool', 'inter de milan', 'inter', 'inter milan',
+            'atletico madrid', 'ath madrid', 'atletico',
+            'man united', 'manchester united', 'man. utd',
+            'borussia dortmund', 'dortmund',
+            'roma', 'as roma',
+            'aston villa', 'porto', 'fc porto', 'oporto',
+            'sporting', 'sporting cp', 'sporting clube de portugal',
+            'psv', 'psv eindhoven', 'real betis', 'betis',
+            'club brugge', 'club brugge kv', 'club brujas',
+            'rb leipzig', 'leipzig', 'napoli', 'napoles',
+            'galatasaray', 'galatasaray sk', 'villarreal', 'villarreal cf',
+            'fenerbahce', 'fenerbahce sk', 'lille', 'lille osc',
+            'feyenoord', 'feyenoord rotterdam',
+            'shakhtar d.', 'shakhtar donetsk', 'fk shakhtar donetsk', 'shakhtar',
+            'bodo/glimt', 'fk bodo/glimt', 'bodo glimt',
+            'como', 'como 1907', 'stuttgart', 'vfb stuttgart',
+            'lens', 'rc lens', 'racing club de lens',
+            'slavia prague', 'sk slavia praha', 'slavia',
+            'aek athens', 'aek', 'viking fk', 'viking',
+            'lask', 'lask linz',
+            'slovan bratislava', 'sk slovan bratislava',
+            'sabah fk', 'sabah'
+        }
         
+        def is_ucl(name):
+            import unidecode
+            norm_name = unidecode.unidecode(name).lower()
+            return norm_name in ucl_aliases
+
         for row in rows:
             name = row["Nombre"]
             liga = row["Liga"]
@@ -70,11 +101,26 @@ def obtener_equipos_futbol():
                 grupos["Amistosos Internacionales"].append(item)
             elif liga == "Premier League":
                 grupos["Premier League"].append(item)
-                if name in ucl_crossover_teams:
+                if is_ucl(name):
                     grupos["Champions League"].append(item)
             elif liga == "Ligue 1":
                 grupos["Ligue 1"].append(item)
-                if name in ucl_crossover_teams:
+                if is_ucl(name):
+                    grupos["Champions League"].append(item)
+            elif liga == "La Liga":
+                if liga not in grupos: grupos["La Liga"] = []
+                grupos["La Liga"].append(item)
+                if is_ucl(name):
+                    grupos["Champions League"].append(item)
+            elif liga == "Serie A":
+                if liga not in grupos: grupos["Serie A"] = []
+                grupos["Serie A"].append(item)
+                if is_ucl(name):
+                    grupos["Champions League"].append(item)
+            elif liga == "Bundesliga":
+                if liga not in grupos: grupos["Bundesliga"] = []
+                grupos["Bundesliga"].append(item)
+                if is_ucl(name):
                     grupos["Champions League"].append(item)
             elif liga == "Champions League":
                 grupos["Champions League"].append(item)
@@ -432,13 +478,13 @@ def obtener_pitchers_equipo(equipo: str):
             raise HTTPException(status_code=404, detail="Equipo no encontrado")
         team_id = row_team["Equipo_ID"]
         
-        # Get all pitchers for this team who have started games (IP >= 3.0)
+        # Get all pitchers for this team (including relievers and openers)
         cursor.execute('''
             SELECT sp.Pitcher_ID, j.Nombre_Completo, COUNT(*) as starts
             FROM beisbol_stats_pitcheo sp
             JOIN beisbol_partidos p ON sp.Partido_ID = p.Partido_ID
             JOIN beisbol_jugadores j ON sp.Pitcher_ID = j.Jugador_ID
-            WHERE (p.Local_ID = ? OR p.Visitante_ID = ?) AND sp.Innings_Lanzados >= 3.0
+            WHERE (p.Local_ID = ? OR p.Visitante_ID = ?)
             GROUP BY sp.Pitcher_ID, j.Nombre_Completo
             ORDER BY starts DESC, j.Nombre_Completo ASC
         ''', (team_id, team_id))
