@@ -15,10 +15,10 @@ El sistema evalúa el rendimiento histórico de equipos de la MLB y las principa
 A continuación, se muestra cómo se visualiza el análisis y las probabilidades generadas por nuestros modelos directamente en la plataforma web:
 
 ### Fútbol
-![Pronóstico Fútbol](./pronostico-futbol.png)
+![Pronóstico Fútbol](./diseño-bot/pronostico-futbol.png)
 
 ### Béisbol
-![Pronóstico Béisbol](./pronostico-baseball.png)
+![Pronóstico Béisbol](./diseño-bot/pronostico-baseball.png)
 
 ## 📡 APIs y Fuentes de Datos
 
