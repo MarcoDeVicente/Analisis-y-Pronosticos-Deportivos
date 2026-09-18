@@ -1370,7 +1370,7 @@ function switchSport(sport) {
     const colLocal = document.getElementById('col-local');
     const colVisitante = document.getElementById('col-visitante');
     const colBoton = document.getElementById('col-boton');
-    const btnNfl = document.getElementById(\'nav-nfl\');
+    const btnNfl = document.getElementById('nav-nfl');
 
             // Toggle sidebar active button styling and sport labels
             
@@ -1437,7 +1437,7 @@ function switchSport(sport) {
 
     // Hide analysis panels, show welcome panel
     document.getElementById('modulo-futbol').classList.add('hidden');
-    const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
+    const modNfl = document.getElementById('modulo-nfl'); if(modNfl) modNfl.classList.add('hidden');
             document.getElementById('modulo-beisbol').classList.add('hidden');
     document.getElementById('pantalla-inicio').classList.remove('hidden');
     document.getElementById('pantalla-carga').classList.add('hidden');
@@ -1755,7 +1755,7 @@ async function obtenerPrediccion(pitcherLocalId = null, pitcherVisitanteId = nul
     // UI states transition
     document.getElementById('pantalla-inicio').classList.add('hidden');
     document.getElementById('modulo-futbol').classList.add('hidden');
-    const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
+    const modNfl = document.getElementById('modulo-nfl'); if(modNfl) modNfl.classList.add('hidden');
             document.getElementById('modulo-beisbol').classList.add('hidden');
     document.getElementById('pantalla-carga').classList.remove('hidden');
 
@@ -2608,7 +2608,7 @@ let chartBotRoiInstance = null;
 
 async function renderizarDashboardBot() {
     document.getElementById('modulo-futbol').classList.add('hidden');
-    const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
+    const modNfl = document.getElementById('modulo-nfl'); if(modNfl) modNfl.classList.add('hidden');
             document.getElementById('modulo-beisbol').classList.add('hidden');
     document.getElementById('pantalla-inicio').classList.add('hidden');
     if (document.getElementById('modulo-parlay')) {
@@ -4097,146 +4097,6 @@ async function renderizarDashboardBot() {
         window.montoPicks[partido] = parseFloat(val) || 100;
     };
 
-    window.registrarTicketEnBot = async function (tipo) {
-        if (!window.picks || window.picks.length === 0) {
-            alert('No hay selecciones en tu ticket para registrar.');
-            return;
-        }
-
-        const fechaCompra = new Date().toISOString().replace('T', ' ').substring(0, 19);
-
-        const groups = {};
-        window.picks.forEach(pick => {
-            if (!groups[pick.partido]) groups[pick.partido] = [];
-            groups[pick.partido].push(pick);
-        });
-
-        const listApuestas = [];
-
-        if (tipo === 'individual') {
-            for (const partido in groups) {
-                const matchPicks = groups[partido];
-                const firstPick = matchPicks[0];
-                const deporte = firstPick.deporte;
-                const savedMatch = window.savedMatches.find(m => m.partido === partido);
-
-                let probIaLocal = 50.0;
-                let probIaVisita = 50.0;
-                let localTeam = savedMatch ? savedMatch.local : 'Local';
-                let visitaTeam = savedMatch ? savedMatch.visitante : 'Visitante';
-
-                if (savedMatch && savedMatch.datos) {
-                    if (deporte === 'futbol') {
-                        probIaLocal = savedMatch.datos.victoria.local_pct || 50.0;
-                        probIaVisita = savedMatch.datos.victoria.visita_pct || 50.0;
-                    } else if (deporte === 'beisbol') {
-                        probIaLocal = (savedMatch.datos.ganador.local * 100) || 50.0;
-                        probIaVisita = (savedMatch.datos.ganador.visita * 100) || 50.0;
-                    }
-                }
-
-                const combinedProb = matchPicks.reduce((acc, p) => acc * p.probabilidad, 1);
-                const combinedOdds = 1 / combinedProb;
-                const nombresMercados = matchPicks.map(p => p.mercado).join(' + ');
-                const inversion = window.montoPicks && window.montoPicks[partido] ? window.montoPicks[partido] : 100;
-
-                listApuestas.push({
-                    Fecha_Compra: fechaCompra,
-                    Partido: partido,
-                    Local: localTeam,
-                    Visita: visitaTeam,
-                    Casino: "Parlay Soñador (Individual)",
-                    Momio_Local: parseFloat((100 / probIaLocal).toFixed(2)),
-                    Momio_Visita: parseFloat((100 / probIaVisita).toFixed(2)),
-                    Prob_Casino_Local: parseFloat(probIaLocal.toFixed(1)),
-                    Prob_Casino_Visita: parseFloat(probIaVisita.toFixed(1)),
-                    Prob_IA_Local: parseFloat(probIaLocal.toFixed(1)),
-                    Prob_IA_Visita: parseFloat(probIaVisita.toFixed(1)),
-                    Apuesta_A: nombresMercados,
-                    Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
-                    Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
-                    Ventaja_Pct: 0.0,
-                    Inversion_Simulada: parseFloat(inversion),
-                    Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
-                    Estado: "Pendiente"
-                });
-            }
-        } else if (tipo === 'parlay') {
-            const listPartidos = Object.keys(groups);
-            const partidoConcat = listPartidos.join(' + ');
-            const marketsConcat = window.picks.map(p => p.mercado).join(' + ');
-
-            const combinedProb = window.picks.reduce((acc, p) => acc * p.probabilidad, 1);
-            const combinedOdds = 1 / combinedProb;
-
-            const parlayInput = document.getElementById('parlay-bet-input');
-            const inversion = parlayInput ? parseFloat(parlayInput.value) || 100 : 100;
-
-            listApuestas.push({
-                Fecha_Compra: fechaCompra,
-                Partido: partidoConcat,
-                Local: "Parlay Combinado",
-                Visita: `${listPartidos.length} partidos`,
-                Casino: "Parlay Soñador (Parlay)",
-                Momio_Local: 1.0,
-                Momio_Visita: 1.0,
-                Prob_Casino_Local: 0.0,
-                Prob_Casino_Visita: 0.0,
-                Prob_IA_Local: parseFloat((combinedProb * 100).toFixed(1)),
-                Prob_IA_Visita: 0.0,
-                Apuesta_A: marketsConcat,
-                Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
-                Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
-                Ventaja_Pct: 0.0,
-                Inversion_Simulada: parseFloat(inversion),
-                Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
-                Estado: "Pendiente"
-            });
-        }
-
-        try {
-            const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ apuestas: listApuestas })
-            });
-            if (res.ok) {
-                showPremiumToast(`🤖 ${listApuestas.length} apuesta(s) registrada(s) en el Bot.`);
-                window.clearTicket();
-            } else {
-                const data = await res.json();
-                alert('Error al registrar jugada en el bot: ' + (data.detail || 'Error desconocido'));
-            }
-        } catch (e) {
-            console.error("Error al registrar apuesta:", e);
-            alert('Error de conexión con el backend.');
-        }
-    };
-
-    window.reiniciarBotPortafolio = async function () {
-        if (!confirm("¿Estás seguro de que deseas reiniciar todos los datos del bot de trading? Esta acción no se puede deshacer y borrará todo el historial.")) {
-            return;
-        }
-        const btn = document.getElementById('btn-reiniciar-bot');
-        if (btn) btn.disabled = true;
-        try {
-            const res = await fetch(`${API_BASE}/bot/reiniciar`, { method: 'POST' });
-            if (res.ok) {
-                showPremiumToast("🤖 Datos del bot reiniciados correctamente.");
-                if (typeof renderizarDashboardBot === 'function') {
-                    await renderizarDashboardBot();
-                }
-            } else {
-                showPremiumToast("❌ Error al reiniciar datos del bot.");
-            }
-        } catch (err) {
-            console.error("Error al reiniciar bot:", err);
-            showPremiumToast("❌ Error de conexión al reiniciar bot.");
-        } finally {
-            if (btn) btn.disabled = false;
-        }
-    };
-
     // --- RENDERIZADO DEL TICKET ---
     function getProbColor(prob, sport) {
         if (prob >= 0.70) return '#34d399'; // Verde
@@ -4430,7 +4290,7 @@ async function renderizarDashboardBot() {
             const modFutbol = document.getElementById('modulo-futbol');
             const modBeisbol = document.getElementById('modulo-beisbol');
             const modParlay = document.getElementById('modulo-parlay');
-            const modBot = document.getElementById('modulo-bot-trading');
+            const modNfl = document.getElementById('modulo-nfl');
             const pantInicio = document.getElementById('pantalla-inicio');
             const pantCarga = document.getElementById('pantalla-carga');
             const selectorPanel = document.getElementById('panel-selector-equipos');
@@ -4438,7 +4298,7 @@ async function renderizarDashboardBot() {
             const btnFutbol = document.getElementById('nav-futbol');
             const btnBeisbol = document.getElementById('nav-beisbol');
             const btnParlay = document.getElementById('nav-parlay');
-            const btnBot = document.getElementById('nav-bot-trading');
+            const btnNfl = document.getElementById('nav-nfl');
 
             if (sport === 'parlay') {
                 const displayPartido = document.getElementById('display-partido');
@@ -4452,7 +4312,7 @@ async function renderizarDashboardBot() {
 
                 if (modFutbol) modFutbol.classList.add('hidden');
                 if (modBeisbol) modBeisbol.classList.add('hidden');
-                if (modBot) modBot.classList.add('hidden');
+                if (modNfl) modNfl.classList.add('hidden');
                 if (pantInicio) pantInicio.classList.add('hidden');
                 if (pantCarga) pantCarga.classList.add('hidden');
                 if (selectorPanel) selectorPanel.classList.add('hidden');
@@ -4460,46 +4320,20 @@ async function renderizarDashboardBot() {
 
                 if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
                 if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnNfl) btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
                 if (btnParlay) {
                     btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-yellow-500/30 bg-yellow-600/20 text-white shadow-[0_0_15px_rgba(234,179,8,0.25)]";
                 }
 
                 setSport(currentSport);
                 renderPicks();
-            } else if (sport === 'bot-trading') {
-                const displayPartido = document.getElementById('display-partido');
-                if (displayPartido) displayPartido.innerText = "Monitoreo Financiero y ROI";
-
-                const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
-                if (breadcrumbDeporte) {
-                    breadcrumbDeporte.innerText = "🤖 Bot de Trading";
-                    breadcrumbDeporte.className = "text-xs font-bold text-emerald-400 uppercase tracking-widest";
-                }
-
-                if (modFutbol) modFutbol.classList.add('hidden');
-                if (modBeisbol) modBeisbol.classList.add('hidden');
-                if (modParlay) modParlay.classList.add('hidden');
-                if (pantInicio) pantInicio.classList.add('hidden');
-                if (pantCarga) pantCarga.classList.add('hidden');
-                if (selectorPanel) selectorPanel.classList.add('hidden');
-                if (modBot) modBot.classList.remove('hidden');
-
-                if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                if (btnBot) {
-                    btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-emerald-500/30 bg-emerald-600/20 text-white shadow-[0_0_15px_rgba(16,185,129,0.25)]";
-                }
-
-                renderizarDashboardBot();
             } else {
                 if (modParlay) modParlay.classList.add('hidden');
-                if (modBot) modBot.classList.add('hidden');
+                if (modNfl) modNfl.classList.add('hidden');
                 if (selectorPanel) selectorPanel.classList.remove('hidden');
 
                 if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnNfl) btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
 
                 originalSwitchSport(sport);
             }
