@@ -1487,3 +1487,146 @@ def obtener_standings_futbol(liga: str, temporada: str):
     finally:
         conn.close()
 
+
+# --- PREDICCIÓN DE NFL ---
+
+@app.get("/api/equipos/nfl")
+def obtener_equipos_nfl():
+    # NFL divisions
+    EQUIPOS_NFL = {
+        "AFC East": ["BUF", "MIA", "NE", "NYJ"],
+        "AFC North": ["BAL", "CIN", "CLE", "PIT"],
+        "AFC South": ["HOU", "IND", "JAX", "TEN"],
+        "AFC West": ["DEN", "KC", "LV", "LAC"],
+        "NFC East": ["DAL", "NYG", "PHI", "WAS"],
+        "NFC North": ["CHI", "DET", "GB", "MIN"],
+        "NFC South": ["ATL", "CAR", "NO", "TB"],
+        "NFC West": ["ARI", "LAR", "SF", "SEA"]
+    }
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT equipo FROM nfl_eficiencia_epa")
+        rows = cursor.fetchall()
+        db_teams = [row["equipo"] for row in rows]
+        
+        grupos = {"Equipos NFL": []}
+        for db_name in db_teams:
+            grupos["Equipos NFL"].append({"value": db_name, "label": db_name})
+            
+        grupos["Equipos NFL"] = sorted(grupos["Equipos NFL"], key=lambda x: x["label"])
+        return {"grupos": grupos}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.get("/api/nfl/partidos/predecir")
+def predecir_partido_nfl(local: str, visitante: str):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # Extraemos el EPA del equipo Local
+        cursor.execute("SELECT epa_ofensivo, epa_defensivo FROM nfl_eficiencia_epa WHERE equipo=?", (local,))
+        stats_local = cursor.fetchone()
+        
+        # Extraemos el EPA del equipo Visitante
+        cursor.execute("SELECT epa_ofensivo, epa_defensivo FROM nfl_eficiencia_epa WHERE equipo=?", (visitante,))
+        stats_visitante = cursor.fetchone()
+        
+        if not stats_local or not stats_visitante:
+            raise HTTPException(status_code=404, detail="Uno o ambos equipos no fueron encontrados en nfl_eficiencia_epa.")
+            
+        local_off_epa, local_def_epa = stats_local
+        visita_off_epa, visita_def_epa = stats_visitante
+        
+        # --- EL MOTOR MATEMÁTICO ---
+        JUGADAS_PROMEDIO = 63.5
+        PUNTOS_BASE = 21.0
+        VENTAJA_LOCALIA = 1.5
+        
+        epa_neto_local = local_off_epa + visita_def_epa
+        epa_neto_visita = visita_off_epa + local_def_epa
+        
+        puntos_local = PUNTOS_BASE + (epa_neto_local * JUGADAS_PROMEDIO) + VENTAJA_LOCALIA
+        puntos_visita = PUNTOS_BASE + (epa_neto_visita * JUGADAS_PROMEDIO)
+        
+        puntos_local = max(3.0, round(puntos_local, 1))
+        puntos_visita = max(3.0, round(puntos_visita, 1))
+        
+        margen_victoria = puntos_local - puntos_visita
+        spread_local = round(-margen_victoria * 2) / 2
+        spread_visita = -spread_local
+        
+        total_puntos = puntos_local + puntos_visita
+        
+        prob_local = (1 / (1 + 10 ** (-margen_victoria / 15))) * 100
+        prob_visita = 100 - prob_local
+        
+        # Obtener stats del QB titular (el que tenga mas attempts en nfl_jugadores_stats) para cada equipo
+        def obtener_stats_qb(equipo_sigla):
+            cursor.execute('''
+                SELECT jugador, sum(passing_yards) as yds, sum(passing_tds) as tds, 
+                       sum(interceptions) as ints, sum(attempts) as atts, sum(completions) as comps
+                FROM nfl_jugadores_stats
+                WHERE posteam = ?
+                GROUP BY jugador
+                ORDER BY sum(attempts) DESC LIMIT 1
+            ''', (equipo_sigla,))
+            row = cursor.fetchone()
+            if row and row['atts'] > 0:
+                yds_per_att = round(row['yds'] / row['atts'], 2)
+                # QBR and EPA/play are not available at player level, we approximate QBR based on a simple formula or scale
+                # NFL passer rating approx formula:
+                a = ((row['comps'] / row['atts']) - 0.3) * 5
+                b = ((row['yds'] / row['atts']) - 3) * 0.25
+                c = (row['tds'] / row['atts']) * 20
+                d = 2.375 - ((row['ints'] / row['atts']) * 25)
+                a = max(0, min(a, 2.375))
+                b = max(0, min(b, 2.375))
+                c = max(0, min(c, 2.375))
+                d = max(0, min(d, 2.375))
+                rating = round(((a + b + c + d) / 6) * 100, 1)
+                
+                # Approximate EPA/play based on team EPA but scaled to player
+                epa_play = round((row['yds'] * 0.05 + row['tds'] * 4 - row['ints'] * 2 - row['atts'] * 0.5) / row['atts'], 2) if row['atts'] > 0 else 0
+
+                return {
+                    "nombre": row['jugador'],
+                    "rating": rating,
+                    "epa_play": epa_play,
+                    "yds_intento": yds_per_att,
+                    "tds": row['tds'],
+                    "ints": row['ints']
+                }
+            return {"nombre": "Desconocido", "rating": 0, "epa_play": 0, "yds_intento": 0, "tds": 0, "ints": 0}
+
+        qb_local = obtener_stats_qb(local)
+        qb_visita = obtener_stats_qb(visitante)
+
+        return {
+            "partido": f"{local} vs {visitante}",
+            "puntos_proyectados": {
+                "local": puntos_local,
+                "visitante": puntos_visita
+            },
+            "probabilidad_victoria": {
+                "local_pct": round(prob_local, 1),
+                "visita_pct": round(prob_visita, 1)
+            },
+            "lineas": {
+                "spread_local": spread_local,
+                "spread_visitante": spread_visita,
+                "over_under": round(total_puntos, 1)
+            },
+            "qbs": {
+                "local": qb_local,
+                "visitante": qb_visita
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()

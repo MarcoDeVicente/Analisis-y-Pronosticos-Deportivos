@@ -1,0 +1,110 @@
+================================================================================
+DOCUMENTO TÉCNICO DE ARQUITECTURA: MÓDULO PREDICTIVO NFL
+Objetivo: Migración e integración de la lógica validada en Sandbox a la API principal.
+================================================================================
+
+1. RESUMEN DEL SISTEMA Y DEPENDENCIAS
+--------------------------------------------------------------------------------
+El módulo de la NFL genera pronósticos matemáticos a dos niveles:
+  A) Pronóstico de Partido: Marcador proyectado, Spread, Over/Under y Moneyline.
+  B) Player Props: Probabilidad Gaussiana (Over/Under) ajustada por matchup defensivo.
+
+Librerías requeridas:
+  - nfl_data_py (extracción de Play-by-Play sin API key ni tokens)
+  - pandas
+  - sqlite3
+  - statistics (módulo estándar de Python)
+
+
+2. ESTRUCTURA DE BASE DE DATOS (TABLAS SQLITE)
+--------------------------------------------------------------------------------
+El módulo requiere dos tablas maestras dentro de la base de datos SQLite principal:
+
+A) Tabla `nfl_eficiencia_epa`:
+   - Columnas:
+     * equipo (TEXT, PK): Siglas oficiales NFL (ej. 'KC', 'BAL', 'DET').
+     * epa_ofensivo (REAL): EPA promedio por jugada de pase/carrera en ataque.
+     * epa_defensivo (REAL): EPA promedio por jugada permitido en defensa.
+   - Regla de negocio: Los valores de EPA deben calcularse aplicando un promedio
+     ponderado entre la temporada previa (2025: peso 0.70) y la temporada actual
+     (2026: peso 0.30) para estabilizar anomalías de muestra pequeña inicial.
+
+B) Tabla `nfl_jugadores_stats`:
+   - Construida agregando directamente el Play-by-Play de 2025 y 2026 para evitar
+     errores 404 de endpoints agregados.
+   - Columnas:
+     * jugador (TEXT): Inicial + Apellido (ej. 'L.Jackson', 'P.Mahomes').
+     * posteam (TEXT): Equipo en posesión.
+     * season (INTEGER): Año de la temporada.
+     * week (INTEGER): Semana del juego.
+     * passing_yards (REAL), passing_tds (REAL), interceptions (REAL)
+     * carries (REAL), rushing_yards (REAL), rushing_tds (REAL)
+     * receptions (REAL), targets (REAL), receiving_yards (REAL), receiving_tds (REAL)
+
+
+3. MOTOR MATEMÁTICO DE PARTIDO (GAME ENGINE)
+--------------------------------------------------------------------------------
+Función: `predecir_partido_nfl(local: str, visitante: str) -> dict`
+
+A) Constantes empíricas:
+   - JUGADAS_PROMEDIO = 63.5
+   - PUNTOS_BASE = 21.0
+   - VENTAJA_LOCALIA = 1.5
+
+B) Algoritmo de Puntos Esperados:
+   - epa_neto_local  = local_off_epa + visita_def_epa
+   - epa_neto_visita = visita_off_epa + local_def_epa
+   - puntos_local  = PUNTOS_BASE + (epa_neto_local * JUGADAS_PROMEDIO) + VENTAJA_LOCALIA
+   - puntos_visita = PUNTOS_BASE + (epa_neto_visita * JUGADAS_PROMEDIO)
+   - Floor de seguridad: max(3.0, round(puntos, 1))
+
+C) Métricas de Mercado:
+   - margen_victoria = puntos_local - puntos_visita
+   - spread_local = round(-margen_victoria * 2) / 2
+   - over_under_total = round(puntos_local + puntos_visita, 1)
+   - prob_local = (1 / (1 + 10 ** (-margen_victoria / 15))) * 100
+   - prob_visita = 100.0 - prob_local
+
+
+4. MOTOR MATEMÁTICO DE PLAYER PROPS (PROPS ENGINE)
+--------------------------------------------------------------------------------
+Función: `analizar_prop_nfl(jugador: str, estadistica: str, linea_casino: float, equipo_rival: str) -> dict`
+
+A) Estadísticas base del jugador:
+   - Consulta `nfl_jugadores_stats` para el jugador y la columna indicada.
+   - Requiere n >= 5 partidos jugados para validez estadística.
+   - promedio_base = statistics.mean(historial)
+   - desviacion_base = statistics.stdev(historial)
+
+B) Inteligencia de Matchup (Ajuste por Defensa Rival):
+   - Se consulta `epa_defensivo` del `equipo_rival` en `nfl_eficiencia_epa`.
+   - factor_ajuste = epa_defensivo_rival * 1.2
+   - multiplicador = max(0.75, min(1.25, 1 + factor_ajuste))
+   - promedio_ajustado = promedio_base * multiplicador
+   - desviacion_ajustada = desviacion_base * multiplicador
+
+C) Cálculo de Probabilidad Gaussiana:
+   - Se emplea `statistics.NormalDist(promedio_ajustado, desviacion_ajustada)`.
+   - prob_under = distribucion.cdf(linea_casino) * 100
+   - prob_over  = 100.0 - prob_under
+
+D) Regla de Detección de Value Bet:
+   - Si prob_over > 58.0%  -> Alerta VALUE_BET_OVER (Línea subestimada).
+   - Si prob_under > 58.0% -> Alerta VALUE_BET_UNDER (Línea inflada).
+   - En caso contrario     -> LINEA_EFICIENTE.
+
+
+5. REQUERIMIENTOS PARA LA INTEGRACIÓN EN LA API (FASTAPI)
+--------------------------------------------------------------------------------
+1. Centralizar la base de datos: Utilizar la base de datos principal de la aplicación,
+   garantizando que las tablas de NFL coexistan de forma limpia con las de fútbol
+   y béisbol sin colisiones de nombres de tabla.
+2. Endpoints REST a implementar:
+   - GET `/api/nfl/partidos/predecir?local={sigla}&visitante={sigla}`
+   - GET `/api/nfl/props/analizar?jugador={nombre}&stat={columna}&linea={float}&rival={sigla}`
+   - POST `/api/nfl/datos/actualizar` (Ejecución en segundo plano / BackgroundTasks
+     para refrescar PBP y recalcular tablas sin bloquear peticiones HTTP).
+3. Manejo de Errores:
+   - Devolver respuestas HTTP 404 estructuradas si el equipo o jugador no existen.
+   - Retornar código HTTP 422 si la muestra histórica es menor a 5 partidos.
+================================================================================

@@ -7,3 +7,4 @@ requests
 unidecode
 pydantic
 python-multipart
+nfl_data_py
