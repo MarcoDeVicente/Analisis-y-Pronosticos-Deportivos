@@ -20,6 +20,9 @@ A continuación, se muestra cómo se visualiza el análisis y las probabilidades
 ### Béisbol
 ![Pronóstico Béisbol](./diseño-bot/pronostico-baseball.png)
 
+### NFL
+![Pronóstico NFL](./diseño-bot/pronostico-nfl.jpg)
+
 ## 📡 APIs y Fuentes de Datos
 
 El sistema integra información de múltiples fuentes para garantizar la cobertura y precisión de los análisis:
@@ -28,6 +31,7 @@ El sistema integra información de múltiples fuentes para garantizar la cobertu
 | :--- | :--- | :--- |
 | **Fútbol** | [Football-data (csv)](https://football-data.co.uk/) | Resultados en vivo, estadísticas de partidos, rendimiento de equipos y ligas. |
 | **Béisbol (MLB)** | [MLB Stats (API Pública)](https://statsapi.mlb.com/) | Estadísticas avanzadas de jugadores y equipos de la Major League Baseball. |
+| **NFL** | [nfl-data-py](https://github.com/pdarkin/nfl-data-py) | Resultados en vivo, estadísticas de jugadores y equipos de la National Football League. |
 
 
 ## 🛠️ Stack Tecnológico
