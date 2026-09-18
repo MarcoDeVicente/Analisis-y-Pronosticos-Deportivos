@@ -21,7 +21,7 @@ A continuación, se muestra cómo se visualiza el análisis y las probabilidades
 ![Pronóstico Béisbol](./diseño-bot/pronostico-baseball.png)
 
 ### NFL
-![Pronóstico NFL](./diseño-bot/pronostico-nfl.jpg)
+![Pronóstico NFL](./diseño-bot/pronostico-nfl.png)
 
 ## 📡 APIs y Fuentes de Datos
 
