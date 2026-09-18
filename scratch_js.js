@@ -1,51 +1,51 @@
 
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        darkBg: '#090d16',
-                        panelBg: 'rgba(15, 23, 42, 0.65)',
-                        cardBg: 'rgba(30, 41, 59, 0.45)',
-                        borderBg: 'rgba(255, 255, 255, 0.06)',
-                        neonBlue: '#3b82f6',
-                        neonRed: '#ef4444',
-                        // Soccer Colors
-                        soccerGold: '#8da63a',
-                        soccerGreen: '#10b981',
-                        // Baseball Colors
-                        beisPurple: '#7c3aed',
-                        beisBlue: '#0284c7',
-                    },
-                    boxShadow: {
-                        'neon-blue': '0 0 15px rgba(59, 130, 246, 0.35)',
-                        'neon-red': '0 0 15px rgba(239, 68, 68, 0.35)',
-                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-                    }
-                }
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Outfit', 'sans-serif'],
+            },
+            colors: {
+                darkBg: '#090d16',
+                panelBg: 'rgba(15, 23, 42, 0.65)',
+                cardBg: 'rgba(30, 41, 59, 0.45)',
+                borderBg: 'rgba(255, 255, 255, 0.06)',
+                neonBlue: '#3b82f6',
+                neonRed: '#ef4444',
+                // Soccer Colors
+                soccerGold: '#8da63a',
+                soccerGreen: '#10b981',
+                // Baseball Colors
+                beisPurple: '#7c3aed',
+                beisBlue: '#0284c7',
+            },
+            boxShadow: {
+                'neon-blue': '0 0 15px rgba(59, 130, 246, 0.35)',
+                'neon-red': '0 0 15px rgba(239, 68, 68, 0.35)',
+                'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
             }
         }
-    
+    }
+}
 
-                        document.addEventListener("DOMContentLoaded", () => {
-                            const leagues = [
-                                { id: 'e0', name: 'Premier League', flag: '🇬🇧', file: 'E0.csv' },
-                                { id: 'sp1', name: 'La Liga', flag: '🇪🇸', file: 'SP1.csv' },
-                                { id: 'i1', name: 'Serie A', flag: '🇮🇹', file: 'I1.csv' },
-                                { id: 'd1', name: 'Bundesliga', flag: '🇩🇪', file: 'D1.csv' },
-                                { id: 'f1', name: 'Ligue 1', flag: '🇫🇷', file: 'F1.csv' },
-                                { id: 'mex', name: 'Liga MX', flag: '🇲🇽', file: 'MEX.csv' },
-                                { id: 'wc', name: 'Mundial', flag: '🌎', file: 'WorldCup.csv' }
-                            ];
 
-                            const container = document.getElementById('league-uploaders-container');
-                            
-                            leagues.forEach(league => {
-                                const card = document.createElement('div');
-                                card.className = "bg-slate-900/40 border border-slate-700/60 p-3 rounded-xl flex flex-col justify-between relative";
-                                card.innerHTML = `
+document.addEventListener("DOMContentLoaded", () => {
+    const leagues = [
+        { id: 'e0', name: 'Premier League', flag: '🇬🇧', file: 'E0.csv' },
+        { id: 'sp1', name: 'La Liga', flag: '🇪🇸', file: 'SP1.csv' },
+        { id: 'i1', name: 'Serie A', flag: '🇮🇹', file: 'I1.csv' },
+        { id: 'd1', name: 'Bundesliga', flag: '🇩🇪', file: 'D1.csv' },
+        { id: 'f1', name: 'Ligue 1', flag: '🇫🇷', file: 'F1.csv' },
+        { id: 'mex', name: 'Liga MX', flag: '🇲🇽', file: 'MEX.csv' },
+        { id: 'wc', name: 'Mundial', flag: '🌎', file: 'WorldCup.csv' }
+    ];
+
+    const container = document.getElementById('league-uploaders-container');
+
+    leagues.forEach(league => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-900/40 border border-slate-700/60 p-3 rounded-xl flex flex-col justify-between relative";
+        card.innerHTML = `
                                     <div class="flex items-center justify-between mb-2">
                                         <span class="text-[11px] font-bold text-slate-300 truncate pr-1">${league.flag} ${league.name}</span>
                                         <span class="text-[9px] font-mono text-slate-500 bg-slate-950 px-1 py-0.5 rounded border border-slate-800">${league.file}</span>
@@ -59,1460 +59,1460 @@
                                         <span id="spinner-${league.id}" class="animate-spin inline-block w-3 h-3 border-2 border-emerald-400 border-t-transparent rounded-full ml-1 hidden"></span>
                                     </button>
                                 `;
-                                container.appendChild(card);
+        container.appendChild(card);
 
-                                // Add listener to update label text visually when file is selected
-                                const input = document.getElementById(`csv-input-${league.id}`);
-                                const label = document.getElementById(`csv-label-${league.id}`);
-                                input.addEventListener('change', (e) => {
-                                    if(e.target.files.length > 0) {
-                                        label.innerText = e.target.files[0].name;
-                                        label.classList.add('text-emerald-300', 'bg-emerald-900/30', 'border-emerald-700/50');
-                                        label.classList.remove('text-slate-300', 'bg-slate-800', 'border-slate-700');
-                                    } else {
-                                        label.innerText = 'Examinar...';
-                                        label.classList.remove('text-emerald-300', 'bg-emerald-900/30', 'border-emerald-700/50');
-                                        label.classList.add('text-slate-300', 'bg-slate-800', 'border-slate-700');
-                                    }
-                                });
-                            });
-                        });
-
-                        async function uploadSpecificCsv(leagueId) {
-                            const fileInput = document.getElementById(`csv-input-${leagueId}`);
-                            if (!fileInput.files.length) {
-                                alert("Por favor selecciona un archivo CSV primero.");
-                                return;
-                            }
-                            
-                            const file = fileInput.files[0];
-                            const formData = new FormData();
-                            formData.append('file', file);
-                            
-                            const btn = document.getElementById(`btn-upload-${leagueId}`);
-                            const spinner = document.getElementById(`spinner-${leagueId}`);
-                            const historyContainer = document.getElementById('upload-csv-history');
-                            
-                            btn.disabled = true;
-                            spinner.classList.remove('hidden');
-                            
-                            try {
-                                const API_BASE_URL = typeof API_BASE !== 'undefined' ? API_BASE : 'http://127.0.0.1:8000/api';
-                                const res = await fetch(`${API_BASE_URL}/upload/futbol`, {
-                                    method: 'POST',
-                                    body: formData
-                                });
-                                const data = await res.json();
-                                
-                                // Remove empty state message if it exists
-                                if (historyContainer.querySelector('span.italic')) {
-                                    historyContainer.innerHTML = '';
-                                }
-
-                                if (res.ok) {
-                                    // Add to history badge
-                                    const badge = document.createElement('div');
-                                    badge.className = "flex items-center space-x-1.5 bg-emerald-900/30 border border-emerald-700/50 text-emerald-400 px-2 py-1 rounded text-[10px] animate-fade-in";
-                                    badge.innerHTML = `<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                                       <span class="font-medium">Archivo subido '${file.name}' (+${data.matches_inserted} partidos)</span>`;
-                                    historyContainer.prepend(badge); // Add to beginning
-                                    
-                                    // Reset input visually
-                                    fileInput.value = '';
-                                    const label = document.getElementById(`csv-label-${leagueId}`);
-                                    label.innerText = 'Examinar...';
-                                    label.classList.remove('text-emerald-300', 'bg-emerald-900/30', 'border-emerald-700/50');
-                                    label.classList.add('text-slate-300', 'bg-slate-800', 'border-slate-700');
-
-                                    if (typeof fetchAdminStats === 'function') fetchAdminStats();
-                                } else {
-                                    alert(`Error al procesar el CSV: ${data.detail || 'Error desconocido'}`);
-                                }
-                            } catch (err) {
-                                alert(`Error de conexión: ${err.message}`);
-                            } finally {
-                                btn.disabled = false;
-                                spinner.classList.add('hidden');
-                            }
-                        }
-                    
-
-        const API_BASE = 'http://localhost:8000/api';
-        let currentSport = 'futbol';
-        let futbolGroups = {};
-        let beisbolGroups = {};
-        let isConfigModalOpen = false;
-        let isBackendOnline = false;
-        let isBackendManuallyDisabled = false;
-
-        // Chart.js instances
-        let chartFutbolProbInstance = null;
-        let chartFutbolCornersInstance = null;
-        let chartBeisbolProbInstance = null;
-        let chartBeisbolPitchersInstance = null;
-        let chartBeisbolRunsInstance = null;
-
-        // Toggle Config Modal
-        function toggleConfigModal() {
-            const modal = document.getElementById('config-modal');
-            const container = document.getElementById('config-modal-container');
-            if (isConfigModalOpen) {
-                // Hide with transition
-                modal.classList.add('opacity-0');
-                container.classList.add('scale-95');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 300);
-                isConfigModalOpen = false;
+        // Add listener to update label text visually when file is selected
+        const input = document.getElementById(`csv-input-${league.id}`);
+        const label = document.getElementById(`csv-label-${league.id}`);
+        input.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                label.innerText = e.target.files[0].name;
+                label.classList.add('text-emerald-300', 'bg-emerald-900/30', 'border-emerald-700/50');
+                label.classList.remove('text-slate-300', 'bg-slate-800', 'border-slate-700');
             } else {
-                // Show with transition
-                modal.classList.remove('hidden');
-                // Read from DOM to trigger reflow
-                modal.offsetHeight;
-                modal.classList.remove('opacity-0');
-                container.classList.remove('scale-95');
-                isConfigModalOpen = true;
-                // Fetch stats when opening
-                fetchAdminStats();
+                label.innerText = 'Examinar...';
+                label.classList.remove('text-emerald-300', 'bg-emerald-900/30', 'border-emerald-700/50');
+                label.classList.add('text-slate-300', 'bg-slate-800', 'border-slate-700');
             }
+        });
+    });
+});
+
+async function uploadSpecificCsv(leagueId) {
+    const fileInput = document.getElementById(`csv-input-${leagueId}`);
+    if (!fileInput.files.length) {
+        alert("Por favor selecciona un archivo CSV primero.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const btn = document.getElementById(`btn-upload-${leagueId}`);
+    const spinner = document.getElementById(`spinner-${leagueId}`);
+    const historyContainer = document.getElementById('upload-csv-history');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+
+    try {
+        const API_BASE_URL = typeof API_BASE !== 'undefined' ? API_BASE : 'http://127.0.0.1:8000/api';
+        const res = await fetch(`${API_BASE_URL}/upload/futbol`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
+
+        // Remove empty state message if it exists
+        if (historyContainer.querySelector('span.italic')) {
+            historyContainer.innerHTML = '';
         }
 
-        // Copy Terminal Command
-        function copyTerminalCommand() {
-            const cmd = document.getElementById('terminal-cmd').innerText;
-            navigator.clipboard.writeText(cmd).then(() => {
-                alert('¡Comando copiado al portapapeles!');
-            }).catch(err => {
-                console.error('Error al copiar el comando:', err);
-            });
+        if (res.ok) {
+            // Add to history badge
+            const badge = document.createElement('div');
+            badge.className = "flex items-center space-x-1.5 bg-emerald-900/30 border border-emerald-700/50 text-emerald-400 px-2 py-1 rounded text-[10px] animate-fade-in";
+            badge.innerHTML = `<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                       <span class="font-medium">Archivo subido '${file.name}' (+${data.inserted_matches} partidos)</span>`;
+            historyContainer.prepend(badge); // Add to beginning
+
+            // Reset input visually
+            fileInput.value = '';
+            const label = document.getElementById(`csv-label-${leagueId}`);
+            label.innerText = 'Examinar...';
+            label.classList.remove('text-emerald-300', 'bg-emerald-900/30', 'border-emerald-700/50');
+            label.classList.add('text-slate-300', 'bg-slate-800', 'border-slate-700');
+
+            if (typeof fetchAdminStats === 'function') fetchAdminStats();
+        } else {
+            alert(`Error al procesar el CSV: ${data.detail || 'Error desconocido'}`);
         }
+    } catch (err) {
+        alert(`Error de conexión: ${err.message}`);
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
 
-        // Update UI status across all buttons/indicators
-        function updateUIStatus(state) {
-            // state can be: 'online', 'offline', 'manually_disabled'
-            const statusText = document.getElementById('api-status-text');
-            const statusPing = document.getElementById('api-status-ping');
-            const statusDot = document.getElementById('api-status-dot');
 
-            const modalDot = document.getElementById('modal-status-dot');
-            const modalText = document.getElementById('modal-status-text');
-            const modalInst = document.getElementById('modal-status-instructions');
+const API_BASE = 'http://localhost:8000/api';
+let currentSport = 'futbol';
+let futbolGroups = {};
+let beisbolGroups = {};
+let isConfigModalOpen = false;
+let isBackendOnline = false;
+let isBackendManuallyDisabled = false;
 
-            if (state === 'online') {
-                isBackendOnline = true;
-                if (statusText) {
-                    statusText.innerText = "Conexión Backend Activa";
-                    statusText.className = "text-xs font-semibold text-slate-400";
-                }
-                if (statusDot) statusDot.className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500";
-                if (statusPing) statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
+// Chart.js instances
+let chartFutbolProbInstance = null;
+let chartFutbolCornersInstance = null;
+let chartBeisbolProbInstance = null;
+let chartBeisbolPitchersInstance = null;
+let chartBeisbolRunsInstance = null;
 
-                if (modalDot) {
-                    modalDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
-                    modalText.innerText = "FastAPI Activo";
-                    modalInst.classList.add('hidden');
-                }
-            } else if (state === 'manually_disabled') {
-                isBackendOnline = false;
-                if (statusText) {
-                    statusText.innerText = "Conexión Desactivada (Clic para Activar)";
-                    statusText.className = "text-xs font-bold text-rose-400";
-                }
-                if (statusDot) statusDot.className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500";
-                if (statusPing) statusPing.className = ""; // remove animation
+// Toggle Config Modal
+function toggleConfigModal() {
+    const modal = document.getElementById('config-modal');
+    const container = document.getElementById('config-modal-container');
+    if (isConfigModalOpen) {
+        // Hide with transition
+        modal.classList.add('opacity-0');
+        container.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+        isConfigModalOpen = false;
+    } else {
+        // Show with transition
+        modal.classList.remove('hidden');
+        // Read from DOM to trigger reflow
+        modal.offsetHeight;
+        modal.classList.remove('opacity-0');
+        container.classList.remove('scale-95');
+        isConfigModalOpen = true;
+        // Fetch stats when opening
+        fetchAdminStats();
+    }
+}
 
-                if (modalDot) {
-                    modalDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse";
-                    modalText.innerText = "Conexión Desactivada Manualmente";
-                    modalInst.classList.add('hidden'); // No instructions needed for manual disable
-                }
-            } else { // 'offline'
-                isBackendOnline = false;
-                if (statusText) {
-                    statusText.innerText = "Backend Inactivo (Reconectar)";
-                    statusText.className = "text-xs font-bold text-rose-400";
-                }
-                if (statusDot) statusDot.className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500";
-                if (statusPing) statusPing.className = ""; // remove animation
+// Copy Terminal Command
+function copyTerminalCommand() {
+    const cmd = document.getElementById('terminal-cmd').innerText;
+    navigator.clipboard.writeText(cmd).then(() => {
+        alert('¡Comando copiado al portapapeles!');
+    }).catch(err => {
+        console.error('Error al copiar el comando:', err);
+    });
+}
 
-                if (modalDot) {
-                    modalDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse";
-                    modalText.innerText = "FastAPI Inactivo";
-                    modalInst.classList.remove('hidden');
-                }
-            }
+// Update UI status across all buttons/indicators
+function updateUIStatus(state) {
+    // state can be: 'online', 'offline', 'manually_disabled'
+    const statusText = document.getElementById('api-status-text');
+    const statusPing = document.getElementById('api-status-ping');
+    const statusDot = document.getElementById('api-status-dot');
+
+    const modalDot = document.getElementById('modal-status-dot');
+    const modalText = document.getElementById('modal-status-text');
+    const modalInst = document.getElementById('modal-status-instructions');
+
+    if (state === 'online') {
+        isBackendOnline = true;
+        if (statusText) {
+            statusText.innerText = "Conexión Backend Activa";
+            statusText.className = "text-xs font-semibold text-slate-400";
         }
+        if (statusDot) statusDot.className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500";
+        if (statusPing) statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
 
-        // Check Backend Status (Ping)
-        async function checkBackendStatus() {
-            if (isBackendManuallyDisabled) {
-                updateUIStatus('manually_disabled');
-                return;
-            }
-            try {
-                const res = await fetch(`${API_BASE}/ping`, { method: 'GET', cache: 'no-store' });
-                if (res.ok) {
-                    updateUIStatus('online');
-                    fetchAdminStats();
-                } else {
-                    throw new Error("HTTP error");
-                }
-            } catch (err) {
-                updateUIStatus('offline');
-            }
+        if (modalDot) {
+            modalDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+            modalText.innerText = "FastAPI Activo";
+            modalInst.classList.add('hidden');
         }
-
-        // Handle Status Button Click
-        async function handleStatusButtonClick() {
-            if (isBackendOnline && !isBackendManuallyDisabled) {
-                // Deactivate the connection manually
-                isBackendManuallyDisabled = true;
-                updateUIStatus('manually_disabled');
-                alert("Conexión con el backend desactivada manualmente.");
-            } else {
-                // Activate the connection
-                isBackendManuallyDisabled = false;
-                await checkBackendStatus();
-                if (isBackendOnline) {
-                    alert("¡Conexión establecida con éxito con el backend de FastAPI!");
-                    await cargarEquipos();
-                } else {
-                    // If offline, open config modal directly to show instructions!
-                    toggleConfigModal();
-                }
-            }
+    } else if (state === 'manually_disabled') {
+        isBackendOnline = false;
+        if (statusText) {
+            statusText.innerText = "Conexión Desactivada (Clic para Activar)";
+            statusText.className = "text-xs font-bold text-rose-400";
         }
+        if (statusDot) statusDot.className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500";
+        if (statusPing) statusPing.className = ""; // remove animation
 
-        // Fetch API Credits and update limits/warnings
-        async function fetchApiCredits() {
-            if (!isBackendOnline) return;
-            try {
-                const res = await fetch(`${API_BASE}/credits`);
-                if (res.ok) {
-                    const data = await res.json();
-
-                    // API-Football
-                    const football = data.api_football || { limit: 100, remaining: 100, last_updated: null };
-                    const footballPct = Math.round((football.remaining / football.limit) * 100);
-
-                    const lblFootball = document.getElementById('lbl-credits-football');
-                    const badgeFootball = document.getElementById('badge-credits-football');
-                    const btnSyncFootball = document.getElementById('btn-sync-futbol');
-                    const btnSyncTemporada = document.getElementById('btn-sync-temporada');
-
-                    if (lblFootball) lblFootball.innerText = `${football.remaining} / ${football.limit}`;
-                    if (badgeFootball) {
-                        badgeFootball.innerText = `${footballPct}%`;
-                        if (footballPct > 50) {
-                            badgeFootball.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
-                        } else if (footballPct > 20) {
-                            badgeFootball.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20";
-                        } else {
-                            badgeFootball.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-rose-500/10 text-rose-400 border border-rose-500/20";
-                        }
-                    }
-
-                    // Football-Data
-                    const fd = data.football_data || { remaining_minute: 10, last_updated: null };
-                    const lblFd = document.getElementById('lbl-credits-fd');
-                    const badgeFd = document.getElementById('badge-credits-fd');
-
-                    if (lblFd) lblFd.innerText = `${fd.remaining_minute}/min restantes`;
-                    if (badgeFd) {
-                        if (fd.remaining_minute > 2) {
-                            badgeFd.innerText = "OK";
-                            badgeFd.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
-                        } else {
-                            badgeFd.innerText = "BAJO";
-                            badgeFd.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20";
-                        }
-                    }
-
-                    // Warnings Banner
-                    const alertBanner = document.getElementById('credits-alert-banner');
-                    if (alertBanner) {
-                        if (football.remaining <= 0) {
-                            alertBanner.classList.remove('hidden');
-                            alertBanner.className = "p-3 rounded-xl border text-xs font-semibold flex items-center space-x-2 bg-rose-500/10 text-rose-400 border-rose-500/20";
-                            alertBanner.innerHTML = `<span>🔴 Límite diario agotado (0 / ${football.limit}). El botón de sincronización de API-Football ha sido deshabilitado hasta mañana.</span>`;
-                            if (btnSyncFootball) btnSyncFootball.disabled = true;
-                            if (btnSyncTemporada) btnSyncTemporada.disabled = true;
-                        } else if (football.remaining <= 20) {
-                            alertBanner.classList.remove('hidden');
-                            alertBanner.className = "p-3 rounded-xl border text-xs font-semibold flex items-center space-x-2 bg-amber-500/10 text-amber-400 border-amber-500/20";
-                            alertBanner.innerHTML = `<span>⚠️ ¡Advertencia! Te quedan pocos créditos diarios de API-Football (${football.remaining} / ${football.limit}). Evita realizar sincronizaciones innecesarias.</span>`;
-                            if (btnSyncFootball) btnSyncFootball.disabled = false;
-                            if (btnSyncTemporada) btnSyncTemporada.disabled = false;
-                        } else {
-                            alertBanner.classList.add('hidden');
-                            if (btnSyncFootball) btnSyncFootball.disabled = false;
-                            if (btnSyncTemporada) btnSyncTemporada.disabled = false;
-                        }
-                    }
-                }
-            } catch (err) {
-                console.error("Error fetching API credits:", err);
-            }
+        if (modalDot) {
+            modalDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse";
+            modalText.innerText = "Conexión Desactivada Manualmente";
+            modalInst.classList.add('hidden'); // No instructions needed for manual disable
         }
-
-        // Fetch Administrative Database Stats
-        async function fetchAdminStats() {
-            if (!isBackendOnline) return;
-            try {
-                const res = await fetch(`${API_BASE}/status`);
-                if (res.ok) {
-                    const data = await res.json();
-
-                    // Update baseball
-                    document.getElementById('mlb-last-sync-date').innerText = data.beisbol.last_match_date || "Ninguno";
-                    document.getElementById('beisbol-db-stats').innerText = `Total: ${data.beisbol.total_matches} partidos`;
-
-                    // Update soccer
-                    document.getElementById('futbol-last-sync-date').innerText = data.futbol.last_match_date || "Ninguno";
-                    document.getElementById('futbol-db-stats').innerText = `Total: ${data.futbol.total_matches} partidos`;
-
-                    // Fetch credits too!
-                    await fetchApiCredits();
-                }
-            } catch (err) {
-                console.error("Error fetching stats:", err);
-            }
+    } else { // 'offline'
+        isBackendOnline = false;
+        if (statusText) {
+            statusText.innerText = "Backend Inactivo (Reconectar)";
+            statusText.className = "text-xs font-bold text-rose-400";
         }
+        if (statusDot) statusDot.className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500";
+        if (statusPing) statusPing.className = ""; // remove animation
 
-        // Sync MLB Data from MLB API
-        async function syncMlbData() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-mlb');
-            const spinner = document.getElementById('sync-spinner');
-            const statusDiv = document.getElementById('sync-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Sincronizando con MLB Stats API... Esto puede tardar unos segundos.";
-
-            try {
-                const res = await fetch(`${API_BASE}/sync/beisbol`, { method: 'POST' });
-                const data = await res.json();
-                if (res.ok) {
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ Sincronización exitosa: ${data.games_synced} partidos importados, ${data.pitchers_added} nuevos lanzadores registrados, ${data.stats_inserted} estadísticas agregadas.`;
-                    // Refresh stats
-                    fetchAdminStats();
-                    // Reload team dropdowns in case new teams/pitchers exist
-                    cargarEquipos();
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error en la sincronización: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
+        if (modalDot) {
+            modalDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse";
+            modalText.innerText = "FastAPI Inactivo";
+            modalInst.classList.remove('hidden');
         }
+    }
+}
 
-        // Sync Football Data from football-data.org API
-        async function syncFootballDataOrg() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-fd');
-            const spinner = document.getElementById('sync-fd-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400 animate-pulse";
-            statusDiv.innerText = "Sincronizando con football-data.org en segundo plano... Esto tomará aproximadamente 3 minutos debido al rate-limit síncrono (10 req/min).";
-
-            try {
-                const res = await fetch(`${API_BASE}/sync/futbol-data`, { method: 'POST' });
-                const data = await res.json();
-                if (res.ok) {
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ ¡Sincronización iniciada! El proceso se está ejecutando en segundo plano de manera segura respetando los límites de velocidad. Puedes seguir usando el dashboard mientras se completa la descarga.`;
-                    // Refresh stats after some delay
-                    setTimeout(fetchAdminStats, 10000);
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error en la sincronización: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
+// Check Backend Status (Ping)
+async function checkBackendStatus() {
+    if (isBackendManuallyDisabled) {
+        updateUIStatus('manually_disabled');
+        return;
+    }
+    try {
+        const res = await fetch(`${API_BASE}/ping`, { method: 'GET', cache: 'no-store' });
+        if (res.ok) {
+            updateUIStatus('online');
+            fetchAdminStats();
+        } else {
+            throw new Error("HTTP error");
         }
-
-        // Sync Soccer Data from API-Football
-        async function syncFutbolData() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-futbol');
-            const spinner = document.getElementById('sync-futbol-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Sincronizando con API-Football... Esto puede tardar unos segundos.";
-
-            try {
-                const res = await fetch(`${API_BASE}/sincronizar-futbol`);
-                const data = await res.json();
-                if (res.ok) {
-                    const det = data.detalles || {};
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ Sincronización exitosa: ${det.partidos_guardados} partidos importados, ${det.duplicados_omitidos} duplicados omitidos, ${det.estadisticas_guardadas} estadísticas agregadas.`;
-                    // Refresh stats
-                    fetchAdminStats();
-                    // Reload team dropdowns in case new teams exist
-                    cargarEquipos();
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error en la sincronización: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
-        }
-
-        // Sync full current season soccer data
-        async function syncFutbolTemporada() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-temporada');
-            const spinner = document.getElementById('sync-temporada-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Inicializando historial de la temporada 2026 desde API-Football... Esto puede tomar de 15 a 30 segundos.";
-
-            try {
-                const res = await fetch(`${API_BASE}/sincronizar-futbol-temporada`);
-                const data = await res.json();
-                if (res.ok) {
-                    const det = data.detalles || {};
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ ¡Éxito! Se cargaron ${det.partidos_guardados} partidos de la temporada 2025/2026. Duplicados omitidos: ${det.duplicados_omitidos}.`;
-                    // Refresh stats
-                    fetchAdminStats();
-                    // Reload team dropdowns in case new teams exist
-                    cargarEquipos();
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error en la inicialización: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
-        }
-
-        // Sync Mundial 2026 teams
-        async function syncMundialData() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-mundial');
-            const spinner = document.getElementById('sync-mundial-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Sincronizando Copa del Mundo 2026 (API + Archivos locales)... Esto tardará unos 15 segundos.";
-
-            try {
-                const res = await fetch(`${API_BASE}/sincronizar-mundial`);
-                const data = await res.json();
-                if (res.ok) {
-                    const det = data.detalles || {};
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ ¡Mundial 2026 sincronizado con éxito! Equipos oficiales: ${det.equipos_creados || 0}, Posiciones guardadas: ${det.posiciones_guardadas || 0}, Partidos locales agregados: ${det.partidos_guardados || 0} (omitidos por duplicados: ${det.duplicados_omitidos || 0}).`;
-                    // Refresh stats
-                    fetchAdminStats();
-                    // Reload team dropdowns
-                    cargarEquipos();
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error en la sincronización del mundial: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
-        }
-
-        // Sync Amistosos Internacionales
-        async function syncAmistosos() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-amistosos');
-            const spinner = document.getElementById('sync-amistosos-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Sincronizando Amistosos Internacionales (API-Football)... Esto puede tardar unos segundos.";
-
-            try {
-                const res = await fetch(`${API_BASE}/sincronizar-amistosos`);
-                const data = await res.json();
-                if (res.ok) {
-                    const det = data.detalles || {};
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ ¡Amistosos Internacionales sincronizados con éxito! Partidos guardados: ${det.partidos_guardados || 0}, duplicados omitidos: ${det.duplicados_omitidos || 0}, estadísticas agregadas: ${det.estadisticas_guardadas || 0}.`;
-                    // Refresh stats
-                    fetchAdminStats();
-                    // Reload team dropdowns
-                    cargarEquipos();
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error en la sincronización de amistosos: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
-        }
-
-        // Sync Excel Amistosos
-        async function syncExcelAmistosos() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-excel-amistosos');
-            const spinner = document.getElementById('sync-excel-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Sincronizando Excel Amistosos... Esto puede tardar unos segundos.";
-
-            try {
-                const res = await fetch(`${API_BASE}/sincronizar-excel-amistosos`);
-                const data = await res.json();
-                if (res.ok) {
-                    const det = data.detalles || {};
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ ¡Excel importado con éxito! Partidos agregados: ${det.inserted_matches || 0}, Equipos nuevos: ${det.teams_created || 0}.`;
-                    // Refresh stats
-                    fetchAdminStats();
-                    // Reload team dropdowns
-                    cargarEquipos();
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
-        }
-
-        // Download all leagues catalog from API-Football
-        async function descargarCatalogoLigas() {
-            if (!isBackendOnline || isBackendManuallyDisabled) {
-                alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de realizar la acción.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-descargar-ligas');
-            const spinner = document.getElementById('descargar-ligas-spinner');
-            const statusDiv = document.getElementById('sync-futbol-status');
-
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
-            statusDiv.innerText = "Descargando listado completo de ligas desde la API...";
-
-            try {
-                const res = await fetch(`${API_BASE}/descargar-catalogo-ligas`);
-                const data = await res.json();
-                if (res.ok) {
-                    const det = data.detalles || {};
-                    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
-                    statusDiv.innerText = `✅ ¡Catálogo descargado! Se registraron ${det.total_ligas} ligas de la API en el archivo 'todas_las_ligas.json'.`;
-                } else {
-                    throw new Error(data.detail || "Error en la petición");
-                }
-            } catch (err) {
-                statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
-                statusDiv.innerText = `❌ Error al descargar catálogo: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
-        }
-
-        const TEAM_COLORS = {
-            // ── PREMIER LEAGUE (E0-2.xlsx) ────────────────────────────────────────────
-            "Arsenal": { "primary": "#EF0107", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Aston Villa": { "primary": "#95BFE5", "secondary": "#670E36", "text": "#670E36" },
-            "Bournemouth": { "primary": "#DA291C", "secondary": "#000000", "text": "#FFFFFF" },
-            "Brentford": { "primary": "#D20000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Brighton": { "primary": "#0057B8", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Burnley": { "primary": "#6C1D45", "secondary": "#99D6EA", "text": "#FFFFFF" },
-            "Chelsea": { "primary": "#034694", "secondary": "#DBA111", "text": "#FFFFFF" },
-            "Crystal Palace": { "primary": "#1B458F", "secondary": "#C4122E", "text": "#FFFFFF" },
-            "Everton": { "primary": "#003399", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Fulham": { "primary": "#000000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Leeds": { "primary": "#FFCD00", "secondary": "#1D428A", "text": "#1D428A" },
-            "Liverpool": { "primary": "#C8102E", "secondary": "#00B2A9", "text": "#FFFFFF" },
-            "Man City": { "primary": "#6CABDD", "secondary": "#1C2C5B", "text": "#1C2C5B" },
-            "Man United": { "primary": "#DA291C", "secondary": "#FBE122", "text": "#FFFFFF" },
-            "Newcastle": { "primary": "#241F20", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Nott'm Forest": { "primary": "#DD0000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Sunderland": { "primary": "#EB172B", "secondary": "#000000", "text": "#FFFFFF" },
-            "Tottenham": { "primary": "#132257", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "West Ham": { "primary": "#7A263A", "secondary": "#1BB1E7", "text": "#FFFFFF" },
-            "Wolves": { "primary": "#FDB913", "secondary": "#231F20", "text": "#231F20" },
-
-            // ── LA LIGA ──────────────────────────────────────────────────────────────
-            "Girona": { "primary": "#E2001A", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Real Sociedad": { "primary": "#0066B2", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Real Betis": { "primary": "#008F39", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Sevilla": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-
-            // ── LIGA MX ──────────────────────────────────────────────────────────────
-            "America": { "primary": "#FFF200", "secondary": "#001C57", "text": "#001C57" },
-            "Club America": { "primary": "#FFF200", "secondary": "#001C57", "text": "#001C57" },
-            "Atlante": { "primary": "#9B1B30", "secondary": "#000080", "text": "#FFFFFF" },
-            "Atlas": { "primary": "#E31837", "secondary": "#000000", "text": "#FFFFFF" },
-            "Atletico de San Luis": { "primary": "#DA291C", "secondary": "#0C2340", "text": "#FFFFFF" },
-            "Atl. San Luis": { "primary": "#DA291C", "secondary": "#0C2340", "text": "#FFFFFF" },
-            "Cruz Azul": { "primary": "#0033A0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "FC Juarez": { "primary": "#13B44B", "secondary": "#E31837", "text": "#FFFFFF" },
-            "Juarez": { "primary": "#13B44B", "secondary": "#E31837", "text": "#FFFFFF" },
-            "Guadalajara": { "primary": "#ED1B24", "secondary": "#002855", "text": "#FFFFFF" },
-            "Guadalajara Chivas": { "primary": "#ED1B24", "secondary": "#002855", "text": "#FFFFFF" },
-            "Leon": { "primary": "#135B3B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Club Leon": { "primary": "#135B3B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Monterrey": { "primary": "#00205B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Necaxa": { "primary": "#ED1B24", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Pachuca": { "primary": "#00244E", "secondary": "#8A8D8F", "text": "#FFFFFF" },
-            "Puebla": { "primary": "#003876", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Pumas UNAM": { "primary": "#B38E5D", "secondary": "#00205B", "text": "#FFFFFF" },
-            "UNAM Pumas": { "primary": "#B38E5D", "secondary": "#00205B", "text": "#FFFFFF" },
-            "Queretaro": { "primary": "#000000", "secondary": "#0050A4", "text": "#FFFFFF" },
-            "Santos Laguna": { "primary": "#006847", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Tigres UANL": { "primary": "#FDBD31", "secondary": "#003E7E", "text": "#003E7E" },
-            "Tijuana": { "primary": "#CF0A2C", "secondary": "#000000", "text": "#FFFFFF" },
-            "Club Tijuana": { "primary": "#CF0A2C", "secondary": "#000000", "text": "#FFFFFF" },
-            "Toluca": { "primary": "#DA291C", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-
-            // ── BUNDESLIGA ───────────────────────────────────────────────────────────
-            "Leipzig": { "primary": "#DD013F", "secondary": "#0C2340", "text": "#FFFFFF" },
-            "Stuttgart": { "primary": "#E3000F", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-
-            // ── SERIE A ──────────────────────────────────────────────────────────────
-            "AC Milan": { "primary": "#E3010F", "secondary": "#000000", "text": "#FFFFFF" },
-            "AS Roma": { "primary": "#8E1B34", "secondary": "#F3AF19", "text": "#F3AF19" },
-            "Lazio": { "primary": "#87CEEB", "secondary": "#FFFFFF", "text": "#000000" },
-
-            // ── LIGUE 1 (F1-2.xlsx) ───────────────────────────────────────────────────
-            "Angers": { "primary": "#000000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Auxerre": { "primary": "#E8000D", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Brest": { "primary": "#E30613", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Le Havre": { "primary": "#003DA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Lens": { "primary": "#F4A900", "secondary": "#C8102E", "text": "#C8102E" },
-            "Lille": { "primary": "#C8102E", "secondary": "#1E2862", "text": "#FFFFFF" },
-            "Lorient": { "primary": "#F4781E", "secondary": "#000000", "text": "#000000" },
-            "Lyon": { "primary": "#032CA6", "secondary": "#C8102E", "text": "#FFFFFF" },
-            "Marseille": { "primary": "#2FAEE0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Metz": { "primary": "#7B2D8B", "secondary": "#000000", "text": "#FFFFFF" },
-            "Monaco": { "primary": "#E8000D", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Nantes": { "primary": "#F4E027", "secondary": "#035F34", "text": "#035F34" },
-            "Nice": { "primary": "#E8000D", "secondary": "#000000", "text": "#FFFFFF" },
-            "Paris FC": { "primary": "#003F8A", "secondary": "#D6001C", "text": "#FFFFFF" },
-            "Paris SG": { "primary": "#003F8A", "secondary": "#DA291C", "text": "#FFFFFF" },
-            "Rennes": { "primary": "#DA291C", "secondary": "#000000", "text": "#FFFFFF" },
-            "Strasbourg": { "primary": "#005BAC", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Toulouse": { "primary": "#4B2884", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-
-            // ── UCL 2025-26 ───────────────────────────────────────────────────────────
-            "Ajax": { "primary": "#D2122E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Atalanta": { "primary": "#1E3F8C", "secondary": "#000000", "text": "#FFFFFF" },
-            "Athletic Club": { "primary": "#EE2523", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Atletico Madrid": { "primary": "#C8102E", "secondary": "#272E61", "text": "#FFFFFF" },
-            "Barcelona": { "primary": "#A50044", "secondary": "#004D98", "text": "#FFFFFF" },
-            "Bayern Munich": { "primary": "#DC052D", "secondary": "#0066B2", "text": "#FFFFFF" },
-            "Benfica": { "primary": "#E4001A", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Bodo/Glimt": { "primary": "#F5E200", "secondary": "#000000", "text": "#000000" },
-            "Borussia Dortmund": { "primary": "#FFD700", "secondary": "#000000", "text": "#000000" },
-            "Club Brugge": { "primary": "#0A2543", "secondary": "#000000", "text": "#FFFFFF" },
-            "Copenhagen": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Frankfurt": { "primary": "#E2001A", "secondary": "#000000", "text": "#FFFFFF" },
-            "Galatasaray": { "primary": "#E8000D", "secondary": "#F5A800", "text": "#FFFFFF" },
-            "Inter Milan": { "primary": "#010E80", "secondary": "#000000", "text": "#FFFFFF" },
-            "Juventus": { "primary": "#000000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Kairat Almaty": { "primary": "#F7D117", "secondary": "#0033A0", "text": "#0033A0" },
-            "Leverkusen": { "primary": "#E32221", "secondary": "#000000", "text": "#FFFFFF" },
-            "Manchester City": { "primary": "#6CABDD", "secondary": "#1C2C5B", "text": "#1C2C5B" },
-            "Napoli": { "primary": "#12A0C7", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Newcastle United": { "primary": "#241F20", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Olympiacos": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "PSV Eindhoven": { "primary": "#D01317", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Pafos": { "primary": "#003DA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Paris Saint-Germain": { "primary": "#003F8A", "secondary": "#DA291C", "text": "#FFFFFF" },
-            "Qarabag": { "primary": "#000000", "secondary": "#D4AF37", "text": "#D4AF37" },
-            "Real Madrid": { "primary": "#FEBE10", "secondary": "#003DA5", "text": "#003DA5" },
-            "Slavia Prague": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Sporting CP": { "primary": "#008000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Union Saint-Gilloise": { "primary": "#FFDD00", "secondary": "#000080", "text": "#000080" },
-            "Villarreal": { "primary": "#FFD700", "secondary": "#004A8F", "text": "#004A8F" },
-
-            // ── ANFITRIONES MUNDIAL 2026 ──────────────────────────────────────────────
-            "Mexico": { "primary": "#006847", "secondary": "#CE1126", "text": "#FFFFFF" },
-            "USA": { "primary": "#002868", "secondary": "#BF0A30", "text": "#FFFFFF" },
-            "Canada": { "primary": "#FF0000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Australia": { "primary": "#002B7F", "secondary": "#FFD700", "text": "#FFD700" },
-            "Belgium": { "primary": "#000000", "secondary": "#FFD700", "text": "#FFD700" },
-            "Bolivia": { "primary": "#D52B1E", "secondary": "#F4E400", "text": "#F4E400" },
-            "Colombia": { "primary": "#FCD116", "secondary": "#003087", "text": "#003087" },
-            "Ecuador": { "primary": "#FFD100", "secondary": "#003DA5", "text": "#003DA5" },
-            "Guatemala": { "primary": "#4997D0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Iceland": { "primary": "#003F8A", "secondary": "#DC143C", "text": "#FFFFFF" },
-            "Japan": { "primary": "#FFFFFF", "secondary": "#BC002D", "text": "#BC002D" },
-            "Panama": { "primary": "#DA121A", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Paraguay": { "primary": "#D52B1E", "secondary": "#0038A8", "text": "#FFFFFF" },
-            "Portugal": { "primary": "#006600", "secondary": "#FF0000", "text": "#FFFFFF" },
-            "Romania": { "primary": "#002B7F", "secondary": "#FFD700", "text": "#FFD700" },
-            "Slovenia": { "primary": "#003DA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "South Korea": { "primary": "#CD2E3A", "secondary": "#003478", "text": "#FFFFFF" },
-            "Tunisia": { "primary": "#E70013", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Uruguay": { "primary": "#5BBFDD", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Venezuela": { "primary": "#CF142B", "secondary": "#003087", "text": "#FFFFFF" },
-            "Wales": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-
-            // ── NUEVAS SELECCIONES MUNDIAL 2026 ──────────────────────────────────────
-            "Qatar": { "primary": "#8A1538", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "England": { "primary": "#FFFFFF", "secondary": "#CE1124", "text": "#000000" },
-            "Iran": { "primary": "#239F40", "secondary": "#DA291C", "text": "#FFFFFF" },
-            "Senegal": { "primary": "#00853F", "secondary": "#FDEF42", "text": "#FFFFFF" },
-            "Netherlands": { "primary": "#F15A24", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Argentina": { "primary": "#75AADB", "secondary": "#FFFFFF", "text": "#000000" },
-            "Saudi Arabia": { "primary": "#006C35", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Denmark": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Poland": { "primary": "#DC143C", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "France": { "primary": "#00209F", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Morocco": { "primary": "#C1272D", "secondary": "#006233", "text": "#FFFFFF" },
-            "Croatia": { "primary": "#FF0000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Germany": { "primary": "#FFFFFF", "secondary": "#000000", "text": "#000000" },
-            "Spain": { "primary": "#C8102E", "secondary": "#F1BF00", "text": "#FFFFFF" },
-            "Costa Rica": { "primary": "#002B7F", "secondary": "#E31D1C", "text": "#FFFFFF" },
-            "Switzerland": { "primary": "#D52B1E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
-            "Cameroon": { "primary": "#478A3E", "secondary": "#FCD116", "text": "#FFFFFF" },
-            "Ghana": { "primary": "#FFFFFF", "secondary": "#FCD116", "text": "#000000" },
-            "Brazil": { "primary": "#FEDF00", "secondary": "#009B3A", "text": "#009B3A" },
-            "Serbia": { "primary": "#C6363C", "secondary": "#0C4076", "text": "#FFFFFF" },
-
-            // ── MLB ───────────────────────────────────────────────────────────────────
-            "New York Yankees": { "primary": "#003087", "secondary": "#C4CED3", "text": "#FFFFFF" },
-            "Baltimore Orioles": { "primary": "#DF4601", "secondary": "#000000", "text": "#FFFFFF" },
-            "Boston Red Sox": { "primary": "#BD3039", "secondary": "#0C2340", "text": "#FFFFFF" },
-            "Toronto Blue Jays": { "primary": "#134A8E", "secondary": "#E8291C", "text": "#FFFFFF" },
-            "Tampa Bay Rays": { "primary": "#092C5C", "secondary": "#8FBCE6", "text": "#FFFFFF" },
-
-            "Cleveland Guardians": { "primary": "#00385D", "secondary": "#E31937", "text": "#FFFFFF" },
-            "Minnesota Twins": { "primary": "#002B5C", "secondary": "#D31145", "text": "#FFFFFF" },
-            "Chicago White Sox": { "primary": "#27251F", "secondary": "#C4CED3", "text": "#FFFFFF" },
-            "Kansas City Royals": { "primary": "#004687", "secondary": "#BD9B60", "text": "#FFFFFF" },
-            "Detroit Tigers": { "primary": "#0C2340", "secondary": "#FA4616", "text": "#FFFFFF" },
-
-            "Houston Astros": { "primary": "#002D62", "secondary": "#EB6E1F", "text": "#FFFFFF" },
-            "Texas Rangers": { "primary": "#003278", "secondary": "#C0111F", "text": "#FFFFFF" },
-            "Seattle Mariners": { "primary": "#0C2C56", "secondary": "#005C5C", "text": "#FFFFFF" },
-            "Los Angeles Angels": { "primary": "#BA0021", "secondary": "#003263", "text": "#FFFFFF" },
-            "Oakland Athletics": { "primary": "#003831", "secondary": "#EFB21E", "text": "#FFFFFF" },
-
-            "Atlanta Braves": { "primary": "#CE1141", "secondary": "#13274F", "text": "#FFFFFF" },
-            "Philadelphia Phillies": { "primary": "#E81828", "secondary": "#002D72", "text": "#FFFFFF" },
-            "New York Mets": { "primary": "#002D72", "secondary": "#FF5910", "text": "#FFFFFF" },
-            "Miami Marlins": { "primary": "#00A3E0", "secondary": "#EF3340", "text": "#FFFFFF" },
-            "Washington Nationals": { "primary": "#AB0003", "secondary": "#14225A", "text": "#FFFFFF" },
-
-            "Milwaukee Brewers": { "primary": "#12284B", "secondary": "#FFC52F", "text": "#FFFFFF" },
-            "Chicago Cubs": { "primary": "#0E3386", "secondary": "#CC3433", "text": "#FFFFFF" },
-            "Cincinnati Reds": { "primary": "#C6011F", "secondary": "#000000", "text": "#FFFFFF" },
-            "Pittsburgh Pirates": { "primary": "#27251F", "secondary": "#FDB827", "text": "#FDB827" },
-            "St. Louis Cardinals": { "primary": "#C41E3A", "secondary": "#0C2340", "text": "#FFFFFF" },
-
-            "Los Angeles Dodgers": { "primary": "#005A9C", "secondary": "#EF3E42", "text": "#FFFFFF" },
-            "San Francisco Giants": { "primary": "#FD5A1E", "secondary": "#27251F", "text": "#FFFFFF" },
-            "San Diego Padres": { "primary": "#2F241D", "secondary": "#FFC425", "text": "#FFC425" },
-            "Arizona Diamondbacks": { "primary": "#A71930", "secondary": "#E3D4AD", "text": "#FFFFFF" },
-            "Colorado Rockies": { "primary": "#33006F", "secondary": "#C4CED3", "text": "#FFFFFF" }
-        };
-
-        function getTeamColor(teamName) {
-            let actualName = teamName;
-            if (actualName && actualName.includes('|')) {
-                actualName = actualName.split('|').pop();
-            }
-            const lookup = actualName === 'Athletics' ? 'Oakland Athletics' : actualName;
-            return TEAM_COLORS[lookup] || { primary: '#4b5563', secondary: '#1f2937', text: '#ffffff' };
-        }
-
-        // Custom searchable select component implementation
-        function convertSelectToCustom(selectId, placeholderText) {
-            const select = document.getElementById(selectId);
-            if (!select) return;
-
-            // Hide native select
-            select.style.display = 'none';
-
-            // Check if custom container already exists to avoid duplicate conversions
-            let container = document.getElementById(`custom-${selectId}-container`);
-            if (container) {
-                // If it already exists, just make sure we update options and labels
-                container.parentNode.removeChild(container);
-            }
-
-            // Create container
-            container = document.createElement('div');
-            container.className = 'relative w-full';
-            container.id = `custom-${selectId}-container`;
-
-            // Copy select classes (excluding hidden)
-            let btnClasses = Array.from(select.classList)
-                .filter(c => c !== 'hidden')
-                .join(' ');
-
-            // Create button
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.id = `custom-${selectId}-btn`;
-            btn.className = `${btnClasses} flex justify-between items-center text-left transition-all`;
-
-            const labelSpan = document.createElement('span');
-            labelSpan.id = `custom-${selectId}-label`;
-            labelSpan.className = 'truncate pr-2';
-            labelSpan.innerText = placeholderText;
-
-            const arrowSpan = document.createElement('span');
-            arrowSpan.className = 'text-[10px] text-slate-400 font-bold shrink-0 ml-2 select-none';
-            arrowSpan.innerText = '▼';
-
-            btn.appendChild(labelSpan);
-            btn.appendChild(arrowSpan);
-
-            // Create dropdown panel
-            const dropdown = document.createElement('div');
-            dropdown.id = `custom-${selectId}-dropdown`;
-            dropdown.className = 'absolute left-0 right-0 mt-2 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl z-50 hidden flex flex-col max-h-60 overflow-hidden';
-
-            const searchDiv = document.createElement('div');
-            searchDiv.className = 'p-2 border-b border-slate-800 shrink-0';
-
-            const searchInput = document.createElement('input');
-            searchInput.type = 'text';
-            searchInput.id = `custom-${selectId}-search`;
-            searchInput.placeholder = 'Buscar...';
-            searchInput.className = 'w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50';
-
-            searchDiv.appendChild(searchInput);
-            dropdown.appendChild(searchDiv);
-
-            const optionsDiv = document.createElement('div');
-            optionsDiv.id = `custom-${selectId}-options`;
-            optionsDiv.className = 'overflow-y-auto flex-1 p-1 space-y-1';
-
-            dropdown.appendChild(optionsDiv);
-
-            container.appendChild(btn);
-            container.appendChild(dropdown);
-
-            // Insert container after native select
-            select.parentNode.insertBefore(container, select.nextSibling);
-
-            // Rebuild options list based on native select
-            function rebuildOptions() {
-                optionsDiv.innerHTML = '';
-                const searchVal = searchInput.value.toLowerCase();
-
-                let hasVisibleOptions = false;
-
-                // Loop through children of native select (could be optgroup or option)
-                Array.from(select.children).forEach(child => {
-                    if (child.tagName.toLowerCase() === 'optgroup') {
-                        // Group element
-                        const groupLabel = child.label;
-                        const groupOptions = Array.from(child.children);
-
-                        // Filter group options by search
-                        const filteredOptions = groupOptions.filter(opt =>
-                            opt.text.toLowerCase().includes(searchVal) && opt.value !== ""
-                        );
-
-                        if (filteredOptions.length > 0) {
-                            const groupDiv = document.createElement('div');
-                            groupDiv.className = 'text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2.5 py-1.5 select-none';
-                            groupDiv.innerText = groupLabel;
-                            optionsDiv.appendChild(groupDiv);
-
-                            filteredOptions.forEach(opt => {
-                                const optBtn = createOptionButton(opt);
-                                optionsDiv.appendChild(optBtn);
-                                hasVisibleOptions = true;
-                            });
-                        }
-                    } else if (child.tagName.toLowerCase() === 'option') {
-                        // Normal option
-                        if (child.value === "") return; // skip placeholders
-
-                        if (child.text.toLowerCase().includes(searchVal)) {
-                            const optBtn = createOptionButton(child);
-                            optionsDiv.appendChild(optBtn);
-                            hasVisibleOptions = true;
-                        }
-                    }
-                });
-
-                if (!hasVisibleOptions) {
-                    const noRes = document.createElement('div');
-                    noRes.className = 'text-xs text-slate-500 text-center py-4 select-none';
-                    noRes.innerText = 'No hay opciones';
-                    optionsDiv.appendChild(noRes);
-                }
-            }
-
-            function createOptionButton(optionEl) {
-                const optBtn = document.createElement('button');
-                optBtn.type = 'button';
-                optBtn.className = 'w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-slate-800 transition-colors flex items-center justify-between cursor-pointer';
-
-                // Handle styling/colors
-                let optionStyle = optionEl.getAttribute('style') || '';
-                let optionText = optionEl.text;
-
-                // Remove standard "⬤" prefix from text if it's there
-                if (optionText.startsWith('⬤ ')) {
-                    optionText = optionText.substring(2);
-                }
-
-                // Build option label
-                const labelText = document.createElement('span');
-                labelText.innerText = optionText;
-                labelText.className = 'truncate';
-
-                // Apply color
-                if (optionStyle) {
-                    const colorMatch = optionStyle.match(/color:\s*([^;]+)/);
-                    if (colorMatch) {
-                        labelText.style.color = colorMatch[1];
-                    }
-                }
-
-                optBtn.appendChild(labelText);
-
-                // If option is active
-                if (select.value === optionEl.value) {
-                    optBtn.classList.add('bg-slate-800/80', 'font-bold');
-                    const check = document.createElement('span');
-                    check.className = 'text-emerald-400 font-bold ml-2';
-                    check.innerText = '✓';
-                    optBtn.appendChild(check);
-                }
-
-                // If option is disabled
-                if (optionEl.disabled) {
-                    optBtn.disabled = true;
-                    optBtn.className = 'w-full text-left px-3 py-2 rounded-lg text-xs opacity-30 cursor-not-allowed flex items-center justify-between';
-                }
-
-                optBtn.addEventListener('click', () => {
-                    select.value = optionEl.value;
-                    dropdown.classList.add('hidden');
-                    searchInput.value = '';
-
-                    // Dispatch change event to native select
-                    select.dispatchEvent(new Event('change', { bubbles: true }));
-
-                    // Update labels
-                    updateLabel();
-
-                    // Rebuild so selected state is updated
-                    rebuildOptions();
-                });
-
-                return optBtn;
-            }
-
-            function updateLabel() {
-                const selectedOption = select.options[select.selectedIndex];
-                if (selectedOption && selectedOption.value !== "") {
-                    let txt = selectedOption.text;
-                    if (txt.startsWith('⬤ ')) txt = txt.substring(2);
-                    labelSpan.innerText = txt;
-                } else {
-                    labelSpan.innerText = placeholderText;
-                }
-                updateSelectColors();
-            }
-
-            // Toggle dropdown
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-
-                // Close all other custom dropdowns
-                document.querySelectorAll('[id^="custom-"][id$="-dropdown"]').forEach(d => {
-                    if (d.id !== dropdown.id) d.classList.add('hidden');
-                });
-
-                const isHidden = dropdown.classList.contains('hidden');
-                if (isHidden) {
-                    dropdown.classList.remove('hidden');
-                    searchInput.focus();
-                    rebuildOptions();
-                } else {
-                    dropdown.classList.add('hidden');
-                }
-            });
-
-            // Search input handler
-            searchInput.addEventListener('input', () => {
-                rebuildOptions();
-            });
-
-            // Click outside handler
-            document.addEventListener('click', (e) => {
-                if (!container.contains(e.target)) {
-                    dropdown.classList.add('hidden');
-                    searchInput.value = '';
-                }
-            });
-
-            // Use MutationObserver to watch for changes to the native select
-            const observer = new MutationObserver(() => {
-                updateLabel();
-                rebuildOptions();
-            });
-
-            observer.observe(select, {
-                childList: true,
-                attributes: true,
-                subtree: true
-            });
-
-            // Listen to programmatic change event
-            select.addEventListener('change', () => {
-                updateLabel();
-                rebuildOptions();
-            });
-
-            // Initial calls
-            updateLabel();
-            rebuildOptions();
-        }
-
-        // Update select borders based on selected team colors
-        function updateSelectColors() {
-            const localSelect = document.getElementById('select-local');
-            const visitSelect = document.getElementById('select-visitante');
-
-            if (!localSelect || !visitSelect) return;
-
-            const localVal = localSelect.value;
-            const visitVal = visitSelect.value;
-
-            const localBtn = document.getElementById('custom-select-local-btn');
-            const visitBtn = document.getElementById('custom-select-visitante-btn');
-
-            if (localVal) {
-                const color = getTeamColor(localVal);
-                if (localBtn) {
-                    localBtn.style.borderColor = color.primary;
-                    localBtn.style.boxShadow = `0 0 12px ${color.primary}44`; // ~27% opacity shadow
-                }
-            } else {
-                if (localBtn) {
-                    localBtn.style.borderColor = '';
-                    localBtn.style.boxShadow = '';
-                }
-            }
-
-            if (visitVal) {
-                const color = getTeamColor(visitVal);
-                if (visitBtn) {
-                    visitBtn.style.borderColor = color.secondary;
-                    visitBtn.style.boxShadow = `0 0 12px ${color.secondary}44`;
-                }
-            } else {
-                if (visitBtn) {
-                    visitBtn.style.borderColor = '';
-                    visitBtn.style.boxShadow = '';
-                }
-            }
-        }
-
-        // Get the optgroup label of the currently selected option in a select element
-        function getSelectedGroupName(selectEl) {
-            if (!selectEl || selectEl.selectedIndex === -1) return null;
-            const selectedOption = selectEl.options[selectEl.selectedIndex];
-            if (!selectedOption || !selectedOption.value) return null; // skip placeholder
-            const parent = selectedOption.parentNode;
-            if (parent && parent.tagName.toLowerCase() === 'optgroup') {
-                return parent.label;
-            }
-            return null;
-        }
-
-        // Get the optgroup label of a specific option element
-        function getOptionGroupName(optionEl) {
-            const parent = optionEl.parentNode;
-            if (parent && parent.tagName.toLowerCase() === 'optgroup') {
-                return parent.label;
-            }
-            return null;
-        }
-
-        // Enforce that visitor teams must be from the same league/division as the selected local team (Futbol only)
-        function enforceSameGroupRestriction(changedSelectId) {
-            const localSelect = document.getElementById('select-local');
-            const visitSelect = document.getElementById('select-visitante');
-
-            // Always keep ALL options in the Local select enabled
-            const localOptions = localSelect.querySelectorAll('option');
-            localOptions.forEach(opt => {
-                opt.disabled = false;
-            });
-
-            // If baseball, do not enforce division/league restrictions (MLB matches happen across divisions)
-            if (currentSport === 'beisbol') {
-                const visitOptions = visitSelect.querySelectorAll('option');
-                visitOptions.forEach(opt => {
-                    opt.disabled = false;
-                });
-                return;
-            }
-
-            const localGroup = getSelectedGroupName(localSelect);
-            const visitGroup = getSelectedGroupName(visitSelect);
-
-            const isMundialGroup = (g) => g === 'Equipos de Mundial' || g === 'Amistosos Internacionales';
-
-            // If local changed and visitor is from a different group, clear visitor selection
-            if (changedSelectId === 'select-local' && localGroup && visitGroup) {
-                const bothMundial = isMundialGroup(localGroup) && isMundialGroup(visitGroup);
-                if (localGroup !== visitGroup && !bothMundial) {
-                    visitSelect.value = '';
-                }
-            }
-
-            // Recalculate local group after potential clearing
-            const allowedGroup = getSelectedGroupName(localSelect);
-
-            // Disable incompatible options in the Visitor select based on the Local selection
-            const visitOptions = visitSelect.querySelectorAll('option');
-            visitOptions.forEach(opt => {
-                if (!opt.value) return; // skip placeholder option
-                const optGroup = getOptionGroupName(opt);
-                if (allowedGroup) {
-                    const bothMundial = isMundialGroup(allowedGroup) && isMundialGroup(optGroup);
-                    if (optGroup !== allowedGroup && !bothMundial) {
-                        opt.disabled = true;
-                    } else {
-                        opt.disabled = false;
-                    }
-                } else {
-                    opt.disabled = false;
-                }
-            });
-        }
-
-        function handleLeagueChange() {
-            populateSelects();
-        }
-
-        // Combined event handler for select changes
-        function handleSelectChange(e) {
-            const selectId = e && e.target ? e.target.id : null;
-            enforceSameGroupRestriction(selectId);
-            updateSelectColors();
-        }
-
-        // Initialize page
-        window.addEventListener('DOMContentLoaded', async () => {
-            await checkBackendStatus();
+    } catch (err) {
+        updateUIStatus('offline');
+    }
+}
+
+// Handle Status Button Click
+async function handleStatusButtonClick() {
+    if (isBackendOnline && !isBackendManuallyDisabled) {
+        // Deactivate the connection manually
+        isBackendManuallyDisabled = true;
+        updateUIStatus('manually_disabled');
+        alert("Conexión con el backend desactivada manualmente.");
+    } else {
+        // Activate the connection
+        isBackendManuallyDisabled = false;
+        await checkBackendStatus();
+        if (isBackendOnline) {
+            alert("¡Conexión establecida con éxito con el backend de FastAPI!");
             await cargarEquipos();
+        } else {
+            // If offline, open config modal directly to show instructions!
+            toggleConfigModal();
+        }
+    }
+}
 
-            // Convert selects to custom dropdowns
-            convertSelectToCustom('select-liga', 'Selecciona liga...');
-            convertSelectToCustom('select-local', 'Selecciona local...');
-            convertSelectToCustom('select-visitante', 'Selecciona visitante...');
-            convertSelectToCustom('select-pitcher-l', 'Selecciona pitcher local...');
-            convertSelectToCustom('select-pitcher-v', 'Selecciona pitcher visitante...');
+// Fetch API Credits and update limits/warnings
+async function fetchApiCredits() {
+    if (!isBackendOnline) return;
+    try {
+        const res = await fetch(`${API_BASE}/credits`);
+        if (res.ok) {
+            const data = await res.json();
 
-            // Add change event listeners to select elements for dynamic color feedback and group restrictions
-            document.getElementById('select-liga').addEventListener('change', handleLeagueChange);
-            document.getElementById('select-local').addEventListener('change', handleSelectChange);
-            document.getElementById('select-visitante').addEventListener('change', handleSelectChange);
+            // API-Football
+            const football = data.api_football || { limit: 100, remaining: 100, last_updated: null };
+            const footballPct = Math.round((football.remaining / football.limit) * 100);
 
-            // Populate corners container with labels initially
-            renderCornersPlaceholder();
+            const lblFootball = document.getElementById('lbl-credits-football');
+            const badgeFootball = document.getElementById('badge-credits-football');
+            const btnSyncFootball = document.getElementById('btn-sync-futbol');
+            const btnSyncTemporada = document.getElementById('btn-sync-temporada');
 
-            // Parse URL query parameters for auto-triggering predictions from inicio.html
-            const urlParams = new URLSearchParams(window.location.search);
-            const deporte = urlParams.get('deporte');
-            const local = urlParams.get('local');
-            const visitante = urlParams.get('visitante');
+            if (lblFootball) lblFootball.innerText = `${football.remaining} / ${football.limit}`;
+            if (badgeFootball) {
+                badgeFootball.innerText = `${footballPct}%`;
+                if (footballPct > 50) {
+                    badgeFootball.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                } else if (footballPct > 20) {
+                    badgeFootball.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20";
+                } else {
+                    badgeFootball.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-rose-500/10 text-rose-400 border border-rose-500/20";
+                }
+            }
 
-            if (deporte && (deporte === 'futbol' || deporte === 'beisbol')) {
-                switchSport(deporte);
+            // Football-Data
+            const fd = data.football_data || { remaining_minute: 10, last_updated: null };
+            const lblFd = document.getElementById('lbl-credits-fd');
+            const badgeFd = document.getElementById('badge-credits-fd');
 
-                if (local && visitante) {
-                    const selectL = document.getElementById('select-local');
-                    const selectV = document.getElementById('select-visitante');
+            if (lblFd) lblFd.innerText = `${fd.remaining_minute}/min restantes`;
+            if (badgeFd) {
+                if (fd.remaining_minute > 2) {
+                    badgeFd.innerText = "OK";
+                    badgeFd.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                } else {
+                    badgeFd.innerText = "BAJO";
+                    badgeFd.className = "px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20";
+                }
+            }
 
-                    // Auto-detect and select the league for soccer
-                    if (deporte === 'futbol') {
-                        let detectedLeague = null;
-                        for (const [groupName, teamList] of Object.entries(futbolGroups)) {
-                            const found = teamList.some(team => team.value === local);
-                            if (found) {
-                                detectedLeague = groupName;
-                                break;
-                            }
-                        }
-                        if (detectedLeague) {
-                            const selectLiga = document.getElementById('select-liga');
-                            selectLiga.value = detectedLeague;
-                            selectLiga.dispatchEvent(new Event('change', { bubbles: true }));
-                        }
-                    }
+            // Warnings Banner
+            const alertBanner = document.getElementById('credits-alert-banner');
+            if (alertBanner) {
+                if (football.remaining <= 0) {
+                    alertBanner.classList.remove('hidden');
+                    alertBanner.className = "p-3 rounded-xl border text-xs font-semibold flex items-center space-x-2 bg-rose-500/10 text-rose-400 border-rose-500/20";
+                    alertBanner.innerHTML = `<span>🔴 Límite diario agotado (0 / ${football.limit}). El botón de sincronización de API-Football ha sido deshabilitado hasta mañana.</span>`;
+                    if (btnSyncFootball) btnSyncFootball.disabled = true;
+                    if (btnSyncTemporada) btnSyncTemporada.disabled = true;
+                } else if (football.remaining <= 20) {
+                    alertBanner.classList.remove('hidden');
+                    alertBanner.className = "p-3 rounded-xl border text-xs font-semibold flex items-center space-x-2 bg-amber-500/10 text-amber-400 border-amber-500/20";
+                    alertBanner.innerHTML = `<span>⚠️ ¡Advertencia! Te quedan pocos créditos diarios de API-Football (${football.remaining} / ${football.limit}). Evita realizar sincronizaciones innecesarias.</span>`;
+                    if (btnSyncFootball) btnSyncFootball.disabled = false;
+                    if (btnSyncTemporada) btnSyncTemporada.disabled = false;
+                } else {
+                    alertBanner.classList.add('hidden');
+                    if (btnSyncFootball) btnSyncFootball.disabled = false;
+                    if (btnSyncTemporada) btnSyncTemporada.disabled = false;
+                }
+            }
+        }
+    } catch (err) {
+        console.error("Error fetching API credits:", err);
+    }
+}
 
-                    // Find option matching local and visitante names (which could be prefixed with "GroupName|")
-                    const matchingLocalOpt = Array.from(selectL.options).find(opt => {
-                        const val = opt.value;
-                        return val === local || val.endsWith(`|${local}`);
+// Fetch Administrative Database Stats
+async function fetchAdminStats() {
+    if (!isBackendOnline) return;
+    try {
+        const res = await fetch(`${API_BASE}/status`);
+        if (res.ok) {
+            const data = await res.json();
+
+            // Update baseball
+            document.getElementById('mlb-last-sync-date').innerText = data.beisbol.last_match_date || "Ninguno";
+            document.getElementById('beisbol-db-stats').innerText = `Total: ${data.beisbol.total_matches} partidos`;
+
+            // Update soccer
+            document.getElementById('futbol-last-sync-date').innerText = data.futbol.last_match_date || "Ninguno";
+            document.getElementById('futbol-db-stats').innerText = `Total: ${data.futbol.total_matches} partidos`;
+
+            // Fetch credits too!
+            await fetchApiCredits();
+        }
+    } catch (err) {
+        console.error("Error fetching stats:", err);
+    }
+}
+
+// Sync MLB Data from MLB API
+async function syncMlbData() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-mlb');
+    const spinner = document.getElementById('sync-spinner');
+    const statusDiv = document.getElementById('sync-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Sincronizando con MLB Stats API... Esto puede tardar unos segundos.";
+
+    try {
+        const res = await fetch(`${API_BASE}/sync/beisbol`, { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) {
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ Sincronización exitosa: ${data.games_synced} partidos importados, ${data.pitchers_added} nuevos lanzadores registrados, ${data.stats_inserted} estadísticas agregadas.`;
+            // Refresh stats
+            fetchAdminStats();
+            // Reload team dropdowns in case new teams/pitchers exist
+            cargarEquipos();
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error en la sincronización: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Sync Football Data from football-data.org API
+async function syncFootballDataOrg() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-fd');
+    const spinner = document.getElementById('sync-fd-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400 animate-pulse";
+    statusDiv.innerText = "Sincronizando con football-data.org en segundo plano... Esto tomará aproximadamente 3 minutos debido al rate-limit síncrono (10 req/min).";
+
+    try {
+        const res = await fetch(`${API_BASE}/sync/futbol-data`, { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) {
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ ¡Sincronización iniciada! El proceso se está ejecutando en segundo plano de manera segura respetando los límites de velocidad. Puedes seguir usando el dashboard mientras se completa la descarga.`;
+            // Refresh stats after some delay
+            setTimeout(fetchAdminStats, 10000);
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error en la sincronización: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Sync Soccer Data from API-Football
+async function syncFutbolData() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-futbol');
+    const spinner = document.getElementById('sync-futbol-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Sincronizando con API-Football... Esto puede tardar unos segundos.";
+
+    try {
+        const res = await fetch(`${API_BASE}/sincronizar-futbol`);
+        const data = await res.json();
+        if (res.ok) {
+            const det = data.detalles || {};
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ Sincronización exitosa: ${det.partidos_guardados} partidos importados, ${det.duplicados_omitidos} duplicados omitidos, ${det.estadisticas_guardadas} estadísticas agregadas.`;
+            // Refresh stats
+            fetchAdminStats();
+            // Reload team dropdowns in case new teams exist
+            cargarEquipos();
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error en la sincronización: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Sync full current season soccer data
+async function syncFutbolTemporada() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-temporada');
+    const spinner = document.getElementById('sync-temporada-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Inicializando historial de la temporada 2026 desde API-Football... Esto puede tomar de 15 a 30 segundos.";
+
+    try {
+        const res = await fetch(`${API_BASE}/sincronizar-futbol-temporada`);
+        const data = await res.json();
+        if (res.ok) {
+            const det = data.detalles || {};
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ ¡Éxito! Se cargaron ${det.partidos_guardados} partidos de la temporada 2025/2026. Duplicados omitidos: ${det.duplicados_omitidos}.`;
+            // Refresh stats
+            fetchAdminStats();
+            // Reload team dropdowns in case new teams exist
+            cargarEquipos();
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error en la inicialización: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Sync Mundial 2026 teams
+async function syncMundialData() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-mundial');
+    const spinner = document.getElementById('sync-mundial-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Sincronizando Copa del Mundo 2026 (API + Archivos locales)... Esto tardará unos 15 segundos.";
+
+    try {
+        const res = await fetch(`${API_BASE}/sincronizar-mundial`);
+        const data = await res.json();
+        if (res.ok) {
+            const det = data.detalles || {};
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ ¡Mundial 2026 sincronizado con éxito! Equipos oficiales: ${det.equipos_creados || 0}, Posiciones guardadas: ${det.posiciones_guardadas || 0}, Partidos locales agregados: ${det.partidos_guardados || 0} (omitidos por duplicados: ${det.duplicados_omitidos || 0}).`;
+            // Refresh stats
+            fetchAdminStats();
+            // Reload team dropdowns
+            cargarEquipos();
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error en la sincronización del mundial: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Sync Amistosos Internacionales
+async function syncAmistosos() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-amistosos');
+    const spinner = document.getElementById('sync-amistosos-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Sincronizando Amistosos Internacionales (API-Football)... Esto puede tardar unos segundos.";
+
+    try {
+        const res = await fetch(`${API_BASE}/sincronizar-amistosos`);
+        const data = await res.json();
+        if (res.ok) {
+            const det = data.detalles || {};
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ ¡Amistosos Internacionales sincronizados con éxito! Partidos guardados: ${det.partidos_guardados || 0}, duplicados omitidos: ${det.duplicados_omitidos || 0}, estadísticas agregadas: ${det.estadisticas_guardadas || 0}.`;
+            // Refresh stats
+            fetchAdminStats();
+            // Reload team dropdowns
+            cargarEquipos();
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error en la sincronización de amistosos: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Sync Excel Amistosos
+async function syncExcelAmistosos() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de sincronizar.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-sync-excel-amistosos');
+    const spinner = document.getElementById('sync-excel-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Sincronizando Excel Amistosos... Esto puede tardar unos segundos.";
+
+    try {
+        const res = await fetch(`${API_BASE}/sincronizar-excel-amistosos`);
+        const data = await res.json();
+        if (res.ok) {
+            const det = data.detalles || {};
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ ¡Excel importado con éxito! Partidos agregados: ${det.inserted_matches || 0}, Equipos nuevos: ${det.teams_created || 0}.`;
+            // Refresh stats
+            fetchAdminStats();
+            // Reload team dropdowns
+            cargarEquipos();
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+// Download all leagues catalog from API-Football
+async function descargarCatalogoLigas() {
+    if (!isBackendOnline || isBackendManuallyDisabled) {
+        alert("El backend de FastAPI está inactivo o desactivado. Por favor, actívalo antes de realizar la acción.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-descargar-ligas');
+    const spinner = document.getElementById('descargar-ligas-spinner');
+    const statusDiv = document.getElementById('sync-futbol-status');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    statusDiv.classList.remove('hidden');
+    statusDiv.className = "mt-4 text-xs font-semibold text-blue-400 animate-pulse";
+    statusDiv.innerText = "Descargando listado completo de ligas desde la API...";
+
+    try {
+        const res = await fetch(`${API_BASE}/descargar-catalogo-ligas`);
+        const data = await res.json();
+        if (res.ok) {
+            const det = data.detalles || {};
+            statusDiv.className = "mt-4 text-xs font-semibold text-emerald-400";
+            statusDiv.innerText = `✅ ¡Catálogo descargado! Se registraron ${det.total_ligas} ligas de la API en el archivo 'todas_las_ligas.json'.`;
+        } else {
+            throw new Error(data.detail || "Error en la petición");
+        }
+    } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-semibold text-rose-400";
+        statusDiv.innerText = `❌ Error al descargar catálogo: ${err.message}`;
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
+const TEAM_COLORS = {
+    // ── PREMIER LEAGUE (E0-2.xlsx) ────────────────────────────────────────────
+    "Arsenal": { "primary": "#EF0107", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Aston Villa": { "primary": "#95BFE5", "secondary": "#670E36", "text": "#670E36" },
+    "Bournemouth": { "primary": "#DA291C", "secondary": "#000000", "text": "#FFFFFF" },
+    "Brentford": { "primary": "#D20000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Brighton": { "primary": "#0057B8", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Burnley": { "primary": "#6C1D45", "secondary": "#99D6EA", "text": "#FFFFFF" },
+    "Chelsea": { "primary": "#034694", "secondary": "#DBA111", "text": "#FFFFFF" },
+    "Crystal Palace": { "primary": "#1B458F", "secondary": "#C4122E", "text": "#FFFFFF" },
+    "Everton": { "primary": "#003399", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Fulham": { "primary": "#000000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Leeds": { "primary": "#FFCD00", "secondary": "#1D428A", "text": "#1D428A" },
+    "Liverpool": { "primary": "#C8102E", "secondary": "#00B2A9", "text": "#FFFFFF" },
+    "Man City": { "primary": "#6CABDD", "secondary": "#1C2C5B", "text": "#1C2C5B" },
+    "Man United": { "primary": "#DA291C", "secondary": "#FBE122", "text": "#FFFFFF" },
+    "Newcastle": { "primary": "#241F20", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Nott'm Forest": { "primary": "#DD0000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Sunderland": { "primary": "#EB172B", "secondary": "#000000", "text": "#FFFFFF" },
+    "Tottenham": { "primary": "#132257", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "West Ham": { "primary": "#7A263A", "secondary": "#1BB1E7", "text": "#FFFFFF" },
+    "Wolves": { "primary": "#FDB913", "secondary": "#231F20", "text": "#231F20" },
+
+    // ── LA LIGA ──────────────────────────────────────────────────────────────
+    "Girona": { "primary": "#E2001A", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Real Sociedad": { "primary": "#0066B2", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Real Betis": { "primary": "#008F39", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Sevilla": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+
+    // ── LIGA MX ──────────────────────────────────────────────────────────────
+    "America": { "primary": "#FFF200", "secondary": "#001C57", "text": "#001C57" },
+    "Club America": { "primary": "#FFF200", "secondary": "#001C57", "text": "#001C57" },
+    "Atlante": { "primary": "#9B1B30", "secondary": "#000080", "text": "#FFFFFF" },
+    "Atlas": { "primary": "#E31837", "secondary": "#000000", "text": "#FFFFFF" },
+    "Atletico de San Luis": { "primary": "#DA291C", "secondary": "#0C2340", "text": "#FFFFFF" },
+    "Atl. San Luis": { "primary": "#DA291C", "secondary": "#0C2340", "text": "#FFFFFF" },
+    "Cruz Azul": { "primary": "#0033A0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "FC Juarez": { "primary": "#13B44B", "secondary": "#E31837", "text": "#FFFFFF" },
+    "Juarez": { "primary": "#13B44B", "secondary": "#E31837", "text": "#FFFFFF" },
+    "Guadalajara": { "primary": "#ED1B24", "secondary": "#002855", "text": "#FFFFFF" },
+    "Guadalajara Chivas": { "primary": "#ED1B24", "secondary": "#002855", "text": "#FFFFFF" },
+    "Leon": { "primary": "#135B3B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Club Leon": { "primary": "#135B3B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Monterrey": { "primary": "#00205B", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Necaxa": { "primary": "#ED1B24", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Pachuca": { "primary": "#00244E", "secondary": "#8A8D8F", "text": "#FFFFFF" },
+    "Puebla": { "primary": "#003876", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Pumas UNAM": { "primary": "#B38E5D", "secondary": "#00205B", "text": "#FFFFFF" },
+    "UNAM Pumas": { "primary": "#B38E5D", "secondary": "#00205B", "text": "#FFFFFF" },
+    "Queretaro": { "primary": "#000000", "secondary": "#0050A4", "text": "#FFFFFF" },
+    "Santos Laguna": { "primary": "#006847", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Tigres UANL": { "primary": "#FDBD31", "secondary": "#003E7E", "text": "#003E7E" },
+    "Tijuana": { "primary": "#CF0A2C", "secondary": "#000000", "text": "#FFFFFF" },
+    "Club Tijuana": { "primary": "#CF0A2C", "secondary": "#000000", "text": "#FFFFFF" },
+    "Toluca": { "primary": "#DA291C", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+
+    // ── BUNDESLIGA ───────────────────────────────────────────────────────────
+    "Leipzig": { "primary": "#DD013F", "secondary": "#0C2340", "text": "#FFFFFF" },
+    "Stuttgart": { "primary": "#E3000F", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+
+    // ── SERIE A ──────────────────────────────────────────────────────────────
+    "AC Milan": { "primary": "#E3010F", "secondary": "#000000", "text": "#FFFFFF" },
+    "AS Roma": { "primary": "#8E1B34", "secondary": "#F3AF19", "text": "#F3AF19" },
+    "Lazio": { "primary": "#87CEEB", "secondary": "#FFFFFF", "text": "#000000" },
+
+    // ── LIGUE 1 (F1-2.xlsx) ───────────────────────────────────────────────────
+    "Angers": { "primary": "#000000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Auxerre": { "primary": "#E8000D", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Brest": { "primary": "#E30613", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Le Havre": { "primary": "#003DA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Lens": { "primary": "#F4A900", "secondary": "#C8102E", "text": "#C8102E" },
+    "Lille": { "primary": "#C8102E", "secondary": "#1E2862", "text": "#FFFFFF" },
+    "Lorient": { "primary": "#F4781E", "secondary": "#000000", "text": "#000000" },
+    "Lyon": { "primary": "#032CA6", "secondary": "#C8102E", "text": "#FFFFFF" },
+    "Marseille": { "primary": "#2FAEE0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Metz": { "primary": "#7B2D8B", "secondary": "#000000", "text": "#FFFFFF" },
+    "Monaco": { "primary": "#E8000D", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Nantes": { "primary": "#F4E027", "secondary": "#035F34", "text": "#035F34" },
+    "Nice": { "primary": "#E8000D", "secondary": "#000000", "text": "#FFFFFF" },
+    "Paris FC": { "primary": "#003F8A", "secondary": "#D6001C", "text": "#FFFFFF" },
+    "Paris SG": { "primary": "#003F8A", "secondary": "#DA291C", "text": "#FFFFFF" },
+    "Rennes": { "primary": "#DA291C", "secondary": "#000000", "text": "#FFFFFF" },
+    "Strasbourg": { "primary": "#005BAC", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Toulouse": { "primary": "#4B2884", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+
+    // ── UCL 2025-26 ───────────────────────────────────────────────────────────
+    "Ajax": { "primary": "#D2122E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Atalanta": { "primary": "#1E3F8C", "secondary": "#000000", "text": "#FFFFFF" },
+    "Athletic Club": { "primary": "#EE2523", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Atletico Madrid": { "primary": "#C8102E", "secondary": "#272E61", "text": "#FFFFFF" },
+    "Barcelona": { "primary": "#A50044", "secondary": "#004D98", "text": "#FFFFFF" },
+    "Bayern Munich": { "primary": "#DC052D", "secondary": "#0066B2", "text": "#FFFFFF" },
+    "Benfica": { "primary": "#E4001A", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Bodo/Glimt": { "primary": "#F5E200", "secondary": "#000000", "text": "#000000" },
+    "Borussia Dortmund": { "primary": "#FFD700", "secondary": "#000000", "text": "#000000" },
+    "Club Brugge": { "primary": "#0A2543", "secondary": "#000000", "text": "#FFFFFF" },
+    "Copenhagen": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Frankfurt": { "primary": "#E2001A", "secondary": "#000000", "text": "#FFFFFF" },
+    "Galatasaray": { "primary": "#E8000D", "secondary": "#F5A800", "text": "#FFFFFF" },
+    "Inter Milan": { "primary": "#010E80", "secondary": "#000000", "text": "#FFFFFF" },
+    "Juventus": { "primary": "#000000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Kairat Almaty": { "primary": "#F7D117", "secondary": "#0033A0", "text": "#0033A0" },
+    "Leverkusen": { "primary": "#E32221", "secondary": "#000000", "text": "#FFFFFF" },
+    "Manchester City": { "primary": "#6CABDD", "secondary": "#1C2C5B", "text": "#1C2C5B" },
+    "Napoli": { "primary": "#12A0C7", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Newcastle United": { "primary": "#241F20", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Olympiacos": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "PSV Eindhoven": { "primary": "#D01317", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Pafos": { "primary": "#003DA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Paris Saint-Germain": { "primary": "#003F8A", "secondary": "#DA291C", "text": "#FFFFFF" },
+    "Qarabag": { "primary": "#000000", "secondary": "#D4AF37", "text": "#D4AF37" },
+    "Real Madrid": { "primary": "#FEBE10", "secondary": "#003DA5", "text": "#003DA5" },
+    "Slavia Prague": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Sporting CP": { "primary": "#008000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Union Saint-Gilloise": { "primary": "#FFDD00", "secondary": "#000080", "text": "#000080" },
+    "Villarreal": { "primary": "#FFD700", "secondary": "#004A8F", "text": "#004A8F" },
+
+    // ── ANFITRIONES MUNDIAL 2026 ──────────────────────────────────────────────
+    "Mexico": { "primary": "#006847", "secondary": "#CE1126", "text": "#FFFFFF" },
+    "USA": { "primary": "#002868", "secondary": "#BF0A30", "text": "#FFFFFF" },
+    "Canada": { "primary": "#FF0000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Australia": { "primary": "#002B7F", "secondary": "#FFD700", "text": "#FFD700" },
+    "Belgium": { "primary": "#000000", "secondary": "#FFD700", "text": "#FFD700" },
+    "Bolivia": { "primary": "#D52B1E", "secondary": "#F4E400", "text": "#F4E400" },
+    "Colombia": { "primary": "#FCD116", "secondary": "#003087", "text": "#003087" },
+    "Ecuador": { "primary": "#FFD100", "secondary": "#003DA5", "text": "#003DA5" },
+    "Guatemala": { "primary": "#4997D0", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Iceland": { "primary": "#003F8A", "secondary": "#DC143C", "text": "#FFFFFF" },
+    "Japan": { "primary": "#FFFFFF", "secondary": "#BC002D", "text": "#BC002D" },
+    "Panama": { "primary": "#DA121A", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Paraguay": { "primary": "#D52B1E", "secondary": "#0038A8", "text": "#FFFFFF" },
+    "Portugal": { "primary": "#006600", "secondary": "#FF0000", "text": "#FFFFFF" },
+    "Romania": { "primary": "#002B7F", "secondary": "#FFD700", "text": "#FFD700" },
+    "Slovenia": { "primary": "#003DA5", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "South Korea": { "primary": "#CD2E3A", "secondary": "#003478", "text": "#FFFFFF" },
+    "Tunisia": { "primary": "#E70013", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Uruguay": { "primary": "#5BBFDD", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Venezuela": { "primary": "#CF142B", "secondary": "#003087", "text": "#FFFFFF" },
+    "Wales": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+
+    // ── NUEVAS SELECCIONES MUNDIAL 2026 ──────────────────────────────────────
+    "Qatar": { "primary": "#8A1538", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "England": { "primary": "#FFFFFF", "secondary": "#CE1124", "text": "#000000" },
+    "Iran": { "primary": "#239F40", "secondary": "#DA291C", "text": "#FFFFFF" },
+    "Senegal": { "primary": "#00853F", "secondary": "#FDEF42", "text": "#FFFFFF" },
+    "Netherlands": { "primary": "#F15A24", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Argentina": { "primary": "#75AADB", "secondary": "#FFFFFF", "text": "#000000" },
+    "Saudi Arabia": { "primary": "#006C35", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Denmark": { "primary": "#C8102E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Poland": { "primary": "#DC143C", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "France": { "primary": "#00209F", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Morocco": { "primary": "#C1272D", "secondary": "#006233", "text": "#FFFFFF" },
+    "Croatia": { "primary": "#FF0000", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Germany": { "primary": "#FFFFFF", "secondary": "#000000", "text": "#000000" },
+    "Spain": { "primary": "#C8102E", "secondary": "#F1BF00", "text": "#FFFFFF" },
+    "Costa Rica": { "primary": "#002B7F", "secondary": "#E31D1C", "text": "#FFFFFF" },
+    "Switzerland": { "primary": "#D52B1E", "secondary": "#FFFFFF", "text": "#FFFFFF" },
+    "Cameroon": { "primary": "#478A3E", "secondary": "#FCD116", "text": "#FFFFFF" },
+    "Ghana": { "primary": "#FFFFFF", "secondary": "#FCD116", "text": "#000000" },
+    "Brazil": { "primary": "#FEDF00", "secondary": "#009B3A", "text": "#009B3A" },
+    "Serbia": { "primary": "#C6363C", "secondary": "#0C4076", "text": "#FFFFFF" },
+
+    // ── MLB ───────────────────────────────────────────────────────────────────
+    "New York Yankees": { "primary": "#003087", "secondary": "#C4CED3", "text": "#FFFFFF" },
+    "Baltimore Orioles": { "primary": "#DF4601", "secondary": "#000000", "text": "#FFFFFF" },
+    "Boston Red Sox": { "primary": "#BD3039", "secondary": "#0C2340", "text": "#FFFFFF" },
+    "Toronto Blue Jays": { "primary": "#134A8E", "secondary": "#E8291C", "text": "#FFFFFF" },
+    "Tampa Bay Rays": { "primary": "#092C5C", "secondary": "#8FBCE6", "text": "#FFFFFF" },
+
+    "Cleveland Guardians": { "primary": "#00385D", "secondary": "#E31937", "text": "#FFFFFF" },
+    "Minnesota Twins": { "primary": "#002B5C", "secondary": "#D31145", "text": "#FFFFFF" },
+    "Chicago White Sox": { "primary": "#27251F", "secondary": "#C4CED3", "text": "#FFFFFF" },
+    "Kansas City Royals": { "primary": "#004687", "secondary": "#BD9B60", "text": "#FFFFFF" },
+    "Detroit Tigers": { "primary": "#0C2340", "secondary": "#FA4616", "text": "#FFFFFF" },
+
+    "Houston Astros": { "primary": "#002D62", "secondary": "#EB6E1F", "text": "#FFFFFF" },
+    "Texas Rangers": { "primary": "#003278", "secondary": "#C0111F", "text": "#FFFFFF" },
+    "Seattle Mariners": { "primary": "#0C2C56", "secondary": "#005C5C", "text": "#FFFFFF" },
+    "Los Angeles Angels": { "primary": "#BA0021", "secondary": "#003263", "text": "#FFFFFF" },
+    "Oakland Athletics": { "primary": "#003831", "secondary": "#EFB21E", "text": "#FFFFFF" },
+
+    "Atlanta Braves": { "primary": "#CE1141", "secondary": "#13274F", "text": "#FFFFFF" },
+    "Philadelphia Phillies": { "primary": "#E81828", "secondary": "#002D72", "text": "#FFFFFF" },
+    "New York Mets": { "primary": "#002D72", "secondary": "#FF5910", "text": "#FFFFFF" },
+    "Miami Marlins": { "primary": "#00A3E0", "secondary": "#EF3340", "text": "#FFFFFF" },
+    "Washington Nationals": { "primary": "#AB0003", "secondary": "#14225A", "text": "#FFFFFF" },
+
+    "Milwaukee Brewers": { "primary": "#12284B", "secondary": "#FFC52F", "text": "#FFFFFF" },
+    "Chicago Cubs": { "primary": "#0E3386", "secondary": "#CC3433", "text": "#FFFFFF" },
+    "Cincinnati Reds": { "primary": "#C6011F", "secondary": "#000000", "text": "#FFFFFF" },
+    "Pittsburgh Pirates": { "primary": "#27251F", "secondary": "#FDB827", "text": "#FDB827" },
+    "St. Louis Cardinals": { "primary": "#C41E3A", "secondary": "#0C2340", "text": "#FFFFFF" },
+
+    "Los Angeles Dodgers": { "primary": "#005A9C", "secondary": "#EF3E42", "text": "#FFFFFF" },
+    "San Francisco Giants": { "primary": "#FD5A1E", "secondary": "#27251F", "text": "#FFFFFF" },
+    "San Diego Padres": { "primary": "#2F241D", "secondary": "#FFC425", "text": "#FFC425" },
+    "Arizona Diamondbacks": { "primary": "#A71930", "secondary": "#E3D4AD", "text": "#FFFFFF" },
+    "Colorado Rockies": { "primary": "#33006F", "secondary": "#C4CED3", "text": "#FFFFFF" }
+};
+
+function getTeamColor(teamName) {
+    let actualName = teamName;
+    if (actualName && actualName.includes('|')) {
+        actualName = actualName.split('|').pop();
+    }
+    const lookup = actualName === 'Athletics' ? 'Oakland Athletics' : actualName;
+    return TEAM_COLORS[lookup] || { primary: '#4b5563', secondary: '#1f2937', text: '#ffffff' };
+}
+
+// Custom searchable select component implementation
+function convertSelectToCustom(selectId, placeholderText) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+
+    // Hide native select
+    select.style.display = 'none';
+
+    // Check if custom container already exists to avoid duplicate conversions
+    let container = document.getElementById(`custom-${selectId}-container`);
+    if (container) {
+        // If it already exists, just make sure we update options and labels
+        container.parentNode.removeChild(container);
+    }
+
+    // Create container
+    container = document.createElement('div');
+    container.className = 'relative w-full';
+    container.id = `custom-${selectId}-container`;
+
+    // Copy select classes (excluding hidden)
+    let btnClasses = Array.from(select.classList)
+        .filter(c => c !== 'hidden')
+        .join(' ');
+
+    // Create button
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = `custom-${selectId}-btn`;
+    btn.className = `${btnClasses} flex justify-between items-center text-left transition-all`;
+
+    const labelSpan = document.createElement('span');
+    labelSpan.id = `custom-${selectId}-label`;
+    labelSpan.className = 'truncate pr-2';
+    labelSpan.innerText = placeholderText;
+
+    const arrowSpan = document.createElement('span');
+    arrowSpan.className = 'text-[10px] text-slate-400 font-bold shrink-0 ml-2 select-none';
+    arrowSpan.innerText = '▼';
+
+    btn.appendChild(labelSpan);
+    btn.appendChild(arrowSpan);
+
+    // Create dropdown panel
+    const dropdown = document.createElement('div');
+    dropdown.id = `custom-${selectId}-dropdown`;
+    dropdown.className = 'absolute left-0 right-0 mt-2 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl z-50 hidden flex flex-col max-h-60 overflow-hidden';
+
+    const searchDiv = document.createElement('div');
+    searchDiv.className = 'p-2 border-b border-slate-800 shrink-0';
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.id = `custom-${selectId}-search`;
+    searchInput.placeholder = 'Buscar...';
+    searchInput.className = 'w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50';
+
+    searchDiv.appendChild(searchInput);
+    dropdown.appendChild(searchDiv);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.id = `custom-${selectId}-options`;
+    optionsDiv.className = 'overflow-y-auto flex-1 p-1 space-y-1';
+
+    dropdown.appendChild(optionsDiv);
+
+    container.appendChild(btn);
+    container.appendChild(dropdown);
+
+    // Insert container after native select
+    select.parentNode.insertBefore(container, select.nextSibling);
+
+    // Rebuild options list based on native select
+    function rebuildOptions() {
+        optionsDiv.innerHTML = '';
+        const searchVal = searchInput.value.toLowerCase();
+
+        let hasVisibleOptions = false;
+
+        // Loop through children of native select (could be optgroup or option)
+        Array.from(select.children).forEach(child => {
+            if (child.tagName.toLowerCase() === 'optgroup') {
+                // Group element
+                const groupLabel = child.label;
+                const groupOptions = Array.from(child.children);
+
+                // Filter group options by search
+                const filteredOptions = groupOptions.filter(opt =>
+                    opt.text.toLowerCase().includes(searchVal) && opt.value !== ""
+                );
+
+                if (filteredOptions.length > 0) {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2.5 py-1.5 select-none';
+                    groupDiv.innerText = groupLabel;
+                    optionsDiv.appendChild(groupDiv);
+
+                    filteredOptions.forEach(opt => {
+                        const optBtn = createOptionButton(opt);
+                        optionsDiv.appendChild(optBtn);
+                        hasVisibleOptions = true;
                     });
-                    const matchingVisitOpt = Array.from(selectV.options).find(opt => {
-                        const val = opt.value;
-                        return val === visitante || val.endsWith(`|${visitante}`);
-                    });
+                }
+            } else if (child.tagName.toLowerCase() === 'option') {
+                // Normal option
+                if (child.value === "") return; // skip placeholders
 
-                    if (matchingLocalOpt && matchingVisitOpt) {
-                        selectL.value = matchingLocalOpt.value;
-                        selectV.value = matchingVisitOpt.value;
-
-                        // Force UI updates
-                        handleSelectChange({ target: selectL });
-                        handleSelectChange({ target: selectV });
-                        selectL.dispatchEvent(new Event('change', { bubbles: true }));
-                        selectV.dispatchEvent(new Event('change', { bubbles: true }));
-
-                        // Run prediction
-                        await obtenerPrediccion();
-                    }
+                if (child.text.toLowerCase().includes(searchVal)) {
+                    const optBtn = createOptionButton(child);
+                    optionsDiv.appendChild(optBtn);
+                    hasVisibleOptions = true;
                 }
             }
         });
 
-        // Toggle between soccer and baseball
-        function switchSport(sport) {
-            currentSport = sport;
+        if (!hasVisibleOptions) {
+            const noRes = document.createElement('div');
+            noRes.className = 'text-xs text-slate-500 text-center py-4 select-none';
+            noRes.innerText = 'No hay opciones';
+            optionsDiv.appendChild(noRes);
+        }
+    }
 
-            const btnFutbol = document.getElementById('nav-futbol');
-            const btnBeisbol = document.getElementById('nav-beisbol');
-            const btnAnalizar = document.getElementById('btn-analizar');
-            const statusIndicator = document.getElementById('status-indicator');
-            const displayPartido = document.getElementById('display-partido');
-            const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
+    function createOptionButton(optionEl) {
+        const optBtn = document.createElement('button');
+        optBtn.type = 'button';
+        optBtn.className = 'w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-slate-800 transition-colors flex items-center justify-between cursor-pointer';
 
-            const colLiga = document.getElementById('col-liga');
-            const colLocal = document.getElementById('col-local');
-            const colVisitante = document.getElementById('col-visitante');
-            const colBoton = document.getElementById('col-boton');
-            const btnNfl = document.getElementById(\'nav-nfl\');
+        // Handle styling/colors
+        let optionStyle = optionEl.getAttribute('style') || '';
+        let optionText = optionEl.text;
+
+        // Remove standard "⬤" prefix from text if it's there
+        if (optionText.startsWith('⬤ ')) {
+            optionText = optionText.substring(2);
+        }
+
+        // Build option label
+        const labelText = document.createElement('span');
+        labelText.innerText = optionText;
+        labelText.className = 'truncate';
+
+        // Apply color
+        if (optionStyle) {
+            const colorMatch = optionStyle.match(/color:\s*([^;]+)/);
+            if (colorMatch) {
+                labelText.style.color = colorMatch[1];
+            }
+        }
+
+        optBtn.appendChild(labelText);
+
+        // If option is active
+        if (select.value === optionEl.value) {
+            optBtn.classList.add('bg-slate-800/80', 'font-bold');
+            const check = document.createElement('span');
+            check.className = 'text-emerald-400 font-bold ml-2';
+            check.innerText = '✓';
+            optBtn.appendChild(check);
+        }
+
+        // If option is disabled
+        if (optionEl.disabled) {
+            optBtn.disabled = true;
+            optBtn.className = 'w-full text-left px-3 py-2 rounded-lg text-xs opacity-30 cursor-not-allowed flex items-center justify-between';
+        }
+
+        optBtn.addEventListener('click', () => {
+            select.value = optionEl.value;
+            dropdown.classList.add('hidden');
+            searchInput.value = '';
+
+            // Dispatch change event to native select
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+
+            // Update labels
+            updateLabel();
+
+            // Rebuild so selected state is updated
+            rebuildOptions();
+        });
+
+        return optBtn;
+    }
+
+    function updateLabel() {
+        const selectedOption = select.options[select.selectedIndex];
+        if (selectedOption && selectedOption.value !== "") {
+            let txt = selectedOption.text;
+            if (txt.startsWith('⬤ ')) txt = txt.substring(2);
+            labelSpan.innerText = txt;
+        } else {
+            labelSpan.innerText = placeholderText;
+        }
+        updateSelectColors();
+    }
+
+    // Toggle dropdown
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        // Close all other custom dropdowns
+        document.querySelectorAll('[id^="custom-"][id$="-dropdown"]').forEach(d => {
+            if (d.id !== dropdown.id) d.classList.add('hidden');
+        });
+
+        const isHidden = dropdown.classList.contains('hidden');
+        if (isHidden) {
+            dropdown.classList.remove('hidden');
+            searchInput.focus();
+            rebuildOptions();
+        } else {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    // Search input handler
+    searchInput.addEventListener('input', () => {
+        rebuildOptions();
+    });
+
+    // Click outside handler
+    document.addEventListener('click', (e) => {
+        if (!container.contains(e.target)) {
+            dropdown.classList.add('hidden');
+            searchInput.value = '';
+        }
+    });
+
+    // Use MutationObserver to watch for changes to the native select
+    const observer = new MutationObserver(() => {
+        updateLabel();
+        rebuildOptions();
+    });
+
+    observer.observe(select, {
+        childList: true,
+        attributes: true,
+        subtree: true
+    });
+
+    // Listen to programmatic change event
+    select.addEventListener('change', () => {
+        updateLabel();
+        rebuildOptions();
+    });
+
+    // Initial calls
+    updateLabel();
+    rebuildOptions();
+}
+
+// Update select borders based on selected team colors
+function updateSelectColors() {
+    const localSelect = document.getElementById('select-local');
+    const visitSelect = document.getElementById('select-visitante');
+
+    if (!localSelect || !visitSelect) return;
+
+    const localVal = localSelect.value;
+    const visitVal = visitSelect.value;
+
+    const localBtn = document.getElementById('custom-select-local-btn');
+    const visitBtn = document.getElementById('custom-select-visitante-btn');
+
+    if (localVal) {
+        const color = getTeamColor(localVal);
+        if (localBtn) {
+            localBtn.style.borderColor = color.primary;
+            localBtn.style.boxShadow = `0 0 12px ${color.primary}44`; // ~27% opacity shadow
+        }
+    } else {
+        if (localBtn) {
+            localBtn.style.borderColor = '';
+            localBtn.style.boxShadow = '';
+        }
+    }
+
+    if (visitVal) {
+        const color = getTeamColor(visitVal);
+        if (visitBtn) {
+            visitBtn.style.borderColor = color.secondary;
+            visitBtn.style.boxShadow = `0 0 12px ${color.secondary}44`;
+        }
+    } else {
+        if (visitBtn) {
+            visitBtn.style.borderColor = '';
+            visitBtn.style.boxShadow = '';
+        }
+    }
+}
+
+// Get the optgroup label of the currently selected option in a select element
+function getSelectedGroupName(selectEl) {
+    if (!selectEl || selectEl.selectedIndex === -1) return null;
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    if (!selectedOption || !selectedOption.value) return null; // skip placeholder
+    const parent = selectedOption.parentNode;
+    if (parent && parent.tagName.toLowerCase() === 'optgroup') {
+        return parent.label;
+    }
+    return null;
+}
+
+// Get the optgroup label of a specific option element
+function getOptionGroupName(optionEl) {
+    const parent = optionEl.parentNode;
+    if (parent && parent.tagName.toLowerCase() === 'optgroup') {
+        return parent.label;
+    }
+    return null;
+}
+
+// Enforce that visitor teams must be from the same league/division as the selected local team (Futbol only)
+function enforceSameGroupRestriction(changedSelectId) {
+    const localSelect = document.getElementById('select-local');
+    const visitSelect = document.getElementById('select-visitante');
+
+    // Always keep ALL options in the Local select enabled
+    const localOptions = localSelect.querySelectorAll('option');
+    localOptions.forEach(opt => {
+        opt.disabled = false;
+    });
+
+    // If baseball, do not enforce division/league restrictions (MLB matches happen across divisions)
+    if (currentSport === 'beisbol') {
+        const visitOptions = visitSelect.querySelectorAll('option');
+        visitOptions.forEach(opt => {
+            opt.disabled = false;
+        });
+        return;
+    }
+
+    const localGroup = getSelectedGroupName(localSelect);
+    const visitGroup = getSelectedGroupName(visitSelect);
+
+    const isMundialGroup = (g) => g === 'Equipos de Mundial' || g === 'Amistosos Internacionales';
+
+    // If local changed and visitor is from a different group, clear visitor selection
+    if (changedSelectId === 'select-local' && localGroup && visitGroup) {
+        const bothMundial = isMundialGroup(localGroup) && isMundialGroup(visitGroup);
+        if (localGroup !== visitGroup && !bothMundial) {
+            visitSelect.value = '';
+        }
+    }
+
+    // Recalculate local group after potential clearing
+    const allowedGroup = getSelectedGroupName(localSelect);
+
+    // Disable incompatible options in the Visitor select based on the Local selection
+    const visitOptions = visitSelect.querySelectorAll('option');
+    visitOptions.forEach(opt => {
+        if (!opt.value) return; // skip placeholder option
+        const optGroup = getOptionGroupName(opt);
+        if (allowedGroup) {
+            const bothMundial = isMundialGroup(allowedGroup) && isMundialGroup(optGroup);
+            if (optGroup !== allowedGroup && !bothMundial) {
+                opt.disabled = true;
+            } else {
+                opt.disabled = false;
+            }
+        } else {
+            opt.disabled = false;
+        }
+    });
+}
+
+function handleLeagueChange() {
+    populateSelects();
+}
+
+// Combined event handler for select changes
+function handleSelectChange(e) {
+    const selectId = e && e.target ? e.target.id : null;
+    enforceSameGroupRestriction(selectId);
+    updateSelectColors();
+}
+
+// Initialize page
+window.addEventListener('DOMContentLoaded', async () => {
+    await checkBackendStatus();
+    await cargarEquipos();
+
+    // Convert selects to custom dropdowns
+    convertSelectToCustom('select-liga', 'Selecciona liga...');
+    convertSelectToCustom('select-local', 'Selecciona local...');
+    convertSelectToCustom('select-visitante', 'Selecciona visitante...');
+    convertSelectToCustom('select-pitcher-l', 'Selecciona pitcher local...');
+    convertSelectToCustom('select-pitcher-v', 'Selecciona pitcher visitante...');
+
+    // Add change event listeners to select elements for dynamic color feedback and group restrictions
+    document.getElementById('select-liga').addEventListener('change', handleLeagueChange);
+    document.getElementById('select-local').addEventListener('change', handleSelectChange);
+    document.getElementById('select-visitante').addEventListener('change', handleSelectChange);
+
+    // Populate corners container with labels initially
+    renderCornersPlaceholder();
+
+    // Parse URL query parameters for auto-triggering predictions from inicio.html
+    const urlParams = new URLSearchParams(window.location.search);
+    const deporte = urlParams.get('deporte');
+    const local = urlParams.get('local');
+    const visitante = urlParams.get('visitante');
+
+    if (deporte && (deporte === 'futbol' || deporte === 'beisbol')) {
+        switchSport(deporte);
+
+        if (local && visitante) {
+            const selectL = document.getElementById('select-local');
+            const selectV = document.getElementById('select-visitante');
+
+            // Auto-detect and select the league for soccer
+            if (deporte === 'futbol') {
+                let detectedLeague = null;
+                for (const [groupName, teamList] of Object.entries(futbolGroups)) {
+                    const found = teamList.some(team => team.value === local);
+                    if (found) {
+                        detectedLeague = groupName;
+                        break;
+                    }
+                }
+                if (detectedLeague) {
+                    const selectLiga = document.getElementById('select-liga');
+                    selectLiga.value = detectedLeague;
+                    selectLiga.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+
+            // Find option matching local and visitante names (which could be prefixed with "GroupName|")
+            const matchingLocalOpt = Array.from(selectL.options).find(opt => {
+                const val = opt.value;
+                return val === local || val.endsWith(`|${local}`);
+            });
+            const matchingVisitOpt = Array.from(selectV.options).find(opt => {
+                const val = opt.value;
+                return val === visitante || val.endsWith(`|${visitante}`);
+            });
+
+            if (matchingLocalOpt && matchingVisitOpt) {
+                selectL.value = matchingLocalOpt.value;
+                selectV.value = matchingVisitOpt.value;
+
+                // Force UI updates
+                handleSelectChange({ target: selectL });
+                handleSelectChange({ target: selectV });
+                selectL.dispatchEvent(new Event('change', { bubbles: true }));
+                selectV.dispatchEvent(new Event('change', { bubbles: true }));
+
+                // Run prediction
+                await obtenerPrediccion();
+            }
+        }
+    }
+});
+
+// Toggle between soccer and baseball
+function switchSport(sport) {
+    currentSport = sport;
+
+    const btnFutbol = document.getElementById('nav-futbol');
+    const btnBeisbol = document.getElementById('nav-beisbol');
+    const btnAnalizar = document.getElementById('btn-analizar');
+    const statusIndicator = document.getElementById('status-indicator');
+    const displayPartido = document.getElementById('display-partido');
+    const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
+
+    const colLiga = document.getElementById('col-liga');
+    const colLocal = document.getElementById('col-local');
+    const colVisitante = document.getElementById('col-visitante');
+    const colBoton = document.getElementById('col-boton');
+    const btnNfl = document.getElementById(\'nav-nfl\');
 
             // Toggle sidebar active button styling and sport labels
             
                 if (sport === 'nfl') {
-                    btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-blue-500/30 bg-blue-600/20 text-white shadow-neon-blue";
-                    btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                    btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+        btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-blue-500/30 bg-blue-600/20 text-white shadow-neon-blue";
+        btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+        btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
 
-                    btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
-                    statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse';
-                    breadcrumbDeporte.innerText = "Módulo de la NFL";
-                    breadcrumbDeporte.className = "text-xs font-bold text-blue-500 uppercase tracking-widest";
+        btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
+        statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse';
+        breadcrumbDeporte.innerText = "Módulo de la NFL";
+        breadcrumbDeporte.className = "text-xs font-bold text-blue-500 uppercase tracking-widest";
 
-                    if (colLiga) colLiga.classList.remove('hidden');
-                    if (document.getElementById('col-pitcher-local')) document.getElementById('col-pitcher-local').classList.add('hidden');
-                    if (document.getElementById('col-pitcher-visitante')) document.getElementById('col-pitcher-visitante').classList.add('hidden');
-                    if (colLocal) colLocal.className = "md:col-span-3 space-y-1";
-                    if (colVisitante) colVisitante.className = "md:col-span-3 space-y-1";
-                    if (colBoton) colBoton.className = "md:col-span-2";
-                }
-                else if (sport === 'futbol') {
-                btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-blue-500/30 bg-blue-600/20 text-white shadow-neon-blue";
-                if(btnNfl) btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+        if (colLiga) colLiga.classList.remove('hidden');
+        if (document.getElementById('col-pitcher-local')) document.getElementById('col-pitcher-local').classList.add('hidden');
+        if (document.getElementById('col-pitcher-visitante')) document.getElementById('col-pitcher-visitante').classList.add('hidden');
+        if (colLocal) colLocal.className = "md:col-span-3 space-y-1";
+        if (colVisitante) colVisitante.className = "md:col-span-3 space-y-1";
+        if (colBoton) colBoton.className = "md:col-span-2";
+    }
+    else if (sport === 'futbol') {
+        btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-blue-500/30 bg-blue-600/20 text-white shadow-neon-blue";
+        if (btnNfl) btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+        btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
 
-                btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
-                statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse';
-                breadcrumbDeporte.innerText = "Módulo de Fútbol";
-                breadcrumbDeporte.className = "text-xs font-bold text-blue-500 uppercase tracking-widest";
+        btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
+        statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse';
+        breadcrumbDeporte.innerText = "Módulo de Fútbol";
+        breadcrumbDeporte.className = "text-xs font-bold text-blue-500 uppercase tracking-widest";
 
-                document.getElementById('blob-primary').className = "absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full filter blur-[100px] pointer-events-none -z-10 transition-all duration-700";
+        document.getElementById('blob-primary').className = "absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full filter blur-[100px] pointer-events-none -z-10 transition-all duration-700";
 
-                if (colLiga) colLiga.classList.remove('hidden');
-                if (colLocal) colLocal.className = "md:col-span-3 space-y-1";
-                if (colVisitante) colVisitante.className = "md:col-span-3 space-y-1";
-                if (colBoton) colBoton.className = "md:col-span-2";
+        if (colLiga) colLiga.classList.remove('hidden');
+        if (colLocal) colLocal.className = "md:col-span-3 space-y-1";
+        if (colVisitante) colVisitante.className = "md:col-span-3 space-y-1";
+        if (colBoton) colBoton.className = "md:col-span-2";
 
-                // Select a default league if none is selected
-                const selectLiga = document.getElementById('select-liga');
-                if (selectLiga && selectLiga.value === "") {
-                    selectLiga.value = "Premier League";
-                    selectLiga.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-            } else {
-                btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-red-500/30 bg-red-600/20 text-white shadow-neon-red";
-                btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+        // Select a default league if none is selected
+        const selectLiga = document.getElementById('select-liga');
+        if (selectLiga && selectLiga.value === "") {
+            selectLiga.value = "Premier League";
+            selectLiga.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    } else {
+        btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-red-500/30 bg-red-600/20 text-white shadow-neon-red";
+        btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
 
-                btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold rounded-xl shadow-lg shadow-red-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
-                statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-red-500 mr-2 animate-pulse';
-                breadcrumbDeporte.innerText = "Módulo de Béisbol";
-                breadcrumbDeporte.className = "text-xs font-bold text-red-500 uppercase tracking-widest";
+        btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold rounded-xl shadow-lg shadow-red-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
+        statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-red-500 mr-2 animate-pulse';
+        breadcrumbDeporte.innerText = "Módulo de Béisbol";
+        breadcrumbDeporte.className = "text-xs font-bold text-red-500 uppercase tracking-widest";
 
-                document.getElementById('blob-primary').className = "absolute top-0 right-1/4 w-96 h-96 bg-red-600/10 rounded-full filter blur-[100px] pointer-events-none -z-10 transition-all duration-700";
+        document.getElementById('blob-primary').className = "absolute top-0 right-1/4 w-96 h-96 bg-red-600/10 rounded-full filter blur-[100px] pointer-events-none -z-10 transition-all duration-700";
 
-                if (colLiga) colLiga.classList.add('hidden');
-                if (colLocal) colLocal.className = "md:col-span-4 space-y-1";
-                if (colVisitante) colVisitante.className = "md:col-span-4 space-y-1";
-                if (colBoton) colBoton.className = "md:col-span-3";
+        if (colLiga) colLiga.classList.add('hidden');
+        if (colLocal) colLocal.className = "md:col-span-4 space-y-1";
+        if (colVisitante) colVisitante.className = "md:col-span-4 space-y-1";
+        if (colBoton) colBoton.className = "md:col-span-3";
 
-                // Reset pitchers cache
-                loadedPitchersLocalTeam = "";
-                loadedPitchersVisitorTeam = "";
-            }
+        // Reset pitchers cache
+        loadedPitchersLocalTeam = "";
+        loadedPitchersVisitorTeam = "";
+    }
 
-            // Hide analysis panels, show welcome panel
-            document.getElementById('modulo-futbol').classList.add('hidden');
-            const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
+    // Hide analysis panels, show welcome panel
+    document.getElementById('modulo-futbol').classList.add('hidden');
+    const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
             document.getElementById('modulo-beisbol').classList.add('hidden');
-            document.getElementById('pantalla-inicio').classList.remove('hidden');
-            document.getElementById('pantalla-carga').classList.add('hidden');
-            displayPartido.innerText = "Esperando selección...";
+    document.getElementById('pantalla-inicio').classList.remove('hidden');
+    document.getElementById('pantalla-carga').classList.add('hidden');
+    displayPartido.innerText = "Esperando selección...";
 
-            // Populate selects with correct teams
-            populateSelects();
-        }
+    // Populate selects with correct teams
+    populateSelects();
+}
 
-        // Soccer Sub-tabs switching and standings loading
-        function switchSoccerSubTab(tab) {
-            const btnAnalisis = document.getElementById('tab-fut-analisis');
-            const btnTabla = document.getElementById('tab-fut-tabla');
-            const contAnalisis = document.getElementById('fut-analisis-container');
-            const contTabla = document.getElementById('fut-tabla-container');
+// Soccer Sub-tabs switching and standings loading
+function switchSoccerSubTab(tab) {
+    const btnAnalisis = document.getElementById('tab-fut-analisis');
+    const btnTabla = document.getElementById('tab-fut-tabla');
+    const contAnalisis = document.getElementById('fut-analisis-container');
+    const contTabla = document.getElementById('fut-tabla-container');
 
-            if (tab === 'analisis') {
-                btnAnalisis.className = "pb-3 text-sm font-bold text-blue-500 border-b-2 border-blue-500 transition-all cursor-pointer";
-                btnTabla.className = "pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition-all cursor-pointer";
-                contAnalisis.classList.remove('hidden');
-                contTabla.classList.add('hidden');
-            } else {
-                btnAnalisis.className = "pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition-all cursor-pointer";
-                btnTabla.className = "pb-3 text-sm font-bold text-blue-500 border-b-2 border-blue-500 transition-all cursor-pointer";
-                contAnalisis.classList.add('hidden');
-                contTabla.classList.remove('hidden');
+    if (tab === 'analisis') {
+        btnAnalisis.className = "pb-3 text-sm font-bold text-blue-500 border-b-2 border-blue-500 transition-all cursor-pointer";
+        btnTabla.className = "pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition-all cursor-pointer";
+        contAnalisis.classList.remove('hidden');
+        contTabla.classList.add('hidden');
+    } else {
+        btnAnalisis.className = "pb-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition-all cursor-pointer";
+        btnTabla.className = "pb-3 text-sm font-bold text-blue-500 border-b-2 border-blue-500 transition-all cursor-pointer";
+        contAnalisis.classList.add('hidden');
+        contTabla.classList.remove('hidden');
 
-                cargarTablaPosiciones();
-            }
-        }
+        cargarTablaPosiciones();
+    }
+}
 
-        async function cargarTablaPosiciones() {
-            const selectLiga = document.getElementById('select-liga');
-            const liga = selectLiga.value || "Premier League";
-            const seasonSelect = document.getElementById('tabla-temporada-select');
+async function cargarTablaPosiciones() {
+    const selectLiga = document.getElementById('select-liga');
+    const liga = selectLiga.value || "Premier League";
+    const seasonSelect = document.getElementById('tabla-temporada-select');
 
-            // Ajustar dinámicamente las temporadas disponibles según la liga
-            const isWorldCup = (liga === "Equipos de Mundial" || liga === "Futbol" || leagueNameMap(liga) === "Futbol");
-            const has2026 = Array.from(seasonSelect.options).some(opt => opt.value === "2026");
+    // Ajustar dinámicamente las temporadas disponibles según la liga
+    const isWorldCup = (liga === "Equipos de Mundial" || liga === "Futbol" || leagueNameMap(liga) === "Futbol");
+    const has2026 = Array.from(seasonSelect.options).some(opt => opt.value === "2026");
 
-            if (isWorldCup && !has2026) {
-                seasonSelect.innerHTML = `
+    if (isWorldCup && !has2026) {
+        seasonSelect.innerHTML = `
                     <option value="2026" selected>Mundial 2026</option>
                     <option value="2022">Mundial 2022</option>
                 `;
-            } else if (!isWorldCup && has2026) {
-                seasonSelect.innerHTML = `
+    } else if (!isWorldCup && has2026) {
+        seasonSelect.innerHTML = `
                     <option value="2025" selected>Temporada 2025/2026</option>
                     <option value="2024">Temporada 2024/2025</option>
                 `;
-            }
+    }
 
-            const season = seasonSelect.value || (isWorldCup ? "2026" : "2025");
+    const season = seasonSelect.value || (isWorldCup ? "2026" : "2025");
 
-            document.getElementById('lbl-tabla-liga-temporada').innerText = `${liga} - Temporada ${season}/${parseInt(season) + 1}`;
-            if (isWorldCup) {
-                document.getElementById('lbl-tabla-liga-temporada').innerText = `FIFA World Cup - Edición ${season}`;
-            }
+    document.getElementById('lbl-tabla-liga-temporada').innerText = `${liga} - Temporada ${season}/${parseInt(season) + 1}`;
+    if (isWorldCup) {
+        document.getElementById('lbl-tabla-liga-temporada').innerText = `FIFA World Cup - Edición ${season}`;
+    }
 
-            const tbody = document.getElementById('tabla-posiciones-body');
-            tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-500">Cargando tabla de posiciones...</td></tr>';
+    const tbody = document.getElementById('tabla-posiciones-body');
+    tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-500">Cargando tabla de posiciones...</td></tr>';
 
-            try {
-                const dbLiga = leagueNameMap(liga);
-                const res = await fetch(`${API_BASE}/futbol/standings?liga=${encodeURIComponent(dbLiga)}&temporada=${encodeURIComponent(season)}`);
-                const data = await res.json();
+    try {
+        const dbLiga = leagueNameMap(liga);
+        const res = await fetch(`${API_BASE}/futbol/standings?liga=${encodeURIComponent(dbLiga)}&temporada=${encodeURIComponent(season)}`);
+        const data = await res.json();
 
-                if (res.ok && data.standings && data.standings.length > 0) {
-                    let html = '';
-                    data.standings.forEach(row => {
-                        const colors = getTeamColor(row.Equipo_Nombre);
-                        const bgStyle = colors.primary ? `background-color: ${colors.primary}20` : '';
-                        const borderStyle = colors.primary ? `border-left: 3px solid ${colors.primary}` : '';
+        if (res.ok && data.standings && data.standings.length > 0) {
+            let html = '';
+            data.standings.forEach(row => {
+                const colors = getTeamColor(row.Equipo_Nombre);
+                const bgStyle = colors.primary ? `background-color: ${colors.primary}20` : '';
+                const borderStyle = colors.primary ? `border-left: 3px solid ${colors.primary}` : '';
 
-                        html += `
+                html += `
                             <tr class="hover:bg-slate-800/20 transition-colors" style="${bgStyle}">
                                 <td class="py-3 px-2 text-center font-bold text-slate-400" style="${borderStyle}">${row.Posicion}</td>
                                 <td class="py-3 px-4 font-semibold text-slate-200">${row.Equipo_Nombre}</td>
@@ -1526,961 +1526,961 @@
                                 <td class="py-3 px-3 text-center font-bold ${row.Diferencia_Goles >= 0 ? 'text-emerald-500' : 'text-rose-500'}">${row.Diferencia_Goles > 0 ? '+' : ''}${row.Diferencia_Goles}</td>
                             </tr>
                         `;
-                    });
-                    tbody.innerHTML = html;
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-slate-500">No se encontraron posiciones para esta liga y temporada. Asegúrate de realizar la sincronización.</td></tr>`;
+            });
+            tbody.innerHTML = html;
+        } else {
+            tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-slate-500">No se encontraron posiciones para esta liga y temporada. Asegúrate de realizar la sincronización.</td></tr>`;
+        }
+    } catch (err) {
+        console.error("Error loading standings:", err);
+        tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-rose-400">Error al cargar posiciones: ${err.message}</td></tr>`;
+    }
+}
+
+function leagueNameMap(liga) {
+    const map = {
+        "Premier League": "Premier League",
+        "Ligue 1": "Ligue 1",
+        "Champions League": "Champions League",
+        "Equipos de Mundial": "Futbol",
+        "Futbol": "Futbol",
+        "La Liga": "La Liga",
+        "Bundesliga": "Bundesliga",
+        "Serie A": "Serie A"
+    };
+    return map[liga] || liga;
+}
+
+// Fetch teams list from FastAPI
+async function cargarEquipos() {
+    if (isBackendManuallyDisabled || !isBackendOnline) {
+        const localSelect = document.getElementById('select-local');
+        const visitSelect = document.getElementById('select-visitante');
+        if (localSelect.value === "" || localSelect.options.length <= 1) {
+            localSelect.innerHTML = `<option value="">Backend desactivado o desconectado</option>`;
+            visitSelect.innerHTML = `<option value="">Backend desactivado o desconectado</option>`;
+        }
+        return;
+    }
+    try {
+        // Fetch soccer teams
+        let res = await fetch(`${API_BASE}/equipos/futbol`);
+        let data = await res.json();
+        futbolGroups = data.grupos;
+
+        // Fetch baseball teams
+        res = await fetch(`${API_BASE}/equipos/beisbol`);
+        data = await res.json();
+        beisbolGroups = data.grupos;
+
+        populateSelects();
+    } catch (err) {
+        console.error("Error al cargar equipos:", err);
+        const localSelect = document.getElementById('select-local');
+        const visitSelect = document.getElementById('select-visitante');
+        localSelect.innerHTML = `<option value="">Error al cargar backend</option>`;
+        visitSelect.innerHTML = `<option value="">Error al cargar backend</option>`;
+    }
+}
+
+// Fill selects depending on current sport selection
+function populateSelects() {
+    const localSelect = document.getElementById('select-local');
+    const visitSelect = document.getElementById('select-visitante');
+
+    const grupos = currentSport === 'futbol' ? futbolGroups : beisbolGroups;
+
+    if (!grupos || Object.keys(grupos).length === 0) {
+        localSelect.innerHTML = `<option value="">No hay equipos disponibles</option>`;
+        visitSelect.innerHTML = `<option value="">No hay equipos disponibles</option>`;
+        return;
+    }
+
+    const selectLiga = document.getElementById('select-liga');
+    const ligaSeleccionada = selectLiga ? selectLiga.value : null;
+
+    let html = '<option value="" disabled selected>Selecciona un equipo...</option>';
+
+    for (const [groupName, teamList] of Object.entries(grupos)) {
+        // Filter by selected league for soccer
+        if (currentSport === 'futbol' && ligaSeleccionada) {
+            if (ligaSeleccionada === 'Equipos de Mundial') {
+                if (groupName !== 'Equipos de Mundial' && groupName !== 'Amistosos Internacionales') {
+                    continue;
                 }
-            } catch (err) {
-                console.error("Error loading standings:", err);
-                tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-rose-400">Error al cargar posiciones: ${err.message}</td></tr>`;
+            } else if (groupName !== ligaSeleccionada) {
+                continue;
             }
         }
 
-        function leagueNameMap(liga) {
-            const map = {
-                "Premier League": "Premier League",
-                "Ligue 1": "Ligue 1",
-                "Champions League": "Champions League",
-                "Equipos de Mundial": "Futbol",
-                "Futbol": "Futbol",
-                "La Liga": "La Liga",
-                "Bundesliga": "Bundesliga",
-                "Serie A": "Serie A"
-            };
-            return map[liga] || liga;
-        }
-
-        // Fetch teams list from FastAPI
-        async function cargarEquipos() {
-            if (isBackendManuallyDisabled || !isBackendOnline) {
-                const localSelect = document.getElementById('select-local');
-                const visitSelect = document.getElementById('select-visitante');
-                if (localSelect.value === "" || localSelect.options.length <= 1) {
-                    localSelect.innerHTML = `<option value="">Backend desactivado o desconectado</option>`;
-                    visitSelect.innerHTML = `<option value="">Backend desactivado o desconectado</option>`;
-                }
-                return;
-            }
-            try {
-                // Fetch soccer teams
-                let res = await fetch(`${API_BASE}/equipos/futbol`);
-                let data = await res.json();
-                futbolGroups = data.grupos;
-
-                // Fetch baseball teams
-                res = await fetch(`${API_BASE}/equipos/beisbol`);
-                data = await res.json();
-                beisbolGroups = data.grupos;
-
-                populateSelects();
-            } catch (err) {
-                console.error("Error al cargar equipos:", err);
-                const localSelect = document.getElementById('select-local');
-                const visitSelect = document.getElementById('select-visitante');
-                localSelect.innerHTML = `<option value="">Error al cargar backend</option>`;
-                visitSelect.innerHTML = `<option value="">Error al cargar backend</option>`;
-            }
-        }
-
-        // Fill selects depending on current sport selection
-        function populateSelects() {
-            const localSelect = document.getElementById('select-local');
-            const visitSelect = document.getElementById('select-visitante');
-
-            const grupos = currentSport === 'futbol' ? futbolGroups : beisbolGroups;
-
-            if (!grupos || Object.keys(grupos).length === 0) {
-                localSelect.innerHTML = `<option value="">No hay equipos disponibles</option>`;
-                visitSelect.innerHTML = `<option value="">No hay equipos disponibles</option>`;
-                return;
-            }
-
-            const selectLiga = document.getElementById('select-liga');
-            const ligaSeleccionada = selectLiga ? selectLiga.value : null;
-
-            let html = '<option value="" disabled selected>Selecciona un equipo...</option>';
-
-            for (const [groupName, teamList] of Object.entries(grupos)) {
-                // Filter by selected league for soccer
-                if (currentSport === 'futbol' && ligaSeleccionada) {
-                    if (ligaSeleccionada === 'Equipos de Mundial') {
-                        if (groupName !== 'Equipos de Mundial' && groupName !== 'Amistosos Internacionales') {
-                            continue;
-                        }
-                    } else if (groupName !== ligaSeleccionada) {
-                        continue;
-                    }
-                }
-
-                html += `<optgroup label="${groupName}" class="bg-slate-900 text-slate-100 font-semibold">`;
-                teamList.forEach(team => {
-                    let optionColor = '#cbd5e1'; // default color
-                    if (currentSport === 'futbol') {
-                        if (groupName === 'Equipos de Mundial') {
-                            optionColor = '#ffd700';
-                        } else if (groupName === 'Ligue 1') {
-                            optionColor = '#bfff00';
-                        } else if (groupName === 'Premier League') {
-                            optionColor = '#BD94E1';
-                        } else if (groupName === 'La Liga') {
-                            optionColor = '#ff6b6b';
-                        } else if (groupName === 'Liga MX') {
-                            optionColor = '#4ade80';
-                        } else if (groupName === 'Bundesliga') {
-                            optionColor = '#fb7185';
-                        } else if (groupName === 'Serie A') {
-                            optionColor = '#38bdf8';
-                        } else if (groupName === 'Amistosos Internacionales') {
-                            optionColor = '#f472b6';
-                        }
-                    }
-                    html += `<option value="${groupName}|${team.value}" style="color: ${optionColor}" class="bg-slate-950 font-normal">⬤ ${team.label}</option>`;
-                });
-                html += `</optgroup>`;
-            }
-
-            localSelect.innerHTML = html;
-            visitSelect.innerHTML = html;
-
-            // Default selections for convenience (matching same league groups to avoid conflicts)
+        html += `<optgroup label="${groupName}" class="bg-slate-900 text-slate-100 font-semibold">`;
+        teamList.forEach(team => {
+            let optionColor = '#cbd5e1'; // default color
             if (currentSport === 'futbol') {
-                if (ligaSeleccionada && grupos[ligaSeleccionada] && grupos[ligaSeleccionada].length >= 2) {
-                    localSelect.value = `${ligaSeleccionada}|${grupos[ligaSeleccionada][0].value}`;
-                    visitSelect.value = `${ligaSeleccionada}|${grupos[ligaSeleccionada][1].value}`;
-                } else {
-                    localSelect.value = '';
-                    visitSelect.value = '';
+                if (groupName === 'Equipos de Mundial') {
+                    optionColor = '#ffd700';
+                } else if (groupName === 'Ligue 1') {
+                    optionColor = '#bfff00';
+                } else if (groupName === 'Premier League') {
+                    optionColor = '#BD94E1';
+                } else if (groupName === 'La Liga') {
+                    optionColor = '#ff6b6b';
+                } else if (groupName === 'Liga MX') {
+                    optionColor = '#4ade80';
+                } else if (groupName === 'Bundesliga') {
+                    optionColor = '#fb7185';
+                } else if (groupName === 'Serie A') {
+                    optionColor = '#38bdf8';
+                } else if (groupName === 'Amistosos Internacionales') {
+                    optionColor = '#f472b6';
                 }
-            } else {
-                let nyyExists = false;
-                let balExists = false;
-                for (const teamList of Object.values(beisbolGroups)) {
-                    teamList.forEach(team => {
-                        if (team.value === 'New York Yankees') nyyExists = true;
-                        if (team.value === 'Baltimore Orioles') balExists = true;
-                    });
-                }
-                if (nyyExists) localSelect.value = 'AL East|New York Yankees';
-                if (balExists) visitSelect.value = 'AL East|Baltimore Orioles';
             }
+            html += `<option value="${groupName}|${team.value}" style="color: ${optionColor}" class="bg-slate-950 font-normal">⬤ ${team.label}</option>`;
+        });
+        html += `</optgroup>`;
+    }
 
-            // Apply initial color coding and group restrictions
-            handleSelectChange(null);
+    localSelect.innerHTML = html;
+    visitSelect.innerHTML = html;
+
+    // Default selections for convenience (matching same league groups to avoid conflicts)
+    if (currentSport === 'futbol') {
+        if (ligaSeleccionada && grupos[ligaSeleccionada] && grupos[ligaSeleccionada].length >= 2) {
+            localSelect.value = `${ligaSeleccionada}|${grupos[ligaSeleccionada][0].value}`;
+            visitSelect.value = `${ligaSeleccionada}|${grupos[ligaSeleccionada][1].value}`;
+        } else {
+            localSelect.value = '';
+            visitSelect.value = '';
         }
-
-        let loadedPitchersLocalTeam = "";
-        let loadedPitchersVisitorTeam = "";
-
-        async function cargarPitchersDropdowns(localTeam, visitanteTeam, selectedLocalPitcherId, selectedVisitorPitcherId) {
-            const selectL = document.getElementById('select-pitcher-l');
-            const selectV = document.getElementById('select-pitcher-v');
-
-            if (!selectL || !selectV) return;
-
-            // Rebuild Local Pitchers list if team changed
-            if (loadedPitchersLocalTeam !== localTeam) {
-                try {
-                    const res = await fetch(`${API_BASE}/pitchers?equipo=${encodeURIComponent(localTeam)}`);
-                    const data = await res.json();
-                    let html = "";
-                    data.pitchers.forEach(p => {
-                        html += `<option value="${p.id}" class="bg-slate-950 font-normal">⬤ ${p.nombre} (${p.starts} abr)</option>`;
-                    });
-                    selectL.innerHTML = html;
-                    loadedPitchersLocalTeam = localTeam;
-                } catch (err) {
-                    console.error("Error loading local pitchers:", err);
-                }
-            }
-
-            // Rebuild Visitor Pitchers list if team changed
-            if (loadedPitchersVisitorTeam !== visitanteTeam) {
-                try {
-                    const res = await fetch(`${API_BASE}/pitchers?equipo=${encodeURIComponent(visitanteTeam)}`);
-                    const data = await res.json();
-                    let html = "";
-                    data.pitchers.forEach(p => {
-                        html += `<option value="${p.id}" class="bg-slate-950 font-normal">⬤ ${p.nombre} (${p.starts} abr)</option>`;
-                    });
-                    selectV.innerHTML = html;
-                    loadedPitchersVisitorTeam = visitanteTeam;
-                } catch (err) {
-                    console.error("Error loading visitor pitchers:", err);
-                }
-            }
-
-            // Set selected values
-            if (selectedLocalPitcherId) selectL.value = selectedLocalPitcherId;
-            if (selectedVisitorPitcherId) selectV.value = selectedVisitorPitcherId;
+    } else {
+        let nyyExists = false;
+        let balExists = false;
+        for (const teamList of Object.values(beisbolGroups)) {
+            teamList.forEach(team => {
+                if (team.value === 'New York Yankees') nyyExists = true;
+                if (team.value === 'Baltimore Orioles') balExists = true;
+            });
         }
+        if (nyyExists) localSelect.value = 'AL East|New York Yankees';
+        if (balExists) visitSelect.value = 'AL East|Baltimore Orioles';
+    }
 
-        function handlePitcherChange() {
-            const selectL = document.getElementById('select-pitcher-l');
-            const selectV = document.getElementById('select-pitcher-v');
-            if (selectL && selectV) {
-                const pitcherLId = selectL.value;
-                const pitcherVId = selectV.value;
-                obtenerPrediccion(pitcherLId, pitcherVId);
-            }
+    // Apply initial color coding and group restrictions
+    handleSelectChange(null);
+}
+
+let loadedPitchersLocalTeam = "";
+let loadedPitchersVisitorTeam = "";
+
+async function cargarPitchersDropdowns(localTeam, visitanteTeam, selectedLocalPitcherId, selectedVisitorPitcherId) {
+    const selectL = document.getElementById('select-pitcher-l');
+    const selectV = document.getElementById('select-pitcher-v');
+
+    if (!selectL || !selectV) return;
+
+    // Rebuild Local Pitchers list if team changed
+    if (loadedPitchersLocalTeam !== localTeam) {
+        try {
+            const res = await fetch(`${API_BASE}/pitchers?equipo=${encodeURIComponent(localTeam)}`);
+            const data = await res.json();
+            let html = "";
+            data.pitchers.forEach(p => {
+                html += `<option value="${p.id}" class="bg-slate-950 font-normal">⬤ ${p.nombre} (${p.starts} abr)</option>`;
+            });
+            selectL.innerHTML = html;
+            loadedPitchersLocalTeam = localTeam;
+        } catch (err) {
+            console.error("Error loading local pitchers:", err);
         }
+    }
 
-        // Main prediction call triggers fetch
-        async function obtenerPrediccion(pitcherLocalId = null, pitcherVisitanteId = null) {
-            if (isBackendManuallyDisabled) {
-                alert("La conexión con el backend está desactivada. Por favor, activa la conexión haciendo clic en el botón de estado ('Conexión Desactivada') antes de generar predicciones.");
-                return;
-            }
-            if (!isBackendOnline) {
-                alert("El backend de FastAPI está inactivo. Por favor, inícialo y actívalo antes de generar predicciones.");
-                return;
-            }
+    // Rebuild Visitor Pitchers list if team changed
+    if (loadedPitchersVisitorTeam !== visitanteTeam) {
+        try {
+            const res = await fetch(`${API_BASE}/pitchers?equipo=${encodeURIComponent(visitanteTeam)}`);
+            const data = await res.json();
+            let html = "";
+            data.pitchers.forEach(p => {
+                html += `<option value="${p.id}" class="bg-slate-950 font-normal">⬤ ${p.nombre} (${p.starts} abr)</option>`;
+            });
+            selectV.innerHTML = html;
+            loadedPitchersVisitorTeam = visitanteTeam;
+        } catch (err) {
+            console.error("Error loading visitor pitchers:", err);
+        }
+    }
 
-            const localVal = document.getElementById('select-local').value;
-            const visitanteVal = document.getElementById('select-visitante').value;
+    // Set selected values
+    if (selectedLocalPitcherId) selectL.value = selectedLocalPitcherId;
+    if (selectedVisitorPitcherId) selectV.value = selectedVisitorPitcherId;
+}
 
-            if (!localVal || !visitanteVal) {
-                alert("Por favor, selecciona ambos equipos.");
-                return;
-            }
+function handlePitcherChange() {
+    const selectL = document.getElementById('select-pitcher-l');
+    const selectV = document.getElementById('select-pitcher-v');
+    if (selectL && selectV) {
+        const pitcherLId = selectL.value;
+        const pitcherVId = selectV.value;
+        obtenerPrediccion(pitcherLId, pitcherVId);
+    }
+}
 
-            const local = localVal.includes('|') ? localVal.split('|').pop() : localVal;
-            const visitante = visitanteVal.includes('|') ? visitanteVal.split('|').pop() : visitanteVal;
+// Main prediction call triggers fetch
+async function obtenerPrediccion(pitcherLocalId = null, pitcherVisitanteId = null) {
+    if (isBackendManuallyDisabled) {
+        alert("La conexión con el backend está desactivada. Por favor, activa la conexión haciendo clic en el botón de estado ('Conexión Desactivada') antes de generar predicciones.");
+        return;
+    }
+    if (!isBackendOnline) {
+        alert("El backend de FastAPI está inactivo. Por favor, inícialo y actívalo antes de generar predicciones.");
+        return;
+    }
 
-            if (local === visitante) {
-                alert("Un equipo no puede jugar contra sí mismo. Elige equipos diferentes.");
-                return;
-            }
+    const localVal = document.getElementById('select-local').value;
+    const visitanteVal = document.getElementById('select-visitante').value;
 
-            // UI states transition
-            document.getElementById('pantalla-inicio').classList.add('hidden');
-            document.getElementById('modulo-futbol').classList.add('hidden');
-            const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
+    if (!localVal || !visitanteVal) {
+        alert("Por favor, selecciona ambos equipos.");
+        return;
+    }
+
+    const local = localVal.includes('|') ? localVal.split('|').pop() : localVal;
+    const visitante = visitanteVal.includes('|') ? visitanteVal.split('|').pop() : visitanteVal;
+
+    if (local === visitante) {
+        alert("Un equipo no puede jugar contra sí mismo. Elige equipos diferentes.");
+        return;
+    }
+
+    // UI states transition
+    document.getElementById('pantalla-inicio').classList.add('hidden');
+    document.getElementById('modulo-futbol').classList.add('hidden');
+    const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
             document.getElementById('modulo-beisbol').classList.add('hidden');
-            document.getElementById('pantalla-carga').classList.remove('hidden');
+    document.getElementById('pantalla-carga').classList.remove('hidden');
 
-            document.getElementById('display-partido').innerText = `${local} vs ${visitante}`;
+    document.getElementById('display-partido').innerText = `${local} vs ${visitante}`;
 
-            try {
-                const selectedLeague = document.getElementById('select-liga').value;
-                // Fetch endpoint based on current selected tab
-                let endpoint = currentSport === 'futbol'
-                    ? `${API_BASE}/pronostico/futbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}&liga=${encodeURIComponent(selectedLeague)}`
-                    : `${API_BASE}/pronostico/beisbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}`;
+    try {
+        const selectedLeague = document.getElementById('select-liga').value;
+        // Fetch endpoint based on current selected tab
+        let endpoint = currentSport === 'futbol'
+            ? `${API_BASE}/pronostico/futbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}&liga=${encodeURIComponent(selectedLeague)}`
+            : `${API_BASE}/pronostico/beisbol?local=${encodeURIComponent(local)}&visitante=${encodeURIComponent(visitante)}`;
 
-                if (currentSport === 'beisbol') {
-                    if (pitcherLocalId) {
-                        endpoint += `&pitcher_local=${pitcherLocalId}`;
-                    }
-                    if (pitcherVisitanteId) {
-                        endpoint += `&pitcher_visitante=${pitcherVisitanteId}`;
-                    }
-                }
-
-                const response = await fetch(endpoint);
-                if (!response.ok) {
-                    throw new Error("Respuesta de API inválida");
-                }
-                const data = await response.json();
-
-                window.lastPrediction = {
-                    deporte: currentSport,
-                    local: local,
-                    visitante: visitante,
-                    prediction: data,
-                    value_bet: data.value_bet
-                };
-                window.lastPredictionData = window.lastPrediction;
-
-                // Small delay to make the transition feel substantial and high-tech
-                setTimeout(() => {
-                    document.getElementById('pantalla-carga').classList.add('hidden');
-
-                    if (currentSport === 'futbol') {
-                        renderSoccerDashboard(data, local, visitante);
-                    } else {
-                        renderBaseballDashboard(data, local, visitante);
-                    }
-                }, 750);
-
-            } catch (error) {
-                console.error("Error al obtener pronóstico:", error);
-                alert("Ocurrió un error consultando el servidor FastAPI en el puerto 8000. Asegúrate de que uvicorn esté corriendo.");
-
-                document.getElementById('pantalla-carga').classList.add('hidden');
-                document.getElementById('pantalla-inicio').classList.remove('hidden');
-                document.getElementById('display-partido').innerText = "Esperando selección...";
+        if (currentSport === 'beisbol') {
+            if (pitcherLocalId) {
+                endpoint += `&pitcher_local=${pitcherLocalId}`;
+            }
+            if (pitcherVisitanteId) {
+                endpoint += `&pitcher_visitante=${pitcherVisitanteId}`;
             }
         }
 
-        // Render Soccer UI components
-        function renderSoccerDashboard(data, local, visitante) {
-            document.getElementById('modulo-futbol').classList.remove('hidden');
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+            throw new Error("Respuesta de API inválida");
+        }
+        const data = await response.json();
 
-            // Get team colors
-            const localColor = getTeamColor(local);
-            const visitColor = getTeamColor(visitante);
+        window.lastPrediction = {
+            deporte: currentSport,
+            local: local,
+            visitante: visitante,
+            prediction: data,
+            value_bet: data.value_bet
+        };
+        window.lastPredictionData = window.lastPrediction;
 
-            // 1. Doughnut chart for win probabilities
-            const lPct = data.victoria.local_pct;
-            const ePct = data.victoria.empate_pct;
-            const vPct = data.victoria.visita_pct;
+        // Small delay to make the transition feel substantial and high-tech
+        setTimeout(() => {
+            document.getElementById('pantalla-carga').classList.add('hidden');
 
-            // Update detailed legend cards
-            document.getElementById('lbl-fut-local-name').innerText = local;
-            document.getElementById('lbl-fut-local-pct').innerText = `${lPct}%`;
-            document.getElementById('lbl-fut-empate-pct').innerText = `${ePct}%`;
-            document.getElementById('lbl-fut-visit-name').innerText = visitante;
-            document.getElementById('lbl-fut-visit-pct').innerText = `${vPct}%`;
-
-            const dotL = document.getElementById('futbol-legend-dot-local');
-            const dotV = document.getElementById('futbol-legend-dot-visit');
-            if (dotL) dotL.style.backgroundColor = localColor.primary;
-            if (dotV) dotV.style.backgroundColor = visitColor.secondary;
-
-            // Determine favorite team and update center text
-            let maxPct = Math.max(lPct, ePct, vPct);
-            document.getElementById('futbol-donut-pct').innerText = `${maxPct}%`;
-
-            let favoriteLabel = "Empate";
-            if (maxPct === lPct) favoriteLabel = local;
-            else if (maxPct === vPct) favoriteLabel = visitante;
-            document.getElementById('futbol-donut-lbl').innerText = favoriteLabel;
-
-            // Generate analysis text dynamically
-            const diff = Math.abs(lPct - vPct).toFixed(1);
-            let insightText = "";
-            if (lPct > vPct && lPct > ePct) {
-                insightText = `El modelo RandomForest favorece a <strong class="text-white">${local}</strong> con un <strong class="text-white">${lPct}%</strong> de probabilidad de ganar, marcando una ventaja del <strong class="text-white">${diff}%</strong> frente a <strong class="text-white">${visitante}</strong>.`;
-            } else if (vPct > lPct && vPct > ePct) {
-                insightText = `El modelo RandomForest proyecta la victoria de <strong class="text-white">${visitante}</strong> de visitante con <strong class="text-white">${vPct}%</strong> de probabilidad, superando a <strong class="text-white">${local}</strong> por un <strong class="text-white">${diff}%</strong>.`;
+            if (currentSport === 'futbol') {
+                renderSoccerDashboard(data, local, visitante);
             } else {
-                insightText = `Se proyecta un encuentro altamente equilibrado. El <strong class="text-white">Empate</strong> tiene una alta probabilidad del <strong class="text-white">${ePct}%</strong>.`;
+                renderBaseballDashboard(data, local, visitante);
             }
-            insightText += ` El mercado de tiros de esquina sugiere <strong class="text-white">${data.corners.total_corners_text}</strong> con un <strong class="text-white">${data.corners.total_corners_prob}%</strong> de confianza.`;
-            document.getElementById('futbol-analysis-insight').innerHTML = insightText;
+        }, 750);
 
-            // Render Odds Comparison Panel
-            const oddsPanel = document.getElementById('odds-comparison-panel');
-            if (data.cuotas_mercado) {
-                oddsPanel.classList.remove('hidden');
-                const odds = data.cuotas_mercado;
-                
-                document.getElementById('odds-bar-local').style.width = `${odds.prob_local_norm}%`;
-                document.getElementById('odds-bar-draw').style.width = `${odds.prob_empate_norm}%`;
-                document.getElementById('odds-bar-visit').style.width = `${odds.prob_visita_norm}%`;
-                
-                document.getElementById('odds-lbl-local').innerText = `L: ${odds.prob_local_norm}%`;
-                document.getElementById('odds-lbl-draw').innerText = `E: ${odds.prob_empate_norm}%`;
-                document.getElementById('odds-lbl-visit').innerText = `V: ${odds.prob_visita_norm}%`;
-                
-                // Calculate edge (Model vs Market for the favorite selection)
-                let edge = 0;
-                let edgeColor = "text-slate-400";
-                let edgeBg = "bg-slate-800";
-                if (maxPct === lPct) {
-                    edge = (lPct - odds.prob_local_norm).toFixed(1);
-                } else if (maxPct === vPct) {
-                    edge = (vPct - odds.prob_visita_norm).toFixed(1);
-                } else {
-                    edge = (ePct - odds.prob_empate_norm).toFixed(1);
-                }
-                
-                if (edge > 0) {
-                    edgeColor = "text-green-400";
-                    edgeBg = "bg-green-400/10 border border-green-400/20";
-                } else if (edge < 0) {
-                    edgeColor = "text-red-400";
-                    edgeBg = "bg-red-400/10 border border-red-400/20";
-                }
-                
-                const edgeBadge = document.getElementById('odds-edge-badge');
-                edgeBadge.className = `text-[10px] font-bold px-2 py-1 rounded ${edgeBg} ${edgeColor}`;
-                edgeBadge.innerText = `EDGE: ${edge > 0 ? '+' : ''}${edge}%`;
-                
-            } else {
-                if (oddsPanel) oddsPanel.classList.add('hidden');
-            }
+    } catch (error) {
+        console.error("Error al obtener pronóstico:", error);
+        alert("Ocurrió un error consultando el servidor FastAPI en el puerto 8000. Asegúrate de que uvicorn esté corriendo.");
 
-            // Build Doughnut Chart
-            if (chartFutbolProbInstance) {
-                chartFutbolProbInstance.destroy();
-            }
+        document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementById('pantalla-inicio').classList.remove('hidden');
+        document.getElementById('display-partido').innerText = "Esperando selección...";
+    }
+}
 
-            const canvasFutbolProb = document.getElementById('chart-futbol-prob');
-            if (canvasFutbolProb) {
-                const ctxDoughnut = canvasFutbolProb.getContext('2d');
-                chartFutbolProbInstance = new Chart(ctxDoughnut, {
-                    type: 'doughnut',
-                    data: {
-                        labels: [local, 'Empate', visitante],
-                        datasets: [{
-                            data: [lPct, ePct, vPct],
-                            backgroundColor: [
-                                localColor.primary,
-                                '#e2e8f0', // soft white/slate-200 for draw
-                                visitColor.secondary
-                            ],
-                            borderWidth: 2,
-                            borderColor: '#090d16',
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '75%',
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        return ` ${context.label}: ${context.raw}%`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+// Render Soccer UI components
+function renderSoccerDashboard(data, local, visitante) {
+    document.getElementById('modulo-futbol').classList.remove('hidden');
 
-            // 2. Goal probability 5x5 Matrix (Dynamic green color shading)
-            const matrix = data.goles_matriz;
-            for (let rIdx = 0; rIdx < 5; rIdx++) {
-                const goalsA = 4 - rIdx;
-                for (let cIdx = 0; cIdx < 5; cIdx++) {
-                    const goalsB = 4 - cIdx;
-                    const cellVal = matrix[rIdx][cIdx];
-                    const cell = document.getElementById(`m-${goalsA}-${goalsB}`);
+    // Get team colors
+    const localColor = getTeamColor(local);
+    const visitColor = getTeamColor(visitante);
 
-                    if (cell) {
-                        cell.innerText = `${cellVal}%`;
+    // 1. Doughnut chart for win probabilities
+    const lPct = data.victoria.local_pct;
+    const ePct = data.victoria.empate_pct;
+    const vPct = data.victoria.visita_pct;
 
-                        // Assign cell background shade based on percentage value
-                        if (cellVal > 10.0) {
-                            cell.style.background = 'rgba(16, 185, 129, 0.9)'; // Dark solid green
-                            cell.style.color = '#000';
-                        } else if (cellVal > 5.0) {
-                            cell.style.background = 'rgba(16, 185, 129, 0.6)'; // Medium green
-                            cell.style.color = '#fff';
-                        } else if (cellVal > 2.0) {
-                            cell.style.background = 'rgba(16, 185, 129, 0.35)'; // Light-medium green
-                            cell.style.color = '#10b981';
-                        } else if (cellVal > 0.5) {
-                            cell.style.background = 'rgba(16, 185, 129, 0.15)'; // Soft green tint
-                            cell.style.color = '#34d399';
-                        } else {
-                            cell.style.background = 'rgba(16, 185, 129, 0.04)'; // Extremely pale
-                            cell.style.color = 'rgba(255,255,255,0.2)';
-                        }
-                    }
-                }
-            }
+    // Update detailed legend cards
+    document.getElementById('lbl-fut-local-name').innerText = local;
+    document.getElementById('lbl-fut-local-pct').innerText = `${lPct}%`;
+    document.getElementById('lbl-fut-empate-pct').innerText = `${ePct}%`;
+    document.getElementById('lbl-fut-visit-name').innerText = visitante;
+    document.getElementById('lbl-fut-visit-pct').innerText = `${vPct}%`;
 
-            // Update matrix legend and labels colors dynamically
-            const legendL = document.getElementById('matrix-legend-local');
-            const legendV = document.getElementById('matrix-legend-visit');
-            if (legendL) {
-                legendL.style.color = localColor.primary;
-                legendL.innerText = `L (${local.substring(0, 3).toUpperCase()})`;
-            }
-            if (legendV) {
-                legendV.style.color = visitColor.secondary;
-                legendV.innerText = `V (${visitante.substring(0, 3).toUpperCase()}) ►`;
-            }
+    const dotL = document.getElementById('futbol-legend-dot-local');
+    const dotV = document.getElementById('futbol-legend-dot-visit');
+    if (dotL) dotL.style.backgroundColor = localColor.primary;
+    if (dotV) dotV.style.backgroundColor = visitColor.secondary;
 
-            for (let i = 0; i <= 4; i++) {
-                const lblL = document.getElementById(`matrix-lbl-local-${i}`);
-                const lblV = document.getElementById(`matrix-lbl-visit-${i}`);
-                if (lblL) {
-                    lblL.style.color = localColor.primary;
-                    lblL.style.opacity = '0.8';
-                }
-                if (lblV) {
-                    lblV.style.color = visitColor.secondary;
-                    lblV.style.opacity = '0.8';
-                }
-            }
+    // Determine favorite team and update center text
+    let maxPct = Math.max(lPct, ePct, vPct);
+    document.getElementById('futbol-donut-pct').innerText = `${maxPct}%`;
 
-            // 3. Resultado probable card
-            document.getElementById('suggestion-fut-teams').innerText = `${local} vs ${visitante}`;
-            document.getElementById('suggestion-fut-score').innerText = data.resultado_probable.marcador;
-            document.getElementById('suggestion-fut-prob').innerText = `${data.resultado_probable.prob}% Probabilidad`;
+    let favoriteLabel = "Empate";
+    if (maxPct === lPct) favoriteLabel = local;
+    else if (maxPct === vPct) favoriteLabel = visitante;
+    document.getElementById('futbol-donut-lbl').innerText = favoriteLabel;
 
-            // 4. Corners Chart (Chart.js Grouped Horizontal Bar Chart)
-            if (chartFutbolCornersInstance) {
-                chartFutbolCornersInstance.destroy();
-            }
+    // Generate analysis text dynamically
+    const diff = Math.abs(lPct - vPct).toFixed(1);
+    let insightText = "";
+    if (lPct > vPct && lPct > ePct) {
+        insightText = `El modelo RandomForest favorece a <strong class="text-white">${local}</strong> con un <strong class="text-white">${lPct}%</strong> de probabilidad de ganar, marcando una ventaja del <strong class="text-white">${diff}%</strong> frente a <strong class="text-white">${visitante}</strong>.`;
+    } else if (vPct > lPct && vPct > ePct) {
+        insightText = `El modelo RandomForest proyecta la victoria de <strong class="text-white">${visitante}</strong> de visitante con <strong class="text-white">${vPct}%</strong> de probabilidad, superando a <strong class="text-white">${local}</strong> por un <strong class="text-white">${diff}%</strong>.`;
+    } else {
+        insightText = `Se proyecta un encuentro altamente equilibrado. El <strong class="text-white">Empate</strong> tiene una alta probabilidad del <strong class="text-white">${ePct}%</strong>.`;
+    }
+    insightText += ` El mercado de tiros de esquina sugiere <strong class="text-white">${data.corners.total_corners_text}</strong> con un <strong class="text-white">${data.corners.total_corners_prob}%</strong> de confianza.`;
+    document.getElementById('futbol-analysis-insight').innerHTML = insightText;
 
-            const canvasFutbolCorners = document.getElementById('chart-futbol-corners');
-            if (canvasFutbolCorners) {
-                const cornerLabels = Array.from({ length: 11 }, (_, i) => i === 10 ? '11+' : `${i + 1}`);
-                const ctxCorners = canvasFutbolCorners.getContext('2d');
-                chartFutbolCornersInstance = new Chart(ctxCorners, {
-                    type: 'bar',
-                    data: {
-                        labels: cornerLabels,
-                        datasets: [
-                            {
-                                label: local,
-                                data: data.corners.local,
-                                backgroundColor: localColor.primary,
-                                borderRadius: 4
-                            },
-                            {
-                                label: visitante,
-                                data: data.corners.visitante,
-                                backgroundColor: visitColor.secondary,
-                                borderRadius: 4
-                            }
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    color: '#94a3b8',
-                                    boxWidth: 12,
-                                    font: {
-                                        size: 10,
-                                        family: 'Outfit'
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        return ` ${context.dataset.label}: ${context.raw}% de Prob.`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.03)'
-                                },
-                                ticks: {
-                                    color: '#64748b',
-                                    font: {
-                                        size: 9
-                                    },
-                                    callback: function (value) {
-                                        return value + '%';
-                                    }
-                                },
-                                max: 100
-                            },
-                            y: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    color: '#94a3b8',
-                                    font: {
-                                        size: 10,
-                                        weight: 'bold'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+    // Render Odds Comparison Panel
+    const oddsPanel = document.getElementById('odds-comparison-panel');
+    if (data.cuotas_mercado) {
+        oddsPanel.classList.remove('hidden');
+        const odds = data.cuotas_mercado;
 
-            // Corners overall market suggestion card
-            document.getElementById('corners-market-text').innerText = `Total de corners: ${data.corners.total_corners_text}`;
-            document.getElementById('corners-market-prob').innerText = `${data.corners.total_corners_prob}%`;
+        document.getElementById('odds-bar-local').style.width = `${odds.prob_local_norm}%`;
+        document.getElementById('odds-bar-draw').style.width = `${odds.prob_empate_norm}%`;
+        document.getElementById('odds-bar-visit').style.width = `${odds.prob_visita_norm}%`;
 
-            // Update Goles Totales Markets
-            if (data.mercados) {
-                const mkts = data.mercados;
-                
-                // 0.5
-                document.getElementById('mkt-fut-05-over').innerText = `Over ${mkts.over_0_5}%`;
-                document.getElementById('mkt-fut-05-under').innerText = `Under ${mkts.under_0_5}%`;
-                document.getElementById('bar-fut-05-over').style.width = `${mkts.over_0_5}%`;
-                document.getElementById('bar-fut-05-under').style.width = `${mkts.under_0_5}%`;
+        document.getElementById('odds-lbl-local').innerText = `L: ${odds.prob_local_norm}%`;
+        document.getElementById('odds-lbl-draw').innerText = `E: ${odds.prob_empate_norm}%`;
+        document.getElementById('odds-lbl-visit').innerText = `V: ${odds.prob_visita_norm}%`;
 
-                // 1.5
-                document.getElementById('mkt-fut-15-over').innerText = `Over ${mkts.over_1_5}%`;
-                document.getElementById('mkt-fut-15-under').innerText = `Under ${mkts.under_1_5}%`;
-                document.getElementById('bar-fut-15-over').style.width = `${mkts.over_1_5}%`;
-                document.getElementById('bar-fut-15-under').style.width = `${mkts.under_1_5}%`;
-
-                // 2.5
-                document.getElementById('mkt-fut-25-over').innerText = `Over ${mkts.over_2_5}%`;
-                document.getElementById('mkt-fut-25-under').innerText = `Under ${mkts.under_2_5}%`;
-                document.getElementById('bar-fut-25-over').style.width = `${mkts.over_2_5}%`;
-                document.getElementById('bar-fut-25-under').style.width = `${mkts.under_2_5}%`;
-
-                // 3.5
-                document.getElementById('mkt-fut-35-over').innerText = `Over ${mkts.over_3_5}%`;
-                document.getElementById('mkt-fut-35-under').innerText = `Under ${mkts.under_3_5}%`;
-                document.getElementById('bar-fut-35-over').style.width = `${mkts.over_3_5}%`;
-                document.getElementById('bar-fut-35-under').style.width = `${mkts.under_3_5}%`;
-
-                // 4.5
-                document.getElementById('mkt-fut-45-over').innerText = `Over ${mkts.over_4_5}%`;
-                document.getElementById('mkt-fut-45-under').innerText = `Under ${mkts.under_4_5}%`;
-                document.getElementById('bar-fut-45-over').style.width = `${mkts.over_4_5}%`;
-                document.getElementById('bar-fut-45-under').style.width = `${mkts.under_4_5}%`;
-            }
+        // Calculate edge (Model vs Market for the favorite selection)
+        let edge = 0;
+        let edgeColor = "text-slate-400";
+        let edgeBg = "bg-slate-800";
+        if (maxPct === lPct) {
+            edge = (lPct - odds.prob_local_norm).toFixed(1);
+        } else if (maxPct === vPct) {
+            edge = (vPct - odds.prob_visita_norm).toFixed(1);
+        } else {
+            edge = (ePct - odds.prob_empate_norm).toFixed(1);
         }
 
-        // Render Baseball UI components
-        function renderBaseballDashboard(data, local, visitante) {
-            document.getElementById('modulo-beisbol').classList.remove('hidden');
+        if (edge > 0) {
+            edgeColor = "text-green-400";
+            edgeBg = "bg-green-400/10 border border-green-400/20";
+        } else if (edge < 0) {
+            edgeColor = "text-red-400";
+            edgeBg = "bg-red-400/10 border border-red-400/20";
+        }
 
-            // Get team colors
-            const localColor = getTeamColor(local);
-            const visitColor = getTeamColor(visitante);
+        const edgeBadge = document.getElementById('odds-edge-badge');
+        edgeBadge.className = `text-[10px] font-bold px-2 py-1 rounded ${edgeBg} ${edgeColor}`;
+        edgeBadge.innerText = `EDGE: ${edge > 0 ? '+' : ''}${edge}%`;
 
-            // 1. Win Probability (Moneyline) Donut Chart
-            const lPct = data.victoria.local_pct;
-            const vPct = data.victoria.visita_pct;
+    } else {
+        if (oddsPanel) oddsPanel.classList.add('hidden');
+    }
 
-            // Update detailed legend cards
-            document.getElementById('lbl-beis-local-name').innerText = local;
-            document.getElementById('lbl-beis-local-pct').innerText = `${lPct}%`;
-            document.getElementById('lbl-beis-visit-name').innerText = visitante;
-            document.getElementById('lbl-beis-visit-pct').innerText = `${vPct}%`;
+    // Build Doughnut Chart
+    if (chartFutbolProbInstance) {
+        chartFutbolProbInstance.destroy();
+    }
 
-            const dotL = document.getElementById('beisbol-legend-dot-local');
-            const dotV = document.getElementById('beisbol-legend-dot-visit');
-            if (dotL) dotL.style.backgroundColor = localColor.primary;
-            if (dotV) dotV.style.backgroundColor = visitColor.secondary;
-
-            // Determine favorite and update center text
-            let maxPct = Math.max(lPct, vPct);
-            document.getElementById('beisbol-donut-pct').innerText = `${maxPct}%`;
-            document.getElementById('beisbol-donut-lbl').innerText = maxPct === lPct ? local : visitante;
-
-            // Dynamic insight text
-            const diff = Math.abs(lPct - vPct).toFixed(1);
-            let insightText = `El modelo RandomForest predice una victoria para <strong class="text-white">${lPct > vPct ? local : visitante}</strong> con <strong class="text-white">${maxPct}%</strong> de probabilidad de Moneyline (ventaja de <strong class="text-white">${diff}%</strong>).`;
-            insightText += ` La proyección combinada de carreras es de <strong class="text-white">${data.carreras.total_esperado.toFixed(1)}</strong>, con una recomendación de <strong class="text-white">${data.carreras_totales.medio}</strong> (<strong class="text-white">${data.carreras_totales.medio_prob}%</strong> de confianza).`;
-            document.getElementById('beisbol-analysis-insight').innerHTML = insightText;
-
-            // Build Doughnut Chart
-            if (chartBeisbolProbInstance) {
-                chartBeisbolProbInstance.destroy();
-            }
-
-            const canvasBeisbolProb = document.getElementById('chart-beisbol-prob');
-            if (canvasBeisbolProb) {
-                const ctxDoughnut = canvasBeisbolProb.getContext('2d');
-                chartBeisbolProbInstance = new Chart(ctxDoughnut, {
-                    type: 'doughnut',
-                    data: {
-                        labels: [local, visitante],
-                        datasets: [{
-                            data: [lPct, vPct],
-                            backgroundColor: [
-                                localColor.primary,
-                                visitColor.secondary
-                            ],
-                            borderWidth: 2,
-                            borderColor: '#090d16',
-                            hoverOffset: 4
-                        }]
+    const canvasFutbolProb = document.getElementById('chart-futbol-prob');
+    if (canvasFutbolProb) {
+        const ctxDoughnut = canvasFutbolProb.getContext('2d');
+        chartFutbolProbInstance = new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: [local, 'Empate', visitante],
+                datasets: [{
+                    data: [lPct, ePct, vPct],
+                    backgroundColor: [
+                        localColor.primary,
+                        '#e2e8f0', // soft white/slate-200 for draw
+                        visitColor.secondary
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#090d16',
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: false
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '75%',
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        return ` ${context.label}: ${context.raw}%`;
-                                    }
-                                }
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return ` ${context.label}: ${context.raw}%`;
                             }
                         }
                     }
-                });
+                }
             }
-            document.getElementById('pitch-team-l').innerText = local;
-            const customPitchLBtn = document.getElementById('custom-select-pitcher-l-btn');
-            if (customPitchLBtn) customPitchLBtn.style.color = localColor.primary;
-            document.getElementById('pitch-form-l').innerText = `Forma: ${data.jugadores.local.forma}`;
+        });
+    }
 
-            document.getElementById('pitch-team-v').innerText = visitante;
-            const customPitchVBtn = document.getElementById('custom-select-pitcher-v-btn');
-            if (customPitchVBtn) customPitchVBtn.style.color = visitColor.secondary;
-            document.getElementById('pitch-form-v').innerText = `Forma: ${data.jugadores.visitante.forma}`;
+    // 2. Goal probability 5x5 Matrix (Dynamic green color shading)
+    const matrix = data.goles_matriz;
+    for (let rIdx = 0; rIdx < 5; rIdx++) {
+        const goalsA = 4 - rIdx;
+        for (let cIdx = 0; cIdx < 5; cIdx++) {
+            const goalsB = 4 - cIdx;
+            const cellVal = matrix[rIdx][cIdx];
+            const cell = document.getElementById(`m-${goalsA}-${goalsB}`);
 
-            // Load pitchers dropdowns
-            cargarPitchersDropdowns(local, visitante, data.jugadores.local.id, data.jugadores.visitante.id);
+            if (cell) {
+                cell.innerText = `${cellVal}%`;
 
-            const pLocal = data.jugadores.local;
-            const pVisit = data.jugadores.visitante;
-
-            if (chartBeisbolPitchersInstance) {
-                chartBeisbolPitchersInstance.destroy();
-            }
-
-            const canvasPitchers = document.getElementById('chart-beisbol-pitchers');
-            if (canvasPitchers) {
-                // Scales normalization
-                const scaleEra = val => Math.max(0, Math.min(100, ((9 - val) / 9) * 100));
-                const scaleWhip = val => Math.max(0, Math.min(100, ((2.5 - val) / 2.5) * 100));
-                const scaleK9 = val => Math.max(0, Math.min(100, (val / 15) * 100));
-                const scaleQs = val => val;
-
-                const pLocalScores = [scaleEra(pLocal.era), scaleWhip(pLocal.whip), scaleK9(pLocal.k9), scaleQs(pLocal.qs_prob)];
-                const pVisitScores = [scaleEra(pVisit.era), scaleWhip(pVisit.whip), scaleK9(pVisit.k9), scaleQs(pVisit.qs_prob)];
-
-                const ctxPitchers = canvasPitchers.getContext('2d');
-                chartBeisbolPitchersInstance = new Chart(ctxPitchers, {
-                    type: 'radar',
-                    data: {
-                        labels: ['Efectividad (ERA)', 'Control (WHIP)', 'Ponches (K/9)', 'Salidas Calidad (QS%)'],
-                        datasets: [
-                            {
-                                label: pLocal.nombre,
-                                data: pLocalScores,
-                                backgroundColor: localColor.primary + '25', // 15% opacity
-                                borderColor: localColor.primary,
-                                pointBackgroundColor: localColor.primary,
-                                pointBorderColor: '#fff',
-                                pointHoverBackgroundColor: '#fff',
-                                pointHoverBorderColor: localColor.primary,
-                                borderWidth: 2
-                            },
-                            {
-                                label: pVisit.nombre,
-                                data: pVisitScores,
-                                backgroundColor: visitColor.secondary + '25',
-                                borderColor: visitColor.secondary,
-                                pointBackgroundColor: visitColor.secondary,
-                                pointBorderColor: '#fff',
-                                pointHoverBackgroundColor: '#fff',
-                                pointHoverBorderColor: visitColor.secondary,
-                                borderWidth: 2
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            r: {
-                                angleLines: {
-                                    color: 'rgba(255, 255, 255, 0.08)'
-                                },
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.08)'
-                                },
-                                pointLabels: {
-                                    color: '#94a3b8',
-                                    font: {
-                                        size: 10,
-                                        family: 'Outfit'
-                                    }
-                                },
-                                ticks: {
-                                    display: false,
-                                    max: 100,
-                                    min: 0
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'bottom',
-                                labels: {
-                                    color: '#94a3b8',
-                                    boxWidth: 10,
-                                    font: {
-                                        size: 9,
-                                        family: 'Outfit'
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        const index = context.dataIndex;
-                                        const isLocal = context.datasetIndex === 0;
-                                        const pitcher = isLocal ? pLocal : pVisit;
-                                        let rawVal = "";
-                                        if (index === 0) rawVal = pitcher.era.toFixed(2);
-                                        else if (index === 1) rawVal = pitcher.whip.toFixed(2);
-                                        else if (index === 2) rawVal = pitcher.k9.toFixed(1);
-                                        else if (index === 3) rawVal = pitcher.qs_prob.toFixed(1) + '%';
-
-                                        return ` ${pitcher.nombre} - ${context.label}: ${rawVal}`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // 3. Score Suggestion Card
-            document.getElementById('suggestion-beis-teams').innerText = `${local} vs ${visitante}`;
-            document.getElementById('suggestion-beis-score').innerText = data.resultado_probable.marcador;
-            document.getElementById('suggestion-beis-prob').innerText = `${data.resultado_probable.prob}% Probabilidad`;
-
-            // 4. Over/Under Markets Table
-            document.getElementById('mkt-65-over').innerText = `Over ${data.mercados.over_6_5}%`;
-            document.getElementById('mkt-65-under').innerText = `Under ${data.mercados.under_6_5}%`;
-            document.getElementById('mkt-75-over').innerText = `Over ${data.mercados.over_7_5}%`;
-            document.getElementById('mkt-75-under').innerText = `Under ${data.mercados.under_7_5}%`;
-            document.getElementById('mkt-85-over').innerText = `Over ${data.mercados.over_8_5}%`;
-            document.getElementById('mkt-85-under').innerText = `Under ${data.mercados.under_8_5}%`;
-            document.getElementById('mkt-95-over').innerText = `Over ${data.mercados.over_9_5}%`;
-            document.getElementById('mkt-95-under').innerText = `Under ${data.mercados.under_9_5}%`;
-            document.getElementById('mkt-105-over').innerText = `Over ${data.mercados.over_10_5}%`;
-            document.getElementById('mkt-105-under').innerText = `Under ${data.mercados.under_10_5}%`;
-
-            // Update horizontal graphs in the table
-            document.getElementById('bar-65-over').style.width = `${data.mercados.over_6_5}%`;
-            document.getElementById('bar-65-under').style.width = `${data.mercados.under_6_5}%`;
-            document.getElementById('bar-75-over').style.width = `${data.mercados.over_7_5}%`;
-            document.getElementById('bar-75-under').style.width = `${data.mercados.under_7_5}%`;
-            document.getElementById('bar-85-over').style.width = `${data.mercados.over_8_5}%`;
-            document.getElementById('bar-85-under').style.width = `${data.mercados.under_8_5}%`;
-            document.getElementById('bar-95-over').style.width = `${data.mercados.over_9_5}%`;
-            document.getElementById('bar-95-under').style.width = `${data.mercados.under_9_5}%`;
-            document.getElementById('bar-105-over').style.width = `${data.mercados.over_10_5}%`;
-            document.getElementById('bar-105-under').style.width = `${data.mercados.under_10_5}%`;
-
-            // 5. Total Runs Chart (Chart.js Horizontal Grouped Bar Chart)
-            if (chartBeisbolRunsInstance) {
-                chartBeisbolRunsInstance.destroy();
-            }
-
-            const canvasRuns = document.getElementById('chart-beisbol-runs');
-            if (canvasRuns) {
-                const ctxRuns = canvasRuns.getContext('2d');
-                chartBeisbolRunsInstance = new Chart(ctxRuns, {
-                    type: 'bar',
-                    data: {
-                        labels: [local, visitante],
-                        datasets: [{
-                            data: [data.carreras.local_esperado, data.carreras.visitante_esperado],
-                            backgroundColor: [localColor.primary, visitColor.secondary],
-                            borderRadius: 6,
-                            borderWidth: 0,
-                            barThickness: 16
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        return ` Carreras: ${context.raw.toFixed(2)}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.03)'
-                                },
-                                ticks: {
-                                    color: '#64748b',
-                                    font: {
-                                        size: 9
-                                    }
-                                },
-                                max: 10
-                            },
-                            y: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    color: '#94a3b8',
-                                    font: {
-                                        size: 10,
-                                        weight: 'bold',
-                                        family: 'Outfit'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            document.getElementById('run-rec-text').innerText = data.carreras_totales.medio;
-            document.getElementById('run-rec-prob').innerText = `${data.carreras_totales.medio_prob}%`;
-
-            // Update Value Bet Card
-            const vb = data.value_bet;
-            const vbCard = document.getElementById('beisbol-value-bet-card');
-            const vbBadge = document.getElementById('beisbol-value-bet-badge');
-            const vbSel = document.getElementById('beisbol-value-bet-selection');
-            const vbProb = document.getElementById('beisbol-value-bet-prob-ia');
-            const vbMomio = document.getElementById('beisbol-value-bet-momio');
-            const vbEdge = document.getElementById('beisbol-value-bet-edge');
-            const vbBtn = document.getElementById('beisbol-value-bet-btn');
-
-            if (vbCard && vb) {
-                let selLabel = vb.seleccion;
-                if (vb.seleccion === 'Local') selLabel = `${local}`;
-                else if (vb.seleccion === 'Visitante') selLabel = `${visitante}`;
-
-                vbSel.innerText = selLabel;
-                vbProb.innerText = `${vb.prob_ia.toFixed(1)}%`;
-                vbMomio.innerText = vb.momio_casino.toFixed(2);
-                vbEdge.innerText = (vb.edge >= 0 ? '+' : '') + vb.edge.toFixed(1) + '%';
-
-                if (vb.edge > 4.0) {
-                    vbCard.classList.remove('opacity-60');
-                    vbCard.style.borderColor = 'rgba(16, 185, 129, 0.3)';
-                    vbCard.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.25)';
-                    vbBadge.innerText = "Ventaja Detectada";
-                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
-                    vbEdge.className = "text-sm font-extrabold text-emerald-400 block mt-1";
-                    if (vbBtn) vbBtn.classList.remove('hidden');
+                // Assign cell background shade based on percentage value
+                if (cellVal > 10.0) {
+                    cell.style.background = 'rgba(16, 185, 129, 0.9)'; // Dark solid green
+                    cell.style.color = '#000';
+                } else if (cellVal > 5.0) {
+                    cell.style.background = 'rgba(16, 185, 129, 0.6)'; // Medium green
+                    cell.style.color = '#fff';
+                } else if (cellVal > 2.0) {
+                    cell.style.background = 'rgba(16, 185, 129, 0.35)'; // Light-medium green
+                    cell.style.color = '#10b981';
+                } else if (cellVal > 0.5) {
+                    cell.style.background = 'rgba(16, 185, 129, 0.15)'; // Soft green tint
+                    cell.style.color = '#34d399';
                 } else {
-                    vbCard.classList.add('opacity-60');
-                    vbCard.style.borderColor = 'rgba(255, 255, 255, 0.05)';
-                    vbCard.style.boxShadow = '';
-                    vbBadge.innerText = "Mercado Ajustado - Sin Ventaja";
-                    vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800/80 text-slate-500 border border-slate-700";
-                    vbEdge.className = "text-sm font-extrabold text-slate-500 block mt-1";
-                    if (vbBtn) vbBtn.classList.add('hidden');
+                    cell.style.background = 'rgba(16, 185, 129, 0.04)'; // Extremely pale
+                    cell.style.color = 'rgba(255,255,255,0.2)';
                 }
             }
         }
+    }
 
-        // Render standard placeholder layout for corner labels
-        function renderCornersPlaceholder() {
-            const cornersContainer = document.getElementById('corners-chart-container');
-            if (!cornersContainer) return;
-            cornersContainer.innerHTML = '';
-            
-            for (let i = 0; i < 11; i++) {
-                const label = i === 10 ? '11 o más' : `${i + 1}`;
-                const row = document.createElement('div');
-                row.className = 'grid grid-cols-12 gap-2 items-center text-xs font-semibold';
-                row.innerHTML = `
+    // Update matrix legend and labels colors dynamically
+    const legendL = document.getElementById('matrix-legend-local');
+    const legendV = document.getElementById('matrix-legend-visit');
+    if (legendL) {
+        legendL.style.color = localColor.primary;
+        legendL.innerText = `L (${local.substring(0, 3).toUpperCase()})`;
+    }
+    if (legendV) {
+        legendV.style.color = visitColor.secondary;
+        legendV.innerText = `V (${visitante.substring(0, 3).toUpperCase()}) ►`;
+    }
+
+    for (let i = 0; i <= 4; i++) {
+        const lblL = document.getElementById(`matrix-lbl-local-${i}`);
+        const lblV = document.getElementById(`matrix-lbl-visit-${i}`);
+        if (lblL) {
+            lblL.style.color = localColor.primary;
+            lblL.style.opacity = '0.8';
+        }
+        if (lblV) {
+            lblV.style.color = visitColor.secondary;
+            lblV.style.opacity = '0.8';
+        }
+    }
+
+    // 3. Resultado probable card
+    document.getElementById('suggestion-fut-teams').innerText = `${local} vs ${visitante}`;
+    document.getElementById('suggestion-fut-score').innerText = data.resultado_probable.marcador;
+    document.getElementById('suggestion-fut-prob').innerText = `${data.resultado_probable.prob}% Probabilidad`;
+
+    // 4. Corners Chart (Chart.js Grouped Horizontal Bar Chart)
+    if (chartFutbolCornersInstance) {
+        chartFutbolCornersInstance.destroy();
+    }
+
+    const canvasFutbolCorners = document.getElementById('chart-futbol-corners');
+    if (canvasFutbolCorners) {
+        const cornerLabels = Array.from({ length: 11 }, (_, i) => i === 10 ? '11+' : `${i + 1}`);
+        const ctxCorners = canvasFutbolCorners.getContext('2d');
+        chartFutbolCornersInstance = new Chart(ctxCorners, {
+            type: 'bar',
+            data: {
+                labels: cornerLabels,
+                datasets: [
+                    {
+                        label: local,
+                        data: data.corners.local,
+                        backgroundColor: localColor.primary,
+                        borderRadius: 4
+                    },
+                    {
+                        label: visitante,
+                        data: data.corners.visitante,
+                        backgroundColor: visitColor.secondary,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#94a3b8',
+                            boxWidth: 12,
+                            font: {
+                                size: 10,
+                                family: 'Outfit'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return ` ${context.dataset.label}: ${context.raw}% de Prob.`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.03)'
+                        },
+                        ticks: {
+                            color: '#64748b',
+                            font: {
+                                size: 9
+                            },
+                            callback: function (value) {
+                                return value + '%';
+                            }
+                        },
+                        max: 100
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                size: 10,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Corners overall market suggestion card
+    document.getElementById('corners-market-text').innerText = `Total de corners: ${data.corners.total_corners_text}`;
+    document.getElementById('corners-market-prob').innerText = `${data.corners.total_corners_prob}%`;
+
+    // Update Goles Totales Markets
+    if (data.mercados) {
+        const mkts = data.mercados;
+
+        // 0.5
+        document.getElementById('mkt-fut-05-over').innerText = `Over ${mkts.over_0_5}%`;
+        document.getElementById('mkt-fut-05-under').innerText = `Under ${mkts.under_0_5}%`;
+        document.getElementById('bar-fut-05-over').style.width = `${mkts.over_0_5}%`;
+        document.getElementById('bar-fut-05-under').style.width = `${mkts.under_0_5}%`;
+
+        // 1.5
+        document.getElementById('mkt-fut-15-over').innerText = `Over ${mkts.over_1_5}%`;
+        document.getElementById('mkt-fut-15-under').innerText = `Under ${mkts.under_1_5}%`;
+        document.getElementById('bar-fut-15-over').style.width = `${mkts.over_1_5}%`;
+        document.getElementById('bar-fut-15-under').style.width = `${mkts.under_1_5}%`;
+
+        // 2.5
+        document.getElementById('mkt-fut-25-over').innerText = `Over ${mkts.over_2_5}%`;
+        document.getElementById('mkt-fut-25-under').innerText = `Under ${mkts.under_2_5}%`;
+        document.getElementById('bar-fut-25-over').style.width = `${mkts.over_2_5}%`;
+        document.getElementById('bar-fut-25-under').style.width = `${mkts.under_2_5}%`;
+
+        // 3.5
+        document.getElementById('mkt-fut-35-over').innerText = `Over ${mkts.over_3_5}%`;
+        document.getElementById('mkt-fut-35-under').innerText = `Under ${mkts.under_3_5}%`;
+        document.getElementById('bar-fut-35-over').style.width = `${mkts.over_3_5}%`;
+        document.getElementById('bar-fut-35-under').style.width = `${mkts.under_3_5}%`;
+
+        // 4.5
+        document.getElementById('mkt-fut-45-over').innerText = `Over ${mkts.over_4_5}%`;
+        document.getElementById('mkt-fut-45-under').innerText = `Under ${mkts.under_4_5}%`;
+        document.getElementById('bar-fut-45-over').style.width = `${mkts.over_4_5}%`;
+        document.getElementById('bar-fut-45-under').style.width = `${mkts.under_4_5}%`;
+    }
+}
+
+// Render Baseball UI components
+function renderBaseballDashboard(data, local, visitante) {
+    document.getElementById('modulo-beisbol').classList.remove('hidden');
+
+    // Get team colors
+    const localColor = getTeamColor(local);
+    const visitColor = getTeamColor(visitante);
+
+    // 1. Win Probability (Moneyline) Donut Chart
+    const lPct = data.victoria.local_pct;
+    const vPct = data.victoria.visita_pct;
+
+    // Update detailed legend cards
+    document.getElementById('lbl-beis-local-name').innerText = local;
+    document.getElementById('lbl-beis-local-pct').innerText = `${lPct}%`;
+    document.getElementById('lbl-beis-visit-name').innerText = visitante;
+    document.getElementById('lbl-beis-visit-pct').innerText = `${vPct}%`;
+
+    const dotL = document.getElementById('beisbol-legend-dot-local');
+    const dotV = document.getElementById('beisbol-legend-dot-visit');
+    if (dotL) dotL.style.backgroundColor = localColor.primary;
+    if (dotV) dotV.style.backgroundColor = visitColor.secondary;
+
+    // Determine favorite and update center text
+    let maxPct = Math.max(lPct, vPct);
+    document.getElementById('beisbol-donut-pct').innerText = `${maxPct}%`;
+    document.getElementById('beisbol-donut-lbl').innerText = maxPct === lPct ? local : visitante;
+
+    // Dynamic insight text
+    const diff = Math.abs(lPct - vPct).toFixed(1);
+    let insightText = `El modelo RandomForest predice una victoria para <strong class="text-white">${lPct > vPct ? local : visitante}</strong> con <strong class="text-white">${maxPct}%</strong> de probabilidad de Moneyline (ventaja de <strong class="text-white">${diff}%</strong>).`;
+    insightText += ` La proyección combinada de carreras es de <strong class="text-white">${data.carreras.total_esperado.toFixed(1)}</strong>, con una recomendación de <strong class="text-white">${data.carreras_totales.medio}</strong> (<strong class="text-white">${data.carreras_totales.medio_prob}%</strong> de confianza).`;
+    document.getElementById('beisbol-analysis-insight').innerHTML = insightText;
+
+    // Build Doughnut Chart
+    if (chartBeisbolProbInstance) {
+        chartBeisbolProbInstance.destroy();
+    }
+
+    const canvasBeisbolProb = document.getElementById('chart-beisbol-prob');
+    if (canvasBeisbolProb) {
+        const ctxDoughnut = canvasBeisbolProb.getContext('2d');
+        chartBeisbolProbInstance = new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: [local, visitante],
+                datasets: [{
+                    data: [lPct, vPct],
+                    backgroundColor: [
+                        localColor.primary,
+                        visitColor.secondary
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#090d16',
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return ` ${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    document.getElementById('pitch-team-l').innerText = local;
+    const customPitchLBtn = document.getElementById('custom-select-pitcher-l-btn');
+    if (customPitchLBtn) customPitchLBtn.style.color = localColor.primary;
+    document.getElementById('pitch-form-l').innerText = `Forma: ${data.jugadores.local.forma}`;
+
+    document.getElementById('pitch-team-v').innerText = visitante;
+    const customPitchVBtn = document.getElementById('custom-select-pitcher-v-btn');
+    if (customPitchVBtn) customPitchVBtn.style.color = visitColor.secondary;
+    document.getElementById('pitch-form-v').innerText = `Forma: ${data.jugadores.visitante.forma}`;
+
+    // Load pitchers dropdowns
+    cargarPitchersDropdowns(local, visitante, data.jugadores.local.id, data.jugadores.visitante.id);
+
+    const pLocal = data.jugadores.local;
+    const pVisit = data.jugadores.visitante;
+
+    if (chartBeisbolPitchersInstance) {
+        chartBeisbolPitchersInstance.destroy();
+    }
+
+    const canvasPitchers = document.getElementById('chart-beisbol-pitchers');
+    if (canvasPitchers) {
+        // Scales normalization
+        const scaleEra = val => Math.max(0, Math.min(100, ((9 - val) / 9) * 100));
+        const scaleWhip = val => Math.max(0, Math.min(100, ((2.5 - val) / 2.5) * 100));
+        const scaleK9 = val => Math.max(0, Math.min(100, (val / 15) * 100));
+        const scaleQs = val => val;
+
+        const pLocalScores = [scaleEra(pLocal.era), scaleWhip(pLocal.whip), scaleK9(pLocal.k9), scaleQs(pLocal.qs_prob)];
+        const pVisitScores = [scaleEra(pVisit.era), scaleWhip(pVisit.whip), scaleK9(pVisit.k9), scaleQs(pVisit.qs_prob)];
+
+        const ctxPitchers = canvasPitchers.getContext('2d');
+        chartBeisbolPitchersInstance = new Chart(ctxPitchers, {
+            type: 'radar',
+            data: {
+                labels: ['Efectividad (ERA)', 'Control (WHIP)', 'Ponches (K/9)', 'Salidas Calidad (QS%)'],
+                datasets: [
+                    {
+                        label: pLocal.nombre,
+                        data: pLocalScores,
+                        backgroundColor: localColor.primary + '25', // 15% opacity
+                        borderColor: localColor.primary,
+                        pointBackgroundColor: localColor.primary,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: localColor.primary,
+                        borderWidth: 2
+                    },
+                    {
+                        label: pVisit.nombre,
+                        data: pVisitScores,
+                        backgroundColor: visitColor.secondary + '25',
+                        borderColor: visitColor.secondary,
+                        pointBackgroundColor: visitColor.secondary,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: visitColor.secondary,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.08)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.08)'
+                        },
+                        pointLabels: {
+                            color: '#94a3b8',
+                            font: {
+                                size: 10,
+                                family: 'Outfit'
+                            }
+                        },
+                        ticks: {
+                            display: false,
+                            max: 100,
+                            min: 0
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: '#94a3b8',
+                            boxWidth: 10,
+                            font: {
+                                size: 9,
+                                family: 'Outfit'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const index = context.dataIndex;
+                                const isLocal = context.datasetIndex === 0;
+                                const pitcher = isLocal ? pLocal : pVisit;
+                                let rawVal = "";
+                                if (index === 0) rawVal = pitcher.era.toFixed(2);
+                                else if (index === 1) rawVal = pitcher.whip.toFixed(2);
+                                else if (index === 2) rawVal = pitcher.k9.toFixed(1);
+                                else if (index === 3) rawVal = pitcher.qs_prob.toFixed(1) + '%';
+
+                                return ` ${pitcher.nombre} - ${context.label}: ${rawVal}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 3. Score Suggestion Card
+    document.getElementById('suggestion-beis-teams').innerText = `${local} vs ${visitante}`;
+    document.getElementById('suggestion-beis-score').innerText = data.resultado_probable.marcador;
+    document.getElementById('suggestion-beis-prob').innerText = `${data.resultado_probable.prob}% Probabilidad`;
+
+    // 4. Over/Under Markets Table
+    document.getElementById('mkt-65-over').innerText = `Over ${data.mercados.over_6_5}%`;
+    document.getElementById('mkt-65-under').innerText = `Under ${data.mercados.under_6_5}%`;
+    document.getElementById('mkt-75-over').innerText = `Over ${data.mercados.over_7_5}%`;
+    document.getElementById('mkt-75-under').innerText = `Under ${data.mercados.under_7_5}%`;
+    document.getElementById('mkt-85-over').innerText = `Over ${data.mercados.over_8_5}%`;
+    document.getElementById('mkt-85-under').innerText = `Under ${data.mercados.under_8_5}%`;
+    document.getElementById('mkt-95-over').innerText = `Over ${data.mercados.over_9_5}%`;
+    document.getElementById('mkt-95-under').innerText = `Under ${data.mercados.under_9_5}%`;
+    document.getElementById('mkt-105-over').innerText = `Over ${data.mercados.over_10_5}%`;
+    document.getElementById('mkt-105-under').innerText = `Under ${data.mercados.under_10_5}%`;
+
+    // Update horizontal graphs in the table
+    document.getElementById('bar-65-over').style.width = `${data.mercados.over_6_5}%`;
+    document.getElementById('bar-65-under').style.width = `${data.mercados.under_6_5}%`;
+    document.getElementById('bar-75-over').style.width = `${data.mercados.over_7_5}%`;
+    document.getElementById('bar-75-under').style.width = `${data.mercados.under_7_5}%`;
+    document.getElementById('bar-85-over').style.width = `${data.mercados.over_8_5}%`;
+    document.getElementById('bar-85-under').style.width = `${data.mercados.under_8_5}%`;
+    document.getElementById('bar-95-over').style.width = `${data.mercados.over_9_5}%`;
+    document.getElementById('bar-95-under').style.width = `${data.mercados.under_9_5}%`;
+    document.getElementById('bar-105-over').style.width = `${data.mercados.over_10_5}%`;
+    document.getElementById('bar-105-under').style.width = `${data.mercados.under_10_5}%`;
+
+    // 5. Total Runs Chart (Chart.js Horizontal Grouped Bar Chart)
+    if (chartBeisbolRunsInstance) {
+        chartBeisbolRunsInstance.destroy();
+    }
+
+    const canvasRuns = document.getElementById('chart-beisbol-runs');
+    if (canvasRuns) {
+        const ctxRuns = canvasRuns.getContext('2d');
+        chartBeisbolRunsInstance = new Chart(ctxRuns, {
+            type: 'bar',
+            data: {
+                labels: [local, visitante],
+                datasets: [{
+                    data: [data.carreras.local_esperado, data.carreras.visitante_esperado],
+                    backgroundColor: [localColor.primary, visitColor.secondary],
+                    borderRadius: 6,
+                    borderWidth: 0,
+                    barThickness: 16
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return ` Carreras: ${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.03)'
+                        },
+                        ticks: {
+                            color: '#64748b',
+                            font: {
+                                size: 9
+                            }
+                        },
+                        max: 10
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                size: 10,
+                                weight: 'bold',
+                                family: 'Outfit'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    document.getElementById('run-rec-text').innerText = data.carreras_totales.medio;
+    document.getElementById('run-rec-prob').innerText = `${data.carreras_totales.medio_prob}%`;
+
+    // Update Value Bet Card
+    const vb = data.value_bet;
+    const vbCard = document.getElementById('beisbol-value-bet-card');
+    const vbBadge = document.getElementById('beisbol-value-bet-badge');
+    const vbSel = document.getElementById('beisbol-value-bet-selection');
+    const vbProb = document.getElementById('beisbol-value-bet-prob-ia');
+    const vbMomio = document.getElementById('beisbol-value-bet-momio');
+    const vbEdge = document.getElementById('beisbol-value-bet-edge');
+    const vbBtn = document.getElementById('beisbol-value-bet-btn');
+
+    if (vbCard && vb) {
+        let selLabel = vb.seleccion;
+        if (vb.seleccion === 'Local') selLabel = `${local}`;
+        else if (vb.seleccion === 'Visitante') selLabel = `${visitante}`;
+
+        vbSel.innerText = selLabel;
+        vbProb.innerText = `${vb.prob_ia.toFixed(1)}%`;
+        vbMomio.innerText = vb.momio_casino.toFixed(2);
+        vbEdge.innerText = (vb.edge >= 0 ? '+' : '') + vb.edge.toFixed(1) + '%';
+
+        if (vb.edge > 4.0) {
+            vbCard.classList.remove('opacity-60');
+            vbCard.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+            vbCard.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.25)';
+            vbBadge.innerText = "Ventaja Detectada";
+            vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+            vbEdge.className = "text-sm font-extrabold text-emerald-400 block mt-1";
+            if (vbBtn) vbBtn.classList.remove('hidden');
+        } else {
+            vbCard.classList.add('opacity-60');
+            vbCard.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+            vbCard.style.boxShadow = '';
+            vbBadge.innerText = "Mercado Ajustado - Sin Ventaja";
+            vbBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800/80 text-slate-500 border border-slate-700";
+            vbEdge.className = "text-sm font-extrabold text-slate-500 block mt-1";
+            if (vbBtn) vbBtn.classList.add('hidden');
+        }
+    }
+}
+
+// Render standard placeholder layout for corner labels
+function renderCornersPlaceholder() {
+    const cornersContainer = document.getElementById('corners-chart-container');
+    if (!cornersContainer) return;
+    cornersContainer.innerHTML = '';
+
+    for (let i = 0; i < 11; i++) {
+        const label = i === 10 ? '11 o más' : `${i + 1}`;
+        const row = document.createElement('div');
+        row.className = 'grid grid-cols-12 gap-2 items-center text-xs font-semibold';
+        row.innerHTML = `
                     <div class="col-span-5 flex items-center justify-end space-x-2">
                         <span class="text-[10px] text-slate-400 font-bold shrink-0">--%</span>
                         <div class="flex-1 bg-slate-950 rounded-full h-3 max-w-[120px]"></div>
@@ -2493,225 +2493,225 @@
                         <span class="text-[10px] text-slate-400 font-bold shrink-0">--%</span>
                     </div>
                 `;
-                cornersContainer.appendChild(row);
+        cornersContainer.appendChild(row);
+    }
+}
+
+window.agregarInversionBot = async function () {
+    const pred = window.lastPrediction;
+    if (!pred || !pred.value_bet) {
+        alert("No hay ningún pronóstico activo o no contiene datos de Value Bet.");
+        return;
+    }
+
+    const vb = pred.value_bet;
+
+    // Construct date string in YYYY-MM-DD HH:MM:SS format
+    const now = new Date();
+    const fechaStr = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0') + ':' +
+        String(now.getSeconds()).padStart(2, '0');
+
+    // Determine probabilities for local/visitante for both sports
+    let probIALocal = 50.0;
+    let probIAVisita = 50.0;
+    if (pred.deporte === 'futbol') {
+        probIALocal = pred.prediction.victoria.local_pct;
+        probIAVisita = pred.prediction.victoria.visita_pct;
+    } else {
+        probIALocal = pred.prediction.victoria.local_pct;
+        probIAVisita = pred.prediction.victoria.visita_pct;
+    }
+
+    // Casino odds
+    let momioLocal = 1.95;
+    let momioVisita = 1.95;
+    if (vb.seleccion === 'Local') {
+        momioLocal = vb.momio_casino;
+    } else if (vb.seleccion === 'Visitante') {
+        momioVisita = vb.momio_casino;
+    }
+
+    let probCasinoLocal = 50.0;
+    let probCasinoVisita = 50.0;
+    if (vb.seleccion === 'Local') {
+        probCasinoLocal = vb.prob_casino;
+    } else if (vb.seleccion === 'Visitante') {
+        probCasinoVisita = vb.prob_casino;
+    }
+
+    const payload = {
+        apuestas: [
+            {
+                Fecha_Compra: fechaStr,
+                Partido: `${pred.local} vs ${pred.visitante}`,
+                Local: pred.local,
+                Visita: pred.visitante,
+                Casino: "Codere",
+                Momio_Local: parseFloat(momioLocal),
+                Momio_Visita: parseFloat(momioVisita),
+                Prob_Casino_Local: parseFloat(probCasinoLocal),
+                Prob_Casino_Visita: parseFloat(probCasinoVisita),
+                Prob_IA_Local: parseFloat(probIALocal),
+                Prob_IA_Visita: parseFloat(probIAVisita),
+                Apuesta_A: vb.seleccion,
+                Momio_Apostado: parseFloat(vb.momio_casino),
+                Prob_IA_Apostado: parseFloat(vb.prob_ia),
+                Ventaja_Pct: parseFloat(vb.edge),
+                Inversion_Simulada: 100.0,
+                Ganancia_Potencial: parseFloat((100.0 * vb.momio_casino).toFixed(2)),
+                Estado: "Pendiente"
+            }
+        ]
+    };
+
+    // Disable buttons
+    const btnFut = document.getElementById('futbol-value-bet-btn');
+    const btnBeis = document.getElementById('beisbol-value-bet-btn');
+    if (btnFut) btnFut.disabled = true;
+    if (btnBeis) btnBeis.disabled = true;
+
+    try {
+        const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            const resData = await res.json();
+            if (resData.status === 'success') {
+                showPremiumToast(`🤖 ¡Apuesta registrada con éxito en el Bot de Trading!`);
+            } else {
+                alert(`Error al registrar en el Bot: ${resData.message || 'Desconocido'}`);
+            }
+        } else {
+            const errText = await res.text();
+            alert(`Error en la petición: ${errText}`);
+        }
+    } catch (err) {
+        console.error("Error al registrar ticket en el bot:", err);
+        alert(`Error de red al conectar con el Bot: ${err.message}`);
+    } finally {
+        if (btnFut) btnFut.disabled = false;
+        if (btnBeis) btnBeis.disabled = false;
+    }
+};
+
+
+let chartBotRoiInstance = null;
+
+async function renderizarDashboardBot() {
+    document.getElementById('modulo-futbol').classList.add('hidden');
+    const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
+            document.getElementById('modulo-beisbol').classList.add('hidden');
+    document.getElementById('pantalla-inicio').classList.add('hidden');
+    if (document.getElementById('modulo-parlay')) {
+        document.getElementById('modulo-parlay').classList.add('hidden');
+    }
+    document.getElementById('modulo-bot-trading').classList.remove('hidden');
+
+    let datosBot = {
+        fechas: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Hoy'],
+        balance: [0, -100, 150, 80, 290, 180, 430.50],
+        operaciones: [
+            { fecha: '2026-06-04 10:15', partido: 'Cubs vs Athletics (L)', momio: '3.40', edge: '43.9%', estado: 'Pendiente' },
+            { fecha: '2026-06-03 10:02', partido: 'Braves vs Blue Jays (L)', momio: '4.40', edge: '42.0%', estado: 'Ganada' },
+            { fecha: '2026-06-03 10:02', partido: 'Astros vs Pirates (L)', momio: '2.58', edge: '8.6%', estado: 'Perdida' }
+        ],
+        summary: {
+            ganancia_neta_total: 430.50,
+            win_rate: 68.5,
+            tickets_pendientes: 6
+        }
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/bot/portafolio`);
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.chart && data.summary) {
+                datosBot.fechas = data.chart.fechas;
+                datosBot.balance = data.chart.balance;
+                datosBot.operaciones = data.operaciones || [];
+                datosBot.summary = data.summary;
+                console.log("Datos del bot cargados desde el backend");
             }
         }
+    } catch (err) {
+        console.warn("No se pudo conectar con el backend para obtener el portafolio del bot, usando datos simulados.", err);
+    }
 
-        window.agregarInversionBot = async function () {
-            const pred = window.lastPrediction;
-            if (!pred || !pred.value_bet) {
-                alert("No hay ningún pronóstico activo o no contiene datos de Value Bet.");
-                return;
-            }
+    const gananciaTotalEl = document.getElementById('bot-ganancia-total');
+    if (gananciaTotalEl) {
+        const total = datosBot.summary.ganancia_neta_total;
+        gananciaTotalEl.innerText = (total >= 0 ? '+' : '-') + '$' + Math.abs(total).toFixed(2);
+        if (total >= 0) {
+            gananciaTotalEl.className = "text-3xl font-black text-emerald-400";
+        } else {
+            gananciaTotalEl.className = "text-3xl font-black text-rose-400";
+        }
+    }
+    const winRateEl = document.getElementById('bot-win-rate');
+    if (winRateEl) {
+        winRateEl.innerText = datosBot.summary.win_rate.toFixed(1) + '%';
+    }
+    const pendientesEl = document.getElementById('bot-pendientes');
+    if (pendientesEl) {
+        pendientesEl.innerText = datosBot.summary.tickets_pendientes;
+    }
 
-            const vb = pred.value_bet;
-            
-            // Construct date string in YYYY-MM-DD HH:MM:SS format
-            const now = new Date();
-            const fechaStr = now.getFullYear() + '-' + 
-                             String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-                             String(now.getDate()).padStart(2, '0') + ' ' + 
-                             String(now.getHours()).padStart(2, '0') + ':' + 
-                             String(now.getMinutes()).padStart(2, '0') + ':' + 
-                             String(now.getSeconds()).padStart(2, '0');
+    const canvasRoi = document.getElementById('chart-bot-roi');
+    if (canvasRoi) {
+        if (chartBotRoiInstance) { chartBotRoiInstance.destroy(); }
 
-            // Determine probabilities for local/visitante for both sports
-            let probIALocal = 50.0;
-            let probIAVisita = 50.0;
-            if (pred.deporte === 'futbol') {
-                probIALocal = pred.prediction.victoria.local_pct;
-                probIAVisita = pred.prediction.victoria.visita_pct;
-            } else {
-                probIALocal = pred.prediction.victoria.local_pct;
-                probIAVisita = pred.prediction.victoria.visita_pct;
-            }
-
-            // Casino odds
-            let momioLocal = 1.95;
-            let momioVisita = 1.95;
-            if (vb.seleccion === 'Local') {
-                momioLocal = vb.momio_casino;
-            } else if (vb.seleccion === 'Visitante') {
-                momioVisita = vb.momio_casino;
-            }
-
-            let probCasinoLocal = 50.0;
-            let probCasinoVisita = 50.0;
-            if (vb.seleccion === 'Local') {
-                probCasinoLocal = vb.prob_casino;
-            } else if (vb.seleccion === 'Visitante') {
-                probCasinoVisita = vb.prob_casino;
-            }
-
-            const payload = {
-                apuestas: [
-                    {
-                        Fecha_Compra: fechaStr,
-                        Partido: `${pred.local} vs ${pred.visitante}`,
-                        Local: pred.local,
-                        Visita: pred.visitante,
-                        Casino: "Codere",
-                        Momio_Local: parseFloat(momioLocal),
-                        Momio_Visita: parseFloat(momioVisita),
-                        Prob_Casino_Local: parseFloat(probCasinoLocal),
-                        Prob_Casino_Visita: parseFloat(probCasinoVisita),
-                        Prob_IA_Local: parseFloat(probIALocal),
-                        Prob_IA_Visita: parseFloat(probIAVisita),
-                        Apuesta_A: vb.seleccion,
-                        Momio_Apostado: parseFloat(vb.momio_casino),
-                        Prob_IA_Apostado: parseFloat(vb.prob_ia),
-                        Ventaja_Pct: parseFloat(vb.edge),
-                        Inversion_Simulada: 100.0,
-                        Ganancia_Potencial: parseFloat((100.0 * vb.momio_casino).toFixed(2)),
-                        Estado: "Pendiente"
-                    }
-                ]
-            };
-
-            // Disable buttons
-            const btnFut = document.getElementById('futbol-value-bet-btn');
-            const btnBeis = document.getElementById('beisbol-value-bet-btn');
-            if (btnFut) btnFut.disabled = true;
-            if (btnBeis) btnBeis.disabled = true;
-
-            try {
-                const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (res.ok) {
-                    const resData = await res.json();
-                    if (resData.status === 'success') {
-                        showPremiumToast(`🤖 ¡Apuesta registrada con éxito en el Bot de Trading!`);
-                    } else {
-                        alert(`Error al registrar en el Bot: ${resData.message || 'Desconocido'}`);
-                    }
-                } else {
-                    const errText = await res.text();
-                    alert(`Error en la petición: ${errText}`);
-                }
-            } catch (err) {
-                console.error("Error al registrar ticket en el bot:", err);
-                alert(`Error de red al conectar con el Bot: ${err.message}`);
-            } finally {
-                if (btnFut) btnFut.disabled = false;
-                if (btnBeis) btnBeis.disabled = false;
-            }
-        };
-    
-
-        let chartBotRoiInstance = null;
-
-        async function renderizarDashboardBot() {
-            document.getElementById('modulo-futbol').classList.add('hidden');
-            const modNfl = document.getElementById(\'modulo-nfl\'); if(modNfl) modNfl.classList.add(\'hidden\');
-            document.getElementById('modulo-beisbol').classList.add('hidden');
-            document.getElementById('pantalla-inicio').classList.add('hidden');
-            if (document.getElementById('modulo-parlay')) {
-                document.getElementById('modulo-parlay').classList.add('hidden');
-            }
-            document.getElementById('modulo-bot-trading').classList.remove('hidden');
-
-            let datosBot = {
-                fechas: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Hoy'],
-                balance: [0, -100, 150, 80, 290, 180, 430.50],
-                operaciones: [
-                    { fecha: '2026-06-04 10:15', partido: 'Cubs vs Athletics (L)', momio: '3.40', edge: '43.9%', estado: 'Pendiente' },
-                    { fecha: '2026-06-03 10:02', partido: 'Braves vs Blue Jays (L)', momio: '4.40', edge: '42.0%', estado: 'Ganada' },
-                    { fecha: '2026-06-03 10:02', partido: 'Astros vs Pirates (L)', momio: '2.58', edge: '8.6%', estado: 'Perdida' }
-                ],
-                summary: {
-                    ganancia_neta_total: 430.50,
-                    win_rate: 68.5,
-                    tickets_pendientes: 6
-                }
-            };
-
-            try {
-                const res = await fetch(`${API_BASE}/bot/portafolio`);
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.chart && data.summary) {
-                        datosBot.fechas = data.chart.fechas;
-                        datosBot.balance = data.chart.balance;
-                        datosBot.operaciones = data.operaciones || [];
-                        datosBot.summary = data.summary;
-                        console.log("Datos del bot cargados desde el backend");
-                    }
-                }
-            } catch (err) {
-                console.warn("No se pudo conectar con el backend para obtener el portafolio del bot, usando datos simulados.", err);
-            }
-
-            const gananciaTotalEl = document.getElementById('bot-ganancia-total');
-            if (gananciaTotalEl) {
-                const total = datosBot.summary.ganancia_neta_total;
-                gananciaTotalEl.innerText = (total >= 0 ? '+' : '-') + '$' + Math.abs(total).toFixed(2);
-                if (total >= 0) {
-                    gananciaTotalEl.className = "text-3xl font-black text-emerald-400";
-                } else {
-                    gananciaTotalEl.className = "text-3xl font-black text-rose-400";
+        chartBotRoiInstance = new Chart(canvasRoi.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: datosBot.fechas,
+                datasets: [{
+                    label: 'Balance Neto ($)',
+                    data: datosBot.balance,
+                    borderColor: '#34d399',
+                    backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#090d16',
+                    pointBorderColor: '#34d399',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#64748b' } },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
                 }
             }
-            const winRateEl = document.getElementById('bot-win-rate');
-            if (winRateEl) {
-                winRateEl.innerText = datosBot.summary.win_rate.toFixed(1) + '%';
-            }
-            const pendientesEl = document.getElementById('bot-pendientes');
-            if (pendientesEl) {
-                pendientesEl.innerText = datosBot.summary.tickets_pendientes;
-            }
+        });
+    }
 
-            const canvasRoi = document.getElementById('chart-bot-roi');
-            if (canvasRoi) {
-                if (chartBotRoiInstance) { chartBotRoiInstance.destroy(); }
-                
-                chartBotRoiInstance = new Chart(canvasRoi.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: datosBot.fechas,
-                        datasets: [{
-                            label: 'Balance Neto ($)',
-                            data: datosBot.balance,
-                            borderColor: '#34d399',
-                            backgroundColor: 'rgba(52, 211, 153, 0.1)',
-                            borderWidth: 3,
-                            tension: 0.4,
-                            fill: true,
-                            pointBackgroundColor: '#090d16',
-                            pointBorderColor: '#34d399',
-                            pointBorderWidth: 2,
-                            pointRadius: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { display: false }, ticks: { color: '#64748b' } },
-                            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
-                        }
-                    }
-                });
-            }
+    const tbody = document.getElementById('tabla-bot-body');
+    if (tbody) {
+        let htmlTabla = '';
 
-            const tbody = document.getElementById('tabla-bot-body');
-            if (tbody) {
-                let htmlTabla = '';
-                
-                datosBot.operaciones.forEach(op => {
-                    let colorEstado = 'text-blue-400 bg-blue-400/10 border-blue-400/20';
-                    if (op.estado === 'Ganada') colorEstado = 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
-                    if (op.estado === 'Perdida') colorEstado = 'text-rose-400 bg-rose-400/10 border-rose-400/20';
+        datosBot.operaciones.forEach(op => {
+            let colorEstado = 'text-blue-400 bg-blue-400/10 border-blue-400/20';
+            if (op.estado === 'Ganada') colorEstado = 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
+            if (op.estado === 'Perdida') colorEstado = 'text-rose-400 bg-rose-400/10 border-rose-400/20';
 
-                    const fechaSimple = op.fecha.includes(' ') ? op.fecha.split(' ')[0] : op.fecha;
+            const fechaSimple = op.fecha.includes(' ') ? op.fecha.split(' ')[0] : op.fecha;
 
-                    htmlTabla += `
+            htmlTabla += `
                         <tr class="hover:bg-slate-800/30 transition-colors">
                             <td class="py-3 pl-2 text-slate-400 font-mono">${fechaSimple}</td>
                             <td class="py-3 font-semibold text-slate-200">${op.partido}</td>
@@ -2724,16 +2724,16 @@
                             </td>
                         </tr>
                     `;
-                });
-                tbody.innerHTML = htmlTabla;
-            }
-        }
-    
+        });
+        tbody.innerHTML = htmlTabla;
+    }
+}
 
-        (function () {
-            // --- ESTILOS DINÁMICOS PARA PARLAY SOÑADOR ---
-            const style = document.createElement('style');
-            style.textContent = `
+
+(function () {
+    // --- ESTILOS DINÁMICOS PARA PARLAY SOÑADOR ---
+    const style = document.createElement('style');
+    style.textContent = `
         .columns { display: flex; gap: 16px; flex: 1; overflow: hidden; min-height: 0; }
         .left-panel { flex: 0 0 60%; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; padding: 20px; }
         .section-label { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #475569; margin-bottom: 10px; }
@@ -2995,78 +2995,78 @@
           .left-panel, .right-panel { flex: none; width: 100%; }
         }
       `;
-            document.head.appendChild(style);
+    document.head.appendChild(style);
 
-            // --- DEPORTES Y DATOS ---
-            const futbolData = {
-                ligas: [
-                    "🏆 Champions League",
-                    "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League",
-                    "🇫🇷 Ligue 1",
-                    "🇪🇸 La Liga",
-                    "🌎 Liga MX"
-                ],
-                equipos: {
-                    "🏆 Champions League": ["Paris Saint-Germain", "Arsenal", "Real Madrid", "Bayern Munich", "Barcelona", "Inter Milan"],
-                    "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League": ["Man City", "Arsenal", "Liverpool", "Chelsea", "Man United", "Tottenham"],
-                    "🇫🇷 Ligue 1": ["PSG", "Marseille", "Lyon", "Monaco", "Lille", "Nice"],
-                    "🇪🇸 La Liga": ["Real Madrid", "Barcelona", "Atletico Madrid", "Girona", "Real Sociedad", "Sevilla"],
-                    "🌎 Liga MX": ["América", "Chivas", "Cruz Azul", "Tigres", "Monterrey", "Pumas"]
-                }
-            };
+    // --- DEPORTES Y DATOS ---
+    const futbolData = {
+        ligas: [
+            "🏆 Champions League",
+            "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League",
+            "🇫🇷 Ligue 1",
+            "🇪🇸 La Liga",
+            "🌎 Liga MX"
+        ],
+        equipos: {
+            "🏆 Champions League": ["Paris Saint-Germain", "Arsenal", "Real Madrid", "Bayern Munich", "Barcelona", "Inter Milan"],
+            "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League": ["Man City", "Arsenal", "Liverpool", "Chelsea", "Man United", "Tottenham"],
+            "🇫🇷 Ligue 1": ["PSG", "Marseille", "Lyon", "Monaco", "Lille", "Nice"],
+            "🇪🇸 La Liga": ["Real Madrid", "Barcelona", "Atletico Madrid", "Girona", "Real Sociedad", "Sevilla"],
+            "🌎 Liga MX": ["América", "Chivas", "Cruz Azul", "Tigres", "Monterrey", "Pumas"]
+        }
+    };
 
-            const beisbolData = {
-                ligas: [
-                    "⚾ MLB — American League East",
-                    "⚾ MLB — American League Central",
-                    "⚾ MLB — American League West",
-                    "⚾ MLB — National League East"
-                ],
-                equipos: {
-                    "⚾ MLB — American League East": ["New York Yankees", "Baltimore Orioles", "Boston Red Sox", "Tampa Bay Rays", "Toronto Blue Jays"],
-                    "⚾ MLB — American League Central": ["Cleveland Guardians", "Kansas City Royals", "Minnesota Twins", "Detroit Tigers", "Chicago White Sox"],
-                    "⚾ MLB — American League West": ["Houston Astros", "Seattle Mariners", "Texas Rangers", "Oakland Athletics", "Los Angeles Angels"],
-                    "⚾ MLB — National League East": ["Philadelphia Phillies", "Atlanta Braves", "New York Mets", "Washington Nationals", "Miami Marlins"]
-                }
-            };
+    const beisbolData = {
+        ligas: [
+            "⚾ MLB — American League East",
+            "⚾ MLB — American League Central",
+            "⚾ MLB — American League West",
+            "⚾ MLB — National League East"
+        ],
+        equipos: {
+            "⚾ MLB — American League East": ["New York Yankees", "Baltimore Orioles", "Boston Red Sox", "Tampa Bay Rays", "Toronto Blue Jays"],
+            "⚾ MLB — American League Central": ["Cleveland Guardians", "Kansas City Royals", "Minnesota Twins", "Detroit Tigers", "Chicago White Sox"],
+            "⚾ MLB — American League West": ["Houston Astros", "Seattle Mariners", "Texas Rangers", "Oakland Athletics", "Los Angeles Angels"],
+            "⚾ MLB — National League East": ["Philadelphia Phillies", "Atlanta Braves", "New York Mets", "Washington Nationals", "Miami Marlins"]
+        }
+    };
 
-            const defaultPicks = [
-                { id: 'default-1', deporte: 'futbol', liga: '🏆 Champions League', partido: 'Arsenal vs PSG', mercado: 'Ganador: Arsenal (2)', probabilidad: 0.65 },
-                { id: 'default-2', deporte: 'futbol', liga: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League', partido: 'Man City vs Liverpool', mercado: 'Over 2.5 Goles', probabilidad: 0.72 },
-                { id: 'default-3', deporte: 'beisbol', liga: '⚾ MLB — American League East', partido: 'Yankees vs Orioles', mercado: 'Under 7.5 Carreras', probabilidad: 0.68 },
-                { id: 'default-4', deporte: 'futbol', liga: '🇪🇸 La Liga', partido: 'Real Madrid vs Barcelona', mercado: 'Empate (X)', probabilidad: 0.23 },
-                { id: 'default-5', deporte: 'futbol', liga: '🇫🇷 Ligue 1', partido: 'Marseille vs Lyon', mercado: 'Over 9.5 Corners', probabilidad: 0.61 }
-            ];
+    const defaultPicks = [
+        { id: 'default-1', deporte: 'futbol', liga: '🏆 Champions League', partido: 'Arsenal vs PSG', mercado: 'Ganador: Arsenal (2)', probabilidad: 0.65 },
+        { id: 'default-2', deporte: 'futbol', liga: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League', partido: 'Man City vs Liverpool', mercado: 'Over 2.5 Goles', probabilidad: 0.72 },
+        { id: 'default-3', deporte: 'beisbol', liga: '⚾ MLB — American League East', partido: 'Yankees vs Orioles', mercado: 'Under 7.5 Carreras', probabilidad: 0.68 },
+        { id: 'default-4', deporte: 'futbol', liga: '🇪🇸 La Liga', partido: 'Real Madrid vs Barcelona', mercado: 'Empate (X)', probabilidad: 0.23 },
+        { id: 'default-5', deporte: 'futbol', liga: '🇫🇷 Ligue 1', partido: 'Marseille vs Lyon', mercado: 'Over 9.5 Corners', probabilidad: 0.61 }
+    ];
 
-            // --- ESTADO GLOBAL (window.picks, window.savedMatches) ---
-            window.picks = [];
-            window.savedMatches = [];
-            let currentSport = 'futbol';
-            let activeSelections = {
-                winner: null,
-                goals: null,
-                corners: null,
-                runs: null
-            };
-            let activeSavedMatch = null;
+    // --- ESTADO GLOBAL (window.picks, window.savedMatches) ---
+    window.picks = [];
+    window.savedMatches = [];
+    let currentSport = 'futbol';
+    let activeSelections = {
+        winner: null,
+        goals: null,
+        corners: null,
+        runs: null
+    };
+    let activeSavedMatch = null;
 
-            const defaultGoals = {
-                over_1_5: 0.81, under_1_5: 0.19,
-                over_2_5: 0.55, under_2_5: 0.45,
-                over_3_5: 0.31, under_3_5: 0.69
-            };
-            const defaultCorners = {
-                over_7_5: 0.67, over_8_5: 0.52, over_9_5: 0.38, over_10_5: 0.24,
-                under_9_5: 0.62, under_10_5: 0.76
-            };
+    const defaultGoals = {
+        over_1_5: 0.81, under_1_5: 0.19,
+        over_2_5: 0.55, under_2_5: 0.45,
+        over_3_5: 0.31, under_3_5: 0.69
+    };
+    const defaultCorners = {
+        over_7_5: 0.67, over_8_5: 0.52, over_9_5: 0.38, over_10_5: 0.24,
+        under_9_5: 0.62, under_10_5: 0.76
+    };
 
-            // --- PREMIUM TOAST ---
-            window.showPremiumToast = function (message) {
-                let container = document.getElementById('premium-toast-container');
-                if (!container) {
-                    container = document.createElement('div');
-                    container.id = 'premium-toast-container';
-                    container.style.cssText = `
+    // --- PREMIUM TOAST ---
+    window.showPremiumToast = function (message) {
+        let container = document.getElementById('premium-toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'premium-toast-container';
+            container.style.cssText = `
                         position: fixed;
                         bottom: 24px;
                         right: 24px;
@@ -3076,11 +3076,11 @@
                         gap: 10px;
                         pointer-events: none;
                     `;
-                    document.body.appendChild(container);
-                }
-                
-                const toast = document.createElement('div');
-                toast.style.cssText = `
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement('div');
+        toast.style.cssText = `
                     pointer-events: auto;
                     background: rgba(15, 23, 42, 0.85);
                     backdrop-filter: blur(12px);
@@ -3099,286 +3099,286 @@
                     opacity: 0;
                     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 `;
-                
-                toast.innerHTML = `
+
+        toast.innerHTML = `
                     <span style="color: #34d399; font-size: 16px;">✓</span>
                     <span>${message}</span>
                 `;
-                
-                container.appendChild(toast);
-                
-                // Force reflow
-                toast.offsetHeight;
-                
-                // Animate in
-                toast.style.transform = 'translateX(0)';
-                toast.style.opacity = '1';
-                
-                // Remove after 3 seconds
-                setTimeout(() => {
-                    toast.style.transform = 'translateY(-20px)';
-                    toast.style.opacity = '0';
-                    setTimeout(() => {
-                        toast.remove();
-                        if (container.children.length === 0) {
-                            container.remove();
-                        }
-                    }, 400);
-                }, 3000);
-            };
 
-            // --- GUARDAR DATOS DEL PARTIDO ---
-            window.guardarDatosPartido = function (deporte) {
-                const pred = window.lastPredictionData;
-                if (!pred || pred.deporte !== deporte) {
-                    alert("No hay ningún pronóstico activo de " + (deporte === 'futbol' ? 'Fútbol' : 'Béisbol') + " generado.");
-                    return;
+        container.appendChild(toast);
+
+        // Force reflow
+        toast.offsetHeight;
+
+        // Animate in
+        toast.style.transform = 'translateX(0)';
+        toast.style.opacity = '1';
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.style.transform = 'translateY(-20px)';
+            toast.style.opacity = '0';
+            setTimeout(() => {
+                toast.remove();
+                if (container.children.length === 0) {
+                    container.remove();
                 }
+            }, 400);
+        }, 3000);
+    };
 
-                // Asegurar compatibilidad: los datos de la API están en pred.prediction
-                pred.data = pred.prediction || pred.data;
+    // --- GUARDAR DATOS DEL PARTIDO ---
+    window.guardarDatosPartido = function (deporte) {
+        const pred = window.lastPredictionData;
+        if (!pred || pred.deporte !== deporte) {
+            alert("No hay ningún pronóstico activo de " + (deporte === 'futbol' ? 'Fútbol' : 'Béisbol') + " generado.");
+            return;
+        }
 
-                const selectLocalEl = document.getElementById('select-local');
-                let ligaVal = getSelectedGroupName(selectLocalEl);
-                if (!ligaVal) {
-                    ligaVal = (deporte === 'futbol') ? '🏆 Champions League' : '⚾ MLB — American League East';
-                }
+        // Asegurar compatibilidad: los datos de la API están en pred.prediction
+        pred.data = pred.prediction || pred.data;
 
-                const localTeam = pred.local;
-                const visitTeam = pred.visitante;
-                const matchId = `saved-${deporte}-${localTeam.toLowerCase().replace(/\s+/g, '-')}-vs-${visitTeam.toLowerCase().replace(/\s+/g, '-')}`;
+        const selectLocalEl = document.getElementById('select-local');
+        let ligaVal = getSelectedGroupName(selectLocalEl);
+        if (!ligaVal) {
+            ligaVal = (deporte === 'futbol') ? '🏆 Champions League' : '⚾ MLB — American League East';
+        }
 
-                let datos = {};
-                if (deporte === 'futbol') {
-                    // Calcular probabilidades de goles desde goles_matriz
-                    const matrix = pred.data.goles_matriz; // matriz de 5x5 de porcentajes
-                    let over_1_5 = 0, over_2_5 = 0, over_3_5 = 0;
-                    if (matrix) {
-                        for (let r = 0; r < 5; r++) {
-                            const goalsLocal = 4 - r;
-                            for (let c = 0; c < 5; c++) {
-                                const goalsVisit = 4 - c;
-                                const cellVal = matrix[r][c] / 100;
-                                const total = goalsLocal + goalsVisit;
-                                if (total > 1.5) over_1_5 += cellVal;
-                                if (total > 2.5) over_2_5 += cellVal;
-                                if (total > 3.5) over_3_5 += cellVal;
-                            }
-                        }
+        const localTeam = pred.local;
+        const visitTeam = pred.visitante;
+        const matchId = `saved-${deporte}-${localTeam.toLowerCase().replace(/\s+/g, '-')}-vs-${visitTeam.toLowerCase().replace(/\s+/g, '-')}`;
+
+        let datos = {};
+        if (deporte === 'futbol') {
+            // Calcular probabilidades de goles desde goles_matriz
+            const matrix = pred.data.goles_matriz; // matriz de 5x5 de porcentajes
+            let over_1_5 = 0, over_2_5 = 0, over_3_5 = 0;
+            if (matrix) {
+                for (let r = 0; r < 5; r++) {
+                    const goalsLocal = 4 - r;
+                    for (let c = 0; c < 5; c++) {
+                        const goalsVisit = 4 - c;
+                        const cellVal = matrix[r][c] / 100;
+                        const total = goalsLocal + goalsVisit;
+                        if (total > 1.5) over_1_5 += cellVal;
+                        if (total > 2.5) over_2_5 += cellVal;
+                        if (total > 3.5) over_3_5 += cellVal;
                     }
-                    over_1_5 = Math.min(0.999, Math.max(0.001, parseFloat(over_1_5.toFixed(3))));
-                    over_2_5 = Math.min(0.999, Math.max(0.001, parseFloat(over_2_5.toFixed(3))));
-                    over_3_5 = Math.min(0.999, Math.max(0.001, parseFloat(over_3_5.toFixed(3))));
-
-                    const under_1_5 = parseFloat((1 - over_1_5).toFixed(3));
-                    const under_2_5 = parseFloat((1 - over_2_5).toFixed(3));
-                    const under_3_5 = parseFloat((1 - over_3_5).toFixed(3));
-
-                    // Calcular corners por Poisson a partir de data.corners.local[0] y data.corners.visitante[0]
-                    const pLocal0 = Math.min(99.9, Math.max(0.1, pred.data.corners.local[0]));
-                    const pVisit0 = Math.min(99.9, Math.max(0.1, pred.data.corners.visitante[0]));
-                    const lamLocal = -Math.log(1 - (pLocal0 / 100));
-                    const lamVisit = -Math.log(1 - (pVisit0 / 100));
-                    const lamTotal = lamLocal + lamVisit;
-
-                    function poissonCDF(k, lambda) {
-                        let sum = 0;
-                        let term = Math.exp(-lambda);
-                        let currentPMF = term;
-                        for (let i = 0; i <= k; i++) {
-                            sum += currentPMF;
-                            currentPMF = (currentPMF * lambda) / (i + 1);
-                        }
-                        return sum;
-                    }
-
-                    const over_7_5 = parseFloat((1 - poissonCDF(7, lamTotal)).toFixed(3));
-                    const over_8_5 = parseFloat((1 - poissonCDF(8, lamTotal)).toFixed(3));
-                    const over_9_5 = parseFloat((1 - poissonCDF(9, lamTotal)).toFixed(3));
-                    const over_10_5 = parseFloat((1 - poissonCDF(10, lamTotal)).toFixed(3));
-                    const under_9_5 = parseFloat(poissonCDF(9, lamTotal).toFixed(3));
-                    const under_10_5 = parseFloat(poissonCDF(10, lamTotal).toFixed(3));
-
-                    datos = {
-                        ganador: {
-                            local: pred.data.victoria.local_pct / 100,
-                            empate: pred.data.victoria.empate_pct / 100,
-                            visita: pred.data.victoria.visita_pct / 100
-                        },
-                        goles: {
-                            over_1_5, under_1_5,
-                            over_2_5, under_2_5,
-                            over_3_5, under_3_5
-                        },
-                        corners: {
-                            over_7_5, over_8_5, over_9_5, over_10_5,
-                            under_9_5, under_10_5
-                        }
-                    };
-                } else {
-                    // Béisbol
-                    datos = {
-                        ganador: {
-                            local: pred.data.victoria.local_pct / 100,
-                            visita: pred.data.victoria.visita_pct / 100
-                        },
-                        carreras: {
-                            over_6_5: pred.data.mercados.over_6_5 / 100,
-                            under_6_5: pred.data.mercados.under_6_5 / 100,
-                            over_7_5: pred.data.mercados.over_7_5 / 100,
-                            under_7_5: pred.data.mercados.under_7_5 / 100,
-                            over_8_5: pred.data.mercados.over_8_5 / 100,
-                            under_8_5: pred.data.mercados.under_8_5 / 100,
-                            over_9_5: pred.data.mercados.over_9_5 / 100,
-                            under_9_5: pred.data.mercados.under_9_5 / 100,
-                            total_esperado: pred.data.carreras.total_esperado
-                        }
-                    };
                 }
+            }
+            over_1_5 = Math.min(0.999, Math.max(0.001, parseFloat(over_1_5.toFixed(3))));
+            over_2_5 = Math.min(0.999, Math.max(0.001, parseFloat(over_2_5.toFixed(3))));
+            over_3_5 = Math.min(0.999, Math.max(0.001, parseFloat(over_3_5.toFixed(3))));
 
-                const savedMatchObj = {
-                    id: matchId,
-                    deporte: deporte,
-                    liga: ligaVal,
-                    partido: `${localTeam} vs ${visitTeam}`,
-                    local: localTeam,
-                    visitante: visitTeam,
-                    datos: datos
-                };
+            const under_1_5 = parseFloat((1 - over_1_5).toFixed(3));
+            const under_2_5 = parseFloat((1 - over_2_5).toFixed(3));
+            const under_3_5 = parseFloat((1 - over_3_5).toFixed(3));
 
-                // Actualizar o insertar en savedMatches
-                const existingIndex = window.savedMatches.findIndex(m => m.id === matchId);
-                if (existingIndex > -1) {
-                    window.savedMatches[existingIndex] = savedMatchObj;
-                } else {
-                    window.savedMatches.push(savedMatchObj);
+            // Calcular corners por Poisson a partir de data.corners.local[0] y data.corners.visitante[0]
+            const pLocal0 = Math.min(99.9, Math.max(0.1, pred.data.corners.local[0]));
+            const pVisit0 = Math.min(99.9, Math.max(0.1, pred.data.corners.visitante[0]));
+            const lamLocal = -Math.log(1 - (pLocal0 / 100));
+            const lamVisit = -Math.log(1 - (pVisit0 / 100));
+            const lamTotal = lamLocal + lamVisit;
+
+            function poissonCDF(k, lambda) {
+                let sum = 0;
+                let term = Math.exp(-lambda);
+                let currentPMF = term;
+                for (let i = 0; i <= k; i++) {
+                    sum += currentPMF;
+                    currentPMF = (currentPMF * lambda) / (i + 1);
                 }
-
-                localStorage.setItem('parlay_saved_matches', JSON.stringify(window.savedMatches));
-                
-                showPremiumToast(`💾 Guardado: ${localTeam} vs ${visitTeam}`);
-            };
-
-            // --- INICIALIZACIÓN ---
-            document.addEventListener('DOMContentLoaded', () => {
-                // Cargar picks desde localStorage
-                try {
-                    const stored = localStorage.getItem('parlay_picks');
-                    if (stored) {
-                        window.picks = JSON.parse(stored);
-                    } else {
-                        window.picks = [...defaultPicks];
-                        savePicks();
-                    }
-                } catch (e) {
-                    window.picks = [...defaultPicks];
-                }
-
-                // Cargar partidos guardados desde localStorage
-                try {
-                    const storedMatches = localStorage.getItem('parlay_saved_matches');
-                    if (storedMatches) {
-                        window.savedMatches = JSON.parse(storedMatches);
-                    } else {
-                        window.savedMatches = [];
-                    }
-                } catch (e) {
-                    window.savedMatches = [];
-                }
-
-                // Vincular el botón Borrar todo el ticket
-                const clearBtn = document.querySelector('.clear-btn');
-                if (clearBtn) {
-                    clearBtn.addEventListener('click', window.clearTicket);
-                }
-
-                // Vincular eventos de los toggles de deportes en el HTML estático
-                const toggles = document.querySelectorAll('.sport-toggle .toggle-btn');
-                if (toggles.length >= 2) {
-                    toggles[0].addEventListener('click', () => setSport('futbol'));
-                    toggles[1].addEventListener('click', () => setSport('beisbol'));
-                }
-
-                // Renderizar el configurador y los picks
-                setSport('futbol');
-                renderPicks();
-            });
-
-            function savePicks() {
-                localStorage.setItem('parlay_picks', JSON.stringify(window.picks));
+                return sum;
             }
 
-            // --- DEPORTE / CONFIGURADOR Y CARGA DE PARTIDO ---
-            window.setSport = function (sport) {
-                currentSport = sport;
+            const over_7_5 = parseFloat((1 - poissonCDF(7, lamTotal)).toFixed(3));
+            const over_8_5 = parseFloat((1 - poissonCDF(8, lamTotal)).toFixed(3));
+            const over_9_5 = parseFloat((1 - poissonCDF(9, lamTotal)).toFixed(3));
+            const over_10_5 = parseFloat((1 - poissonCDF(10, lamTotal)).toFixed(3));
+            const under_9_5 = parseFloat(poissonCDF(9, lamTotal).toFixed(3));
+            const under_10_5 = parseFloat(poissonCDF(10, lamTotal).toFixed(3));
+
+            datos = {
+                ganador: {
+                    local: pred.data.victoria.local_pct / 100,
+                    empate: pred.data.victoria.empate_pct / 100,
+                    visita: pred.data.victoria.visita_pct / 100
+                },
+                goles: {
+                    over_1_5, under_1_5,
+                    over_2_5, under_2_5,
+                    over_3_5, under_3_5
+                },
+                corners: {
+                    over_7_5, over_8_5, over_9_5, over_10_5,
+                    under_9_5, under_10_5
+                }
+            };
+        } else {
+            // Béisbol
+            datos = {
+                ganador: {
+                    local: pred.data.victoria.local_pct / 100,
+                    visita: pred.data.victoria.visita_pct / 100
+                },
+                carreras: {
+                    over_6_5: pred.data.mercados.over_6_5 / 100,
+                    under_6_5: pred.data.mercados.under_6_5 / 100,
+                    over_7_5: pred.data.mercados.over_7_5 / 100,
+                    under_7_5: pred.data.mercados.under_7_5 / 100,
+                    over_8_5: pred.data.mercados.over_8_5 / 100,
+                    under_8_5: pred.data.mercados.under_8_5 / 100,
+                    over_9_5: pred.data.mercados.over_9_5 / 100,
+                    under_9_5: pred.data.mercados.under_9_5 / 100,
+                    total_esperado: pred.data.carreras.total_esperado
+                }
+            };
+        }
+
+        const savedMatchObj = {
+            id: matchId,
+            deporte: deporte,
+            liga: ligaVal,
+            partido: `${localTeam} vs ${visitTeam}`,
+            local: localTeam,
+            visitante: visitTeam,
+            datos: datos
+        };
+
+        // Actualizar o insertar en savedMatches
+        const existingIndex = window.savedMatches.findIndex(m => m.id === matchId);
+        if (existingIndex > -1) {
+            window.savedMatches[existingIndex] = savedMatchObj;
+        } else {
+            window.savedMatches.push(savedMatchObj);
+        }
+
+        localStorage.setItem('parlay_saved_matches', JSON.stringify(window.savedMatches));
+
+        showPremiumToast(`💾 Guardado: ${localTeam} vs ${visitTeam}`);
+    };
+
+    // --- INICIALIZACIÓN ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Cargar picks desde localStorage
+        try {
+            const stored = localStorage.getItem('parlay_picks');
+            if (stored) {
+                window.picks = JSON.parse(stored);
+            } else {
+                window.picks = [...defaultPicks];
+                savePicks();
+            }
+        } catch (e) {
+            window.picks = [...defaultPicks];
+        }
+
+        // Cargar partidos guardados desde localStorage
+        try {
+            const storedMatches = localStorage.getItem('parlay_saved_matches');
+            if (storedMatches) {
+                window.savedMatches = JSON.parse(storedMatches);
+            } else {
+                window.savedMatches = [];
+            }
+        } catch (e) {
+            window.savedMatches = [];
+        }
+
+        // Vincular el botón Borrar todo el ticket
+        const clearBtn = document.querySelector('.clear-btn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', window.clearTicket);
+        }
+
+        // Vincular eventos de los toggles de deportes en el HTML estático
+        const toggles = document.querySelectorAll('.sport-toggle .toggle-btn');
+        if (toggles.length >= 2) {
+            toggles[0].addEventListener('click', () => setSport('futbol'));
+            toggles[1].addEventListener('click', () => setSport('beisbol'));
+        }
+
+        // Renderizar el configurador y los picks
+        setSport('futbol');
+        renderPicks();
+    });
+
+    function savePicks() {
+        localStorage.setItem('parlay_picks', JSON.stringify(window.picks));
+    }
+
+    // --- DEPORTE / CONFIGURADOR Y CARGA DE PARTIDO ---
+    window.setSport = function (sport) {
+        currentSport = sport;
+        activeSavedMatch = null;
+
+        // Actualizar estados visuales de los toggles
+        const toggles = document.querySelectorAll('.sport-toggle .toggle-btn');
+        if (toggles.length >= 2) {
+
+            if (sport === 'nfl') {
+                btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-blue-500/30 bg-blue-600/20 text-white shadow-neon-blue";
+                btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+
+                btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
+                statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse';
+                breadcrumbDeporte.innerText = "Módulo de la NFL";
+                breadcrumbDeporte.className = "text-xs font-bold text-blue-500 uppercase tracking-widest";
+
+                if (colLiga) colLiga.classList.remove('hidden');
+                if (document.getElementById('col-pitcher-local')) document.getElementById('col-pitcher-local').classList.add('hidden');
+                if (document.getElementById('col-pitcher-visitante')) document.getElementById('col-pitcher-visitante').classList.add('hidden');
+                if (colLocal) colLocal.className = "md:col-span-3 space-y-1";
+                if (colVisitante) colVisitante.className = "md:col-span-3 space-y-1";
+                if (colBoton) colBoton.className = "md:col-span-2";
+            }
+            else if (sport === 'futbol') {
+                toggles[0].className = 'toggle-btn active';
+                toggles[1].className = 'toggle-btn';
+            } else {
+                toggles[0].className = 'toggle-btn';
+                toggles[1].className = 'toggle-btn active active-beisbol';
+            }
+        }
+
+        renderConfigurator();
+    };
+
+    // Expose loadSavedMatch globally
+    window.loadSavedMatch = function (matchId) {
+        const match = window.savedMatches.find(m => m.id === matchId);
+        activeSavedMatch = match || null;
+        renderConfigurator();
+    };
+
+    // Eliminar partido guardado de localStorage y memoria
+    window.eliminarPartidoGuardado = function (matchId) {
+        if (!matchId) return;
+        const match = window.savedMatches.find(m => m.id === matchId);
+        if (!match) return;
+
+        if (confirm(`¿Estás seguro de que deseas eliminar el partido guardado: ${match.partido}?`)) {
+            window.savedMatches = window.savedMatches.filter(m => m.id !== matchId);
+            localStorage.setItem('parlay_saved_matches', JSON.stringify(window.savedMatches));
+            if (activeSavedMatch && activeSavedMatch.id === matchId) {
                 activeSavedMatch = null;
+            }
+            showPremiumToast(`🗑️ Partido eliminado: ${match.partido}`);
+            renderConfigurator();
+        }
+    };
 
-                // Actualizar estados visuales de los toggles
-                const toggles = document.querySelectorAll('.sport-toggle .toggle-btn');
-                if (toggles.length >= 2) {
-                    
-                if (sport === 'nfl') {
-                    btnNfl.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-blue-500/30 bg-blue-600/20 text-white shadow-neon-blue";
-                    btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                    btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+    function renderConfigurator() {
+        const container = document.getElementById('dynamic-configurator');
+        if (!container) return;
 
-                    btnAnalizar.className = "w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-sm";
-                    statusIndicator.className = 'w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse';
-                    breadcrumbDeporte.innerText = "Módulo de la NFL";
-                    breadcrumbDeporte.className = "text-xs font-bold text-blue-500 uppercase tracking-widest";
-
-                    if (colLiga) colLiga.classList.remove('hidden');
-                    if (document.getElementById('col-pitcher-local')) document.getElementById('col-pitcher-local').classList.add('hidden');
-                    if (document.getElementById('col-pitcher-visitante')) document.getElementById('col-pitcher-visitante').classList.add('hidden');
-                    if (colLocal) colLocal.className = "md:col-span-3 space-y-1";
-                    if (colVisitante) colVisitante.className = "md:col-span-3 space-y-1";
-                    if (colBoton) colBoton.className = "md:col-span-2";
-                }
-                else if (sport === 'futbol') {
-                        toggles[0].className = 'toggle-btn active';
-                        toggles[1].className = 'toggle-btn';
-                    } else {
-                        toggles[0].className = 'toggle-btn';
-                        toggles[1].className = 'toggle-btn active active-beisbol';
-                    }
-                }
-
-                renderConfigurator();
-            };
-
-            // Expose loadSavedMatch globally
-            window.loadSavedMatch = function (matchId) {
-                const match = window.savedMatches.find(m => m.id === matchId);
-                activeSavedMatch = match || null;
-                renderConfigurator();
-            };
-
-            // Eliminar partido guardado de localStorage y memoria
-            window.eliminarPartidoGuardado = function (matchId) {
-                if (!matchId) return;
-                const match = window.savedMatches.find(m => m.id === matchId);
-                if (!match) return;
-
-                if (confirm(`¿Estás seguro de que deseas eliminar el partido guardado: ${match.partido}?`)) {
-                    window.savedMatches = window.savedMatches.filter(m => m.id !== matchId);
-                    localStorage.setItem('parlay_saved_matches', JSON.stringify(window.savedMatches));
-                    if (activeSavedMatch && activeSavedMatch.id === matchId) {
-                        activeSavedMatch = null;
-                    }
-                    showPremiumToast(`🗑️ Partido eliminado: ${match.partido}`);
-                    renderConfigurator();
-                }
-            };
-
-            function renderConfigurator() {
-                const container = document.getElementById('dynamic-configurator');
-                if (!container) return;
-
-                // Load saved matches dropdown
-                const sportMatches = window.savedMatches.filter(m => m.deporte === currentSport);
-                let savedMatchesHtml = '';
-                if (sportMatches.length > 0) {
-                    savedMatchesHtml = `
+        // Load saved matches dropdown
+        const sportMatches = window.savedMatches.filter(m => m.deporte === currentSport);
+        let savedMatchesHtml = '';
+        if (sportMatches.length > 0) {
+            savedMatchesHtml = `
                         <div style="display: flex; gap: 8px; margin-bottom: 12px;">
                           <div class="select-wrap" style="flex: 1;">
                             <select id="parlay-saved-match" onchange="loadSavedMatch(this.value)">
@@ -3393,21 +3393,21 @@
                           ` : ''}
                         </div>
                     `;
-                }
+        }
 
-                if (!activeSavedMatch) {
-                    if (sportMatches.length === 0) {
-                        // Empty state: no saved matches at all for this sport
-                        container.innerHTML = `
+        if (!activeSavedMatch) {
+            if (sportMatches.length === 0) {
+                // Empty state: no saved matches at all for this sport
+                container.innerHTML = `
                             <div class="glass-panel flex flex-col items-center justify-center p-6 text-center" style="background: rgba(30, 41, 59, 0.15); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 16px; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; margin-top: 10px;">
                                 <div style="font-size: 32px;">📭</div>
                                 <div style="font-weight: 700; color: #f1f5f9; font-size: 14px;">No hay partidos guardados de ${currentSport === 'futbol' ? 'Fútbol' : 'Béisbol'}</div>
                                 <p style="font-size: 11px; color: #64748b; line-height: 1.5; max-width: 250px; margin: 0;">Ve a la sección de ${currentSport === 'futbol' ? 'Fútbol ⚽' : 'Béisbol ⚾'}, genera un pronóstico y haz clic en "Guardar en datos del partido".</p>
                             </div>
                         `;
-                    } else {
-                        // Selector is available, but none selected yet
-                        container.innerHTML = `
+            } else {
+                // Selector is available, but none selected yet
+                container.innerHTML = `
                             ${savedMatchesHtml}
                             <div class="glass-panel flex flex-col items-center justify-center p-6 text-center" style="background: rgba(30, 41, 59, 0.15); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 16px; min-height: 160px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
                                 <div style="font-size: 28px;">👉</div>
@@ -3415,14 +3415,14 @@
                                 <p style="font-size: 11px; color: #64748b; line-height: 1.4; max-width: 220px; margin: 0;">Elige un partido del menú desplegable para configurar tus apuestas del Parlay.</p>
                             </div>
                         `;
-                    }
-                    return;
-                }
+            }
+            return;
+        }
 
-                if (currentSport === 'futbol') {
-                    loadActiveSelectionsFromPicks();
+        if (currentSport === 'futbol') {
+            loadActiveSelectionsFromPicks();
 
-                    container.innerHTML = `
+            container.innerHTML = `
                         ${savedMatchesHtml}
                         <div id="saved-match-badge" class="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold flex items-center space-x-1.5 mb-3 animate-pulse">
                             <span>📊</span>
@@ -3471,39 +3471,39 @@
                         <button id="add-picks-btn" class="add-btn" onclick="addActivePick()">➕ Agregar al Ticket</button>
                     `;
 
-                    updateWinnerUI();
-                    
-                    const golesSelect = document.getElementById('futbol-goles-select');
-                    const goalsCard = document.getElementById('futbol-card-goles');
-                    if (activeSelections.goals && golesSelect && goalsCard) {
-                        for (let i = 0; i < golesSelect.options.length; i++) {
-                            const optText = golesSelect.options[i].text.split('—')[0].trim() + ' Goles';
-                            if (optText === activeSelections.goals.market) {
-                                golesSelect.selectedIndex = i;
-                                break;
-                            }
-                        }
-                        goalsCard.classList.add('active-selection');
-                    }
-                    
-                    const cornersSelect = document.getElementById('futbol-corners-select');
-                    const cornersCard = document.getElementById('futbol-card-corners');
-                    if (activeSelections.corners && cornersSelect && cornersCard) {
-                        for (let i = 0; i < cornersSelect.options.length; i++) {
-                            const optText = cornersSelect.options[i].text.split('—')[0].trim() + ' Corners';
-                            if (optText === activeSelections.corners.market) {
-                                cornersSelect.selectedIndex = i;
-                                break;
-                            }
-                        }
-                        cornersCard.classList.add('active-selection');
-                    }
+            updateWinnerUI();
 
-                    updateButtonText();
-                } else {
-                    loadActiveSelectionsFromPicks();
+            const golesSelect = document.getElementById('futbol-goles-select');
+            const goalsCard = document.getElementById('futbol-card-goles');
+            if (activeSelections.goals && golesSelect && goalsCard) {
+                for (let i = 0; i < golesSelect.options.length; i++) {
+                    const optText = golesSelect.options[i].text.split('—')[0].trim() + ' Goles';
+                    if (optText === activeSelections.goals.market) {
+                        golesSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+                goalsCard.classList.add('active-selection');
+            }
 
-                    container.innerHTML = `
+            const cornersSelect = document.getElementById('futbol-corners-select');
+            const cornersCard = document.getElementById('futbol-card-corners');
+            if (activeSelections.corners && cornersSelect && cornersCard) {
+                for (let i = 0; i < cornersSelect.options.length; i++) {
+                    const optText = cornersSelect.options[i].text.split('—')[0].trim() + ' Corners';
+                    if (optText === activeSelections.corners.market) {
+                        cornersSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+                cornersCard.classList.add('active-selection');
+            }
+
+            updateButtonText();
+        } else {
+            loadActiveSelectionsFromPicks();
+
+            container.innerHTML = `
                         ${savedMatchesHtml}
                         <div id="saved-match-badge" class="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold flex items-center space-x-1.5 mb-3 animate-pulse">
                             <span>📊</span>
@@ -3600,710 +3600,710 @@
                         <button id="add-picks-btn" class="add-btn add-btn-beisbol" onclick="addActivePick()">⚾ ➕ Agregar al Ticket</button>
                     `;
 
-                    updateRunCards();
-                    updateWinnerBeisbolUI();
-                    updateRunCardsUI();
-                    updateButtonText();
+            updateRunCards();
+            updateWinnerBeisbolUI();
+            updateRunCardsUI();
+            updateButtonText();
+        }
+    }
+
+    // --- EVENTOS DE INTERFAZ Y SELECCIÓN ---
+    window.loadActiveSelectionsFromPicks = function () {
+        activeSelections = { winner: null, goals: null, corners: null, runs: null };
+        if (!activeSavedMatch) return;
+
+        const matchPicks = window.picks.filter(p => p.partido === activeSavedMatch.partido);
+        matchPicks.forEach(p => {
+            if (p.tipoMercado === 'winner') {
+                let rawType = 'draw';
+                if (p.mercado.includes('Ganador:') && p.mercado.includes(activeSavedMatch.local)) {
+                    rawType = 'local';
+                } else if (p.mercado.includes('Ganador:') && p.mercado.includes(activeSavedMatch.visitante)) {
+                    rawType = 'visita';
+                } else if (p.mercado.includes(activeSavedMatch.local)) {
+                    rawType = 'local';
+                } else if (p.mercado.includes(activeSavedMatch.visitante)) {
+                    rawType = 'visita';
                 }
-            }
-
-            // --- EVENTOS DE INTERFAZ Y SELECCIÓN ---
-            window.loadActiveSelectionsFromPicks = function () {
-                activeSelections = { winner: null, goals: null, corners: null, runs: null };
-                if (!activeSavedMatch) return;
-
-                const matchPicks = window.picks.filter(p => p.partido === activeSavedMatch.partido);
-                matchPicks.forEach(p => {
-                    if (p.tipoMercado === 'winner') {
-                        let rawType = 'draw';
-                        if (p.mercado.includes('Ganador:') && p.mercado.includes(activeSavedMatch.local)) {
-                            rawType = 'local';
-                        } else if (p.mercado.includes('Ganador:') && p.mercado.includes(activeSavedMatch.visitante)) {
-                            rawType = 'visita';
-                        } else if (p.mercado.includes(activeSavedMatch.local)) {
-                            rawType = 'local';
-                        } else if (p.mercado.includes(activeSavedMatch.visitante)) {
-                            rawType = 'visita';
-                        }
-                        activeSelections.winner = {
-                            market: p.mercado,
-                            val: p.probabilidad,
-                            type: 'winner',
-                            rawType: rawType
-                        };
-                    } else if (p.tipoMercado === 'goals') {
-                        activeSelections.goals = {
-                            market: p.mercado,
-                            val: p.probabilidad,
-                            type: 'goals'
-                        };
-                    } else if (p.tipoMercado === 'corners') {
-                        activeSelections.corners = {
-                            market: p.mercado,
-                            val: p.probabilidad,
-                            type: 'corners'
-                        };
-                    } else if (p.tipoMercado === 'runs') {
-                        const match = p.mercado.match(/(Over|Under)\s+([\d.]+)/i);
-                        const line = match ? match[2] : '7.5';
-                        const type = match ? match[1].toLowerCase() : 'over';
-                        activeSelections.runs = {
-                            market: p.mercado,
-                            val: p.probabilidad,
-                            type: 'runs',
-                            line: line,
-                            runType: type
-                        };
-                    }
-                });
-            };
-
-            window.updateButtonText = function () {
-                const btn = document.getElementById('add-picks-btn');
-                if (!btn) return;
-
-                // Count active selections for this match
-                let count = 0;
-                ['winner', 'goals', 'corners', 'runs'].forEach(t => {
-                    if (activeSelections[t]) count++;
-                });
-
-                // Check if these selections are already saved in picks
-                const matchPicks = window.picks.filter(p => p.partido === activeSavedMatch.partido);
-                let isDifferent = false;
-
-                if (matchPicks.length !== count) {
-                    isDifferent = true;
-                } else {
-                    // Compare each type
-                    ['winner', 'goals', 'corners', 'runs'].forEach(t => {
-                        const activeSel = activeSelections[t];
-                        const pick = matchPicks.find(p => p.tipoMercado === t);
-                        if ((activeSel && !pick) || (!activeSel && pick)) {
-                            isDifferent = true;
-                        } else if (activeSel && pick) {
-                            if (activeSel.market !== pick.mercado || Math.abs(activeSel.val - pick.probabilidad) > 0.001) {
-                                isDifferent = true;
-                            }
-                        }
-                    });
-                }
-
-                if (count === 0) {
-                    btn.textContent = 'Selecciona opciones';
-                    btn.disabled = true;
-                    btn.style.opacity = '0.5';
-                    btn.style.cursor = 'not-allowed';
-                    btn.style.background = 'rgba(30, 41, 59, 0.5)';
-                } else {
-                    btn.disabled = false;
-                    btn.style.opacity = '1';
-                    btn.style.cursor = 'pointer';
-                    if (isDifferent) {
-                        btn.style.background = currentSport === 'beisbol' 
-                            ? 'linear-gradient(to right, #7c3aed, #6d28d9)' 
-                            : 'linear-gradient(to right, #059669, #0d9488)';
-                        btn.textContent = count === 1 ? '➕ Agregar 1 Selección' : `➕ Agregar ${count} Selecciones`;
-                    } else {
-                        btn.textContent = '✓ Guardado en el Ticket';
-                        btn.style.background = 'linear-gradient(to right, #059669, #10b981)';
-                    }
-                }
-            };
-
-            window.toggleWinnerBtn = function (btn, activeClass, typeWinner, probVal) {
-                const localVal = activeSavedMatch ? activeSavedMatch.local : 'Local';
-                const visitaVal = activeSavedMatch ? activeSavedMatch.visitante : 'Visita';
-
-                let marketName = '';
-                if (typeWinner === 'local') {
-                    marketName = `Ganador: ${localVal} (1)`;
-                } else if (typeWinner === 'draw') {
-                    marketName = `Empate (X)`;
-                } else {
-                    marketName = `Ganador: ${visitaVal} (2)`;
-                }
-
-                if (activeSelections.winner && activeSelections.winner.rawType === typeWinner) {
-                    // Deselect
-                    activeSelections.winner = null;
-                } else {
-                    // Select
-                    activeSelections.winner = {
-                        market: marketName,
-                        val: probVal,
-                        type: 'winner',
-                        rawType: typeWinner
-                    };
-                }
-
-                updateWinnerUI();
-                updateButtonText();
-            };
-
-            window.updateWinnerUI = function () {
-                const winnerRow = document.getElementById('futbol-winner-row');
-                if (!winnerRow) return;
-
-                winnerRow.querySelectorAll('.winner-btn').forEach(btn => {
-                    btn.classList.remove('selected-local', 'selected-draw', 'selected-away');
-                });
-
-                if (activeSelections.winner) {
-                    const type = activeSelections.winner.rawType;
-                    const btn = winnerRow.querySelector(`[data-winner="${type}"]`);
-                    if (btn) {
-                        let activeClass = 'selected-draw';
-                        if (type === 'local') activeClass = 'selected-local';
-                        if (type === 'visita') activeClass = 'selected-away';
-                        btn.classList.add(activeClass);
-                    }
-                }
-            };
-
-            window.toggleGoalsCard = function (card) {
-                const select = document.getElementById('futbol-goles-select');
-                if (!select) return;
-
-                if (activeSelections.goals) {
-                    activeSelections.goals = null;
-                    card.classList.remove('active-selection');
-                } else {
-                    const optText = select.options[select.selectedIndex].text;
-                    activeSelections.goals = {
-                        market: optText.split('—')[0].trim() + ' Goles',
-                        val: parseFloat(select.value),
-                        type: 'goals'
-                    };
-                    card.classList.add('active-selection');
-                }
-                updateButtonText();
-            };
-
-            window.changeGoalsSelect = function (select) {
-                const card = document.getElementById('futbol-card-goles');
-                const optText = select.options[select.selectedIndex].text;
+                activeSelections.winner = {
+                    market: p.mercado,
+                    val: p.probabilidad,
+                    type: 'winner',
+                    rawType: rawType
+                };
+            } else if (p.tipoMercado === 'goals') {
                 activeSelections.goals = {
-                    market: optText.split('—')[0].trim() + ' Goles',
-                    val: parseFloat(select.value),
+                    market: p.mercado,
+                    val: p.probabilidad,
                     type: 'goals'
                 };
-                if (card) card.classList.add('active-selection');
-                updateButtonText();
-            };
-
-            window.toggleCornersCard = function (card) {
-                const select = document.getElementById('futbol-corners-select');
-                if (!select) return;
-
-                if (activeSelections.corners) {
-                    activeSelections.corners = null;
-                    card.classList.remove('active-selection');
-                } else {
-                    const optText = select.options[select.selectedIndex].text;
-                    activeSelections.corners = {
-                        market: optText.split('—')[0].trim() + ' Corners',
-                        val: parseFloat(select.value),
-                        type: 'corners'
-                    };
-                    card.classList.add('active-selection');
-                }
-                updateButtonText();
-            };
-
-            window.changeCornersSelect = function (select) {
-                const card = document.getElementById('futbol-card-corners');
-                const optText = select.options[select.selectedIndex].text;
+            } else if (p.tipoMercado === 'corners') {
                 activeSelections.corners = {
-                    market: optText.split('—')[0].trim() + ' Corners',
-                    val: parseFloat(select.value),
+                    market: p.mercado,
+                    val: p.probabilidad,
                     type: 'corners'
                 };
-                if (card) card.classList.add('active-selection');
-                updateButtonText();
-            };
-
-            window.toggleWinnerBeisbol = function (btn, side, probVal) {
-                const localVal = activeSavedMatch ? activeSavedMatch.local : 'Local';
-                const visitaVal = activeSavedMatch ? activeSavedMatch.visitante : 'Visita';
-
-                if (activeSelections.winner && activeSelections.winner.rawType === side) {
-                    activeSelections.winner = null;
-                } else {
-                    activeSelections.winner = {
-                        market: `Ganador: ${side === 'local' ? localVal : visitaVal}`,
-                        val: probVal,
-                        type: 'winner',
-                        rawType: side
-                    };
-                }
-                updateWinnerBeisbolUI();
-                updateButtonText();
-            };
-
-            window.updateWinnerBeisbolUI = function () {
-                const winnerRow = document.getElementById('beisbol-winner-row');
-                if (!winnerRow) return;
-
-                winnerRow.querySelectorAll('.winner-btn').forEach(btn => {
-                    btn.classList.remove('sel-home', 'sel-away');
-                });
-
-                if (activeSelections.winner) {
-                    const side = activeSelections.winner.rawType;
-                    const btn = winnerRow.querySelector(`[data-winner="${side}"]`);
-                    if (btn) {
-                        btn.classList.add(side === 'local' ? 'sel-home' : 'sel-away');
-                    }
-                }
-            };
-
-            window.toggleRunCard = function (card) {
-                const line = card.getAttribute('data-line');
-
-                if (activeSelections.runs && activeSelections.runs.line === line) {
-                    activeSelections.runs = null;
-                } else {
-                    const activeTab = card.querySelector('.line-tab.active-over, .line-tab.active-under');
-                    const type = activeTab ? activeTab.textContent.toLowerCase().trim() : 'over';
-                    const probValText = card.querySelector('.run-card-value').textContent;
-                    activeSelections.runs = {
-                        market: `${type === 'over' ? 'Over' : 'Under'} ${line} Carreras`,
-                        val: parseFloat(probValText) / 100,
-                        type: 'runs',
-                        line: line,
-                        runType: type
-                    };
-                }
-                updateRunCardsUI();
-                updateButtonText();
-            };
-
-            window.changeRunTab = function (tab, type) {
-                const card = tab.closest('.run-card');
-                const line = card.getAttribute('data-line');
-                const tabs = card.querySelectorAll('.line-tab');
-                tabs.forEach(t => t.classList.remove('active-over', 'active-under'));
-                tab.classList.add(type === 'over' ? 'active-over' : 'active-under');
-
-                const probValText = card.querySelector('.run-card-value').textContent;
+            } else if (p.tipoMercado === 'runs') {
+                const match = p.mercado.match(/(Over|Under)\s+([\d.]+)/i);
+                const line = match ? match[2] : '7.5';
+                const type = match ? match[1].toLowerCase() : 'over';
                 activeSelections.runs = {
-                    market: `${type === 'over' ? 'Over' : 'Under'} ${line} Carreras`,
-                    val: parseFloat(probValText) / 100,
+                    market: p.mercado,
+                    val: p.probabilidad,
                     type: 'runs',
                     line: line,
                     runType: type
                 };
+            }
+        });
+    };
 
-                updateRunCards();
-                updateRunCardsUI();
-                updateButtonText();
-            };
+    window.updateButtonText = function () {
+        const btn = document.getElementById('add-picks-btn');
+        if (!btn) return;
 
-            window.updateRunCardsUI = function () {
-                const runCards = document.querySelectorAll('.run-card');
-                runCards.forEach(card => {
-                    card.classList.remove('selected', 'active-selection');
-                });
+        // Count active selections for this match
+        let count = 0;
+        ['winner', 'goals', 'corners', 'runs'].forEach(t => {
+            if (activeSelections[t]) count++;
+        });
 
-                if (activeSelections.runs) {
-                    const line = activeSelections.runs.line;
-                    const card = document.querySelector(`.run-card[data-line="${line}"]`);
-                    if (card) {
-                        card.classList.add('selected', 'active-selection');
-                        const tabs = card.querySelectorAll('.line-tab');
-                        tabs.forEach(t => {
-                            const type = t.textContent.toLowerCase().trim();
-                            t.classList.remove('active-over', 'active-under');
-                            if (type === activeSelections.runs.runType) {
-                                t.classList.add(type === 'over' ? 'active-over' : 'active-under');
-                            }
-                        });
+        // Check if these selections are already saved in picks
+        const matchPicks = window.picks.filter(p => p.partido === activeSavedMatch.partido);
+        let isDifferent = false;
+
+        if (matchPicks.length !== count) {
+            isDifferent = true;
+        } else {
+            // Compare each type
+            ['winner', 'goals', 'corners', 'runs'].forEach(t => {
+                const activeSel = activeSelections[t];
+                const pick = matchPicks.find(p => p.tipoMercado === t);
+                if ((activeSel && !pick) || (!activeSel && pick)) {
+                    isDifferent = true;
+                } else if (activeSel && pick) {
+                    if (activeSel.market !== pick.mercado || Math.abs(activeSel.val - pick.probabilidad) > 0.001) {
+                        isDifferent = true;
                     }
                 }
+            });
+        }
+
+        if (count === 0) {
+            btn.textContent = 'Selecciona opciones';
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+            btn.style.background = 'rgba(30, 41, 59, 0.5)';
+        } else {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+            if (isDifferent) {
+                btn.style.background = currentSport === 'beisbol'
+                    ? 'linear-gradient(to right, #7c3aed, #6d28d9)'
+                    : 'linear-gradient(to right, #059669, #0d9488)';
+                btn.textContent = count === 1 ? '➕ Agregar 1 Selección' : `➕ Agregar ${count} Selecciones`;
+            } else {
+                btn.textContent = '✓ Guardado en el Ticket';
+                btn.style.background = 'linear-gradient(to right, #059669, #10b981)';
+            }
+        }
+    };
+
+    window.toggleWinnerBtn = function (btn, activeClass, typeWinner, probVal) {
+        const localVal = activeSavedMatch ? activeSavedMatch.local : 'Local';
+        const visitaVal = activeSavedMatch ? activeSavedMatch.visitante : 'Visita';
+
+        let marketName = '';
+        if (typeWinner === 'local') {
+            marketName = `Ganador: ${localVal} (1)`;
+        } else if (typeWinner === 'draw') {
+            marketName = `Empate (X)`;
+        } else {
+            marketName = `Ganador: ${visitaVal} (2)`;
+        }
+
+        if (activeSelections.winner && activeSelections.winner.rawType === typeWinner) {
+            // Deselect
+            activeSelections.winner = null;
+        } else {
+            // Select
+            activeSelections.winner = {
+                market: marketName,
+                val: probVal,
+                type: 'winner',
+                rawType: typeWinner
             };
+        }
 
-            window.updateRunCards = function () {
-                const runCards = document.querySelectorAll('.run-card');
-                if (!runCards.length) return;
+        updateWinnerUI();
+        updateButtonText();
+    };
 
-                const defaultData = {
-                    '6.5': { over: 0.321, under: 0.679, total_esperado: 6.46, sub: 'Total esperado: 6.46' },
-                    '7.5': { over: 0.321, under: 0.679, total_esperado: 6.46, sub: 'Línea más jugada' },
-                    '8.5': { over: 0.204, under: 0.796, total_esperado: 6.46, sub: 'Alta probabilidad' },
-                    '9.5': { over: 0.119, under: 0.881, total_esperado: 6.46, sub: 'Muy seguro' }
-                };
+    window.updateWinnerUI = function () {
+        const winnerRow = document.getElementById('futbol-winner-row');
+        if (!winnerRow) return;
 
-                runCards.forEach(card => {
-                    const line = card.getAttribute('data-line');
-                    const activeTab = card.querySelector('.line-tab.active-over, .line-tab.active-under');
-                    let type = activeTab ? activeTab.textContent.toLowerCase().trim() : 'over';
-                    if (!activeTab) {
-                        const firstTab = card.querySelector('.line-tab');
-                        if (firstTab) firstTab.classList.add('active-over');
-                        type = 'over';
-                    }
+        winnerRow.querySelectorAll('.winner-btn').forEach(btn => {
+            btn.classList.remove('selected-local', 'selected-draw', 'selected-away');
+        });
 
-                    let valObj = defaultData[line];
-                    let probVal = valObj[type];
-                    let totalEsperadoText = valObj.sub;
+        if (activeSelections.winner) {
+            const type = activeSelections.winner.rawType;
+            const btn = winnerRow.querySelector(`[data-winner="${type}"]`);
+            if (btn) {
+                let activeClass = 'selected-draw';
+                if (type === 'local') activeClass = 'selected-local';
+                if (type === 'visita') activeClass = 'selected-away';
+                btn.classList.add(activeClass);
+            }
+        }
+    };
 
-                    if (activeSavedMatch && activeSavedMatch.deporte === 'beisbol') {
-                        const m = activeSavedMatch.datos.carreras;
-                        if (line === '6.5') {
-                            probVal = type === 'over' ? m.over_6_5 : m.under_6_5;
-                        } else if (line === '7.5') {
-                            probVal = type === 'over' ? m.over_7_5 : m.under_7_5;
-                        } else if (line === '8.5') {
-                            probVal = type === 'over' ? m.over_8_5 : m.under_8_5;
-                        } else if (line === '9.5') {
-                            probVal = type === 'over' ? m.over_9_5 : m.under_9_5;
-                        }
-                        totalEsperadoText = `Total esperado: ${m.total_esperado.toFixed(2)}`;
-                    }
+    window.toggleGoalsCard = function (card) {
+        const select = document.getElementById('futbol-goles-select');
+        if (!select) return;
 
-                    card.querySelector('.run-card-value').textContent = `${(probVal * 100).toFixed(1)}%`;
-                    const probEl = card.querySelector('.run-card-prob');
-                    probEl.textContent = `${type === 'over' ? 'Over' : 'Under'} ${line} Carreras`;
-                    probEl.style.color = type === 'over' ? '#34d399' : '#fca5a5';
-
-                    const subEl = card.querySelector('.run-card-sub');
-                    if (subEl) subEl.textContent = totalEsperadoText;
-
-                    const barFill = card.querySelector('.prob-bar-fill');
-                    if (barFill) {
-                        barFill.style.width = `${(probVal * 100).toFixed(1)}%`;
-                        barFill.className = 'prob-bar-fill ' + (type === 'over' ? 'fill-green' : 'fill-red');
-                    }
-                });
+        if (activeSelections.goals) {
+            activeSelections.goals = null;
+            card.classList.remove('active-selection');
+        } else {
+            const optText = select.options[select.selectedIndex].text;
+            activeSelections.goals = {
+                market: optText.split('—')[0].trim() + ' Goles',
+                val: parseFloat(select.value),
+                type: 'goals'
             };
+            card.classList.add('active-selection');
+        }
+        updateButtonText();
+    };
 
-            window.switchRunTab = function (tab, type) {
-                const card = tab.closest('.run-card');
+    window.changeGoalsSelect = function (select) {
+        const card = document.getElementById('futbol-card-goles');
+        const optText = select.options[select.selectedIndex].text;
+        activeSelections.goals = {
+            market: optText.split('—')[0].trim() + ' Goles',
+            val: parseFloat(select.value),
+            type: 'goals'
+        };
+        if (card) card.classList.add('active-selection');
+        updateButtonText();
+    };
+
+    window.toggleCornersCard = function (card) {
+        const select = document.getElementById('futbol-corners-select');
+        if (!select) return;
+
+        if (activeSelections.corners) {
+            activeSelections.corners = null;
+            card.classList.remove('active-selection');
+        } else {
+            const optText = select.options[select.selectedIndex].text;
+            activeSelections.corners = {
+                market: optText.split('—')[0].trim() + ' Corners',
+                val: parseFloat(select.value),
+                type: 'corners'
+            };
+            card.classList.add('active-selection');
+        }
+        updateButtonText();
+    };
+
+    window.changeCornersSelect = function (select) {
+        const card = document.getElementById('futbol-card-corners');
+        const optText = select.options[select.selectedIndex].text;
+        activeSelections.corners = {
+            market: optText.split('—')[0].trim() + ' Corners',
+            val: parseFloat(select.value),
+            type: 'corners'
+        };
+        if (card) card.classList.add('active-selection');
+        updateButtonText();
+    };
+
+    window.toggleWinnerBeisbol = function (btn, side, probVal) {
+        const localVal = activeSavedMatch ? activeSavedMatch.local : 'Local';
+        const visitaVal = activeSavedMatch ? activeSavedMatch.visitante : 'Visita';
+
+        if (activeSelections.winner && activeSelections.winner.rawType === side) {
+            activeSelections.winner = null;
+        } else {
+            activeSelections.winner = {
+                market: `Ganador: ${side === 'local' ? localVal : visitaVal}`,
+                val: probVal,
+                type: 'winner',
+                rawType: side
+            };
+        }
+        updateWinnerBeisbolUI();
+        updateButtonText();
+    };
+
+    window.updateWinnerBeisbolUI = function () {
+        const winnerRow = document.getElementById('beisbol-winner-row');
+        if (!winnerRow) return;
+
+        winnerRow.querySelectorAll('.winner-btn').forEach(btn => {
+            btn.classList.remove('sel-home', 'sel-away');
+        });
+
+        if (activeSelections.winner) {
+            const side = activeSelections.winner.rawType;
+            const btn = winnerRow.querySelector(`[data-winner="${side}"]`);
+            if (btn) {
+                btn.classList.add(side === 'local' ? 'sel-home' : 'sel-away');
+            }
+        }
+    };
+
+    window.toggleRunCard = function (card) {
+        const line = card.getAttribute('data-line');
+
+        if (activeSelections.runs && activeSelections.runs.line === line) {
+            activeSelections.runs = null;
+        } else {
+            const activeTab = card.querySelector('.line-tab.active-over, .line-tab.active-under');
+            const type = activeTab ? activeTab.textContent.toLowerCase().trim() : 'over';
+            const probValText = card.querySelector('.run-card-value').textContent;
+            activeSelections.runs = {
+                market: `${type === 'over' ? 'Over' : 'Under'} ${line} Carreras`,
+                val: parseFloat(probValText) / 100,
+                type: 'runs',
+                line: line,
+                runType: type
+            };
+        }
+        updateRunCardsUI();
+        updateButtonText();
+    };
+
+    window.changeRunTab = function (tab, type) {
+        const card = tab.closest('.run-card');
+        const line = card.getAttribute('data-line');
+        const tabs = card.querySelectorAll('.line-tab');
+        tabs.forEach(t => t.classList.remove('active-over', 'active-under'));
+        tab.classList.add(type === 'over' ? 'active-over' : 'active-under');
+
+        const probValText = card.querySelector('.run-card-value').textContent;
+        activeSelections.runs = {
+            market: `${type === 'over' ? 'Over' : 'Under'} ${line} Carreras`,
+            val: parseFloat(probValText) / 100,
+            type: 'runs',
+            line: line,
+            runType: type
+        };
+
+        updateRunCards();
+        updateRunCardsUI();
+        updateButtonText();
+    };
+
+    window.updateRunCardsUI = function () {
+        const runCards = document.querySelectorAll('.run-card');
+        runCards.forEach(card => {
+            card.classList.remove('selected', 'active-selection');
+        });
+
+        if (activeSelections.runs) {
+            const line = activeSelections.runs.line;
+            const card = document.querySelector(`.run-card[data-line="${line}"]`);
+            if (card) {
+                card.classList.add('selected', 'active-selection');
                 const tabs = card.querySelectorAll('.line-tab');
-                tabs.forEach(t => t.classList.remove('active-over', 'active-under'));
-                tab.classList.add(type === 'over' ? 'active-over' : 'active-under');
-
-                updateRunCards();
-            };
-
-            // --- TICKET ACCIONES ---
-            window.addActivePick = function () {
-                if (!activeSavedMatch) {
-                    alert('Por favor selecciona un partido guardado antes de agregar al ticket.');
-                    return;
-                }
-
-                // Remove all existing picks for this match first, then add the active ones
-                window.picks = window.picks.filter(p => p.partido !== activeSavedMatch.partido);
-
-                let addedCount = 0;
-                ['winner', 'goals', 'corners', 'runs'].forEach(type => {
-                    const sel = activeSelections[type];
-                    if (sel) {
-                        const pick = {
-                            id: 'pick-' + Date.now() + '-' + Math.floor(Math.random() * 1000) + '-' + type,
-                            deporte: currentSport,
-                            partido: activeSavedMatch.partido,
-                            mercado: sel.market,
-                            probabilidad: sel.val,
-                            liga: activeSavedMatch.liga,
-                            tipoMercado: type
-                        };
-                        window.picks.push(pick);
-                        addedCount++;
+                tabs.forEach(t => {
+                    const type = t.textContent.toLowerCase().trim();
+                    t.classList.remove('active-over', 'active-under');
+                    if (type === activeSelections.runs.runType) {
+                        t.classList.add(type === 'over' ? 'active-over' : 'active-under');
                     }
                 });
+            }
+        }
+    };
 
-                if (addedCount === 0) {
-                    showPremiumToast(`🧹 Se quitaron las selecciones de este partido`);
-                } else {
-                    showPremiumToast(`⚡ Se guardaron ${addedCount} selecciones en tu Ticket`);
+    window.updateRunCards = function () {
+        const runCards = document.querySelectorAll('.run-card');
+        if (!runCards.length) return;
+
+        const defaultData = {
+            '6.5': { over: 0.321, under: 0.679, total_esperado: 6.46, sub: 'Total esperado: 6.46' },
+            '7.5': { over: 0.321, under: 0.679, total_esperado: 6.46, sub: 'Línea más jugada' },
+            '8.5': { over: 0.204, under: 0.796, total_esperado: 6.46, sub: 'Alta probabilidad' },
+            '9.5': { over: 0.119, under: 0.881, total_esperado: 6.46, sub: 'Muy seguro' }
+        };
+
+        runCards.forEach(card => {
+            const line = card.getAttribute('data-line');
+            const activeTab = card.querySelector('.line-tab.active-over, .line-tab.active-under');
+            let type = activeTab ? activeTab.textContent.toLowerCase().trim() : 'over';
+            if (!activeTab) {
+                const firstTab = card.querySelector('.line-tab');
+                if (firstTab) firstTab.classList.add('active-over');
+                type = 'over';
+            }
+
+            let valObj = defaultData[line];
+            let probVal = valObj[type];
+            let totalEsperadoText = valObj.sub;
+
+            if (activeSavedMatch && activeSavedMatch.deporte === 'beisbol') {
+                const m = activeSavedMatch.datos.carreras;
+                if (line === '6.5') {
+                    probVal = type === 'over' ? m.over_6_5 : m.under_6_5;
+                } else if (line === '7.5') {
+                    probVal = type === 'over' ? m.over_7_5 : m.under_7_5;
+                } else if (line === '8.5') {
+                    probVal = type === 'over' ? m.over_8_5 : m.under_8_5;
+                } else if (line === '9.5') {
+                    probVal = type === 'over' ? m.over_9_5 : m.under_9_5;
                 }
+                totalEsperadoText = `Total esperado: ${m.total_esperado.toFixed(2)}`;
+            }
 
-                savePicks();
-                renderPicks();
-                updateButtonText();
+            card.querySelector('.run-card-value').textContent = `${(probVal * 100).toFixed(1)}%`;
+            const probEl = card.querySelector('.run-card-prob');
+            probEl.textContent = `${type === 'over' ? 'Over' : 'Under'} ${line} Carreras`;
+            probEl.style.color = type === 'over' ? '#34d399' : '#fca5a5';
 
-                const picksList = document.querySelector('.picks-list');
-                if (picksList) {
-                    picksList.scrollTop = picksList.scrollHeight;
-                }
-            };
+            const subEl = card.querySelector('.run-card-sub');
+            if (subEl) subEl.textContent = totalEsperadoText;
 
-            window.deletePick = function (id) {
-                const pick = window.picks.find(p => p.id === id);
-                window.picks = window.picks.filter(p => p.id !== id);
-                savePicks();
-                renderPicks();
+            const barFill = card.querySelector('.prob-bar-fill');
+            if (barFill) {
+                barFill.style.width = `${(probVal * 100).toFixed(1)}%`;
+                barFill.className = 'prob-bar-fill ' + (type === 'over' ? 'fill-green' : 'fill-red');
+            }
+        });
+    };
 
-                if (pick && activeSavedMatch && activeSavedMatch.partido === pick.partido) {
-                    loadActiveSelectionsFromPicks();
-                    updateWinnerUI();
-                    updateWinnerBeisbolUI();
-                    
-                    const cardGoals = document.getElementById('futbol-card-goles');
-                    if (cardGoals && !activeSelections.goals) cardGoals.classList.remove('active-selection');
-                    const cardCorners = document.getElementById('futbol-card-corners');
-                    if (cardCorners && !activeSelections.corners) cardCorners.classList.remove('active-selection');
-                    
-                    updateRunCardsUI();
-                    updateButtonText();
-                }
-            };
+    window.switchRunTab = function (tab, type) {
+        const card = tab.closest('.run-card');
+        const tabs = card.querySelectorAll('.line-tab');
+        tabs.forEach(t => t.classList.remove('active-over', 'active-under'));
+        tab.classList.add(type === 'over' ? 'active-over' : 'active-under');
 
-            window.deleteMatchGroup = function (partido) {
-                if (confirm(`¿Eliminar todas las selecciones de ${partido}?`)) {
-                    window.picks = window.picks.filter(p => p.partido !== partido);
-                    savePicks();
-                    renderPicks();
+        updateRunCards();
+    };
 
-                    if (activeSavedMatch && activeSavedMatch.partido === partido) {
-                        loadActiveSelectionsFromPicks();
-                        updateWinnerUI();
-                        updateWinnerBeisbolUI();
-                        
-                        const cardGoals = document.getElementById('futbol-card-goles');
-                        if (cardGoals) cardGoals.classList.remove('active-selection');
-                        const cardCorners = document.getElementById('futbol-card-corners');
-                        if (cardCorners) cardCorners.classList.remove('active-selection');
-                        
-                        updateRunCardsUI();
-                        updateButtonText();
-                    }
-                }
-            };
+    // --- TICKET ACCIONES ---
+    window.addActivePick = function () {
+        if (!activeSavedMatch) {
+            alert('Por favor selecciona un partido guardado antes de agregar al ticket.');
+            return;
+        }
 
-            window.clearTicket = function () {
-                window.picks = [];
-                savePicks();
-                renderPicks();
-                
+        // Remove all existing picks for this match first, then add the active ones
+        window.picks = window.picks.filter(p => p.partido !== activeSavedMatch.partido);
+
+        let addedCount = 0;
+        ['winner', 'goals', 'corners', 'runs'].forEach(type => {
+            const sel = activeSelections[type];
+            if (sel) {
+                const pick = {
+                    id: 'pick-' + Date.now() + '-' + Math.floor(Math.random() * 1000) + '-' + type,
+                    deporte: currentSport,
+                    partido: activeSavedMatch.partido,
+                    mercado: sel.market,
+                    probabilidad: sel.val,
+                    liga: activeSavedMatch.liga,
+                    tipoMercado: type
+                };
+                window.picks.push(pick);
+                addedCount++;
+            }
+        });
+
+        if (addedCount === 0) {
+            showPremiumToast(`🧹 Se quitaron las selecciones de este partido`);
+        } else {
+            showPremiumToast(`⚡ Se guardaron ${addedCount} selecciones en tu Ticket`);
+        }
+
+        savePicks();
+        renderPicks();
+        updateButtonText();
+
+        const picksList = document.querySelector('.picks-list');
+        if (picksList) {
+            picksList.scrollTop = picksList.scrollHeight;
+        }
+    };
+
+    window.deletePick = function (id) {
+        const pick = window.picks.find(p => p.id === id);
+        window.picks = window.picks.filter(p => p.id !== id);
+        savePicks();
+        renderPicks();
+
+        if (pick && activeSavedMatch && activeSavedMatch.partido === pick.partido) {
+            loadActiveSelectionsFromPicks();
+            updateWinnerUI();
+            updateWinnerBeisbolUI();
+
+            const cardGoals = document.getElementById('futbol-card-goles');
+            if (cardGoals && !activeSelections.goals) cardGoals.classList.remove('active-selection');
+            const cardCorners = document.getElementById('futbol-card-corners');
+            if (cardCorners && !activeSelections.corners) cardCorners.classList.remove('active-selection');
+
+            updateRunCardsUI();
+            updateButtonText();
+        }
+    };
+
+    window.deleteMatchGroup = function (partido) {
+        if (confirm(`¿Eliminar todas las selecciones de ${partido}?`)) {
+            window.picks = window.picks.filter(p => p.partido !== partido);
+            savePicks();
+            renderPicks();
+
+            if (activeSavedMatch && activeSavedMatch.partido === partido) {
                 loadActiveSelectionsFromPicks();
                 updateWinnerUI();
                 updateWinnerBeisbolUI();
-                
+
                 const cardGoals = document.getElementById('futbol-card-goles');
                 if (cardGoals) cardGoals.classList.remove('active-selection');
                 const cardCorners = document.getElementById('futbol-card-corners');
                 if (cardCorners) cardCorners.classList.remove('active-selection');
-                
+
                 updateRunCardsUI();
                 updateButtonText();
-            };
-
-            window.actualizarMontoPick = function (partido, val) {
-                if (!window.montoPicks) window.montoPicks = {};
-                window.montoPicks[partido] = parseFloat(val) || 100;
-            };
-
-            window.registrarTicketEnBot = async function (tipo) {
-                if (!window.picks || window.picks.length === 0) {
-                    alert('No hay selecciones en tu ticket para registrar.');
-                    return;
-                }
-
-                const fechaCompra = new Date().toISOString().replace('T', ' ').substring(0, 19);
-
-                const groups = {};
-                window.picks.forEach(pick => {
-                    if (!groups[pick.partido]) groups[pick.partido] = [];
-                    groups[pick.partido].push(pick);
-                });
-
-                const listApuestas = [];
-
-                if (tipo === 'individual') {
-                    for (const partido in groups) {
-                        const matchPicks = groups[partido];
-                        const firstPick = matchPicks[0];
-                        const deporte = firstPick.deporte;
-                        const savedMatch = window.savedMatches.find(m => m.partido === partido);
-
-                        let probIaLocal = 50.0;
-                        let probIaVisita = 50.0;
-                        let localTeam = savedMatch ? savedMatch.local : 'Local';
-                        let visitaTeam = savedMatch ? savedMatch.visitante : 'Visitante';
-
-                        if (savedMatch && savedMatch.datos) {
-                            if (deporte === 'futbol') {
-                                probIaLocal = savedMatch.datos.victoria.local_pct || 50.0;
-                                probIaVisita = savedMatch.datos.victoria.visita_pct || 50.0;
-                            } else if (deporte === 'beisbol') {
-                                probIaLocal = (savedMatch.datos.ganador.local * 100) || 50.0;
-                                probIaVisita = (savedMatch.datos.ganador.visita * 100) || 50.0;
-                            }
-                        }
-
-                        const combinedProb = matchPicks.reduce((acc, p) => acc * p.probabilidad, 1);
-                        const combinedOdds = 1 / combinedProb;
-                        const nombresMercados = matchPicks.map(p => p.mercado).join(' + ');
-                        const inversion = window.montoPicks && window.montoPicks[partido] ? window.montoPicks[partido] : 100;
-
-                        listApuestas.push({
-                            Fecha_Compra: fechaCompra,
-                            Partido: partido,
-                            Local: localTeam,
-                            Visita: visitaTeam,
-                            Casino: "Parlay Soñador (Individual)",
-                            Momio_Local: parseFloat((100 / probIaLocal).toFixed(2)),
-                            Momio_Visita: parseFloat((100 / probIaVisita).toFixed(2)),
-                            Prob_Casino_Local: parseFloat(probIaLocal.toFixed(1)),
-                            Prob_Casino_Visita: parseFloat(probIaVisita.toFixed(1)),
-                            Prob_IA_Local: parseFloat(probIaLocal.toFixed(1)),
-                            Prob_IA_Visita: parseFloat(probIaVisita.toFixed(1)),
-                            Apuesta_A: nombresMercados,
-                            Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
-                            Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
-                            Ventaja_Pct: 0.0,
-                            Inversion_Simulada: parseFloat(inversion),
-                            Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
-                            Estado: "Pendiente"
-                        });
-                    }
-                } else if (tipo === 'parlay') {
-                    const listPartidos = Object.keys(groups);
-                    const partidoConcat = listPartidos.join(' + ');
-                    const marketsConcat = window.picks.map(p => p.mercado).join(' + ');
-
-                    const combinedProb = window.picks.reduce((acc, p) => acc * p.probabilidad, 1);
-                    const combinedOdds = 1 / combinedProb;
-
-                    const parlayInput = document.getElementById('parlay-bet-input');
-                    const inversion = parlayInput ? parseFloat(parlayInput.value) || 100 : 100;
-
-                    listApuestas.push({
-                        Fecha_Compra: fechaCompra,
-                        Partido: partidoConcat,
-                        Local: "Parlay Combinado",
-                        Visita: `${listPartidos.length} partidos`,
-                        Casino: "Parlay Soñador (Parlay)",
-                        Momio_Local: 1.0,
-                        Momio_Visita: 1.0,
-                        Prob_Casino_Local: 0.0,
-                        Prob_Casino_Visita: 0.0,
-                        Prob_IA_Local: parseFloat((combinedProb * 100).toFixed(1)),
-                        Prob_IA_Visita: 0.0,
-                        Apuesta_A: marketsConcat,
-                        Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
-                        Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
-                        Ventaja_Pct: 0.0,
-                        Inversion_Simulada: parseFloat(inversion),
-                        Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
-                        Estado: "Pendiente"
-                    });
-                }
-
-                try {
-                    const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ apuestas: listApuestas })
-                    });
-                    if (res.ok) {
-                        showPremiumToast(`🤖 ${listApuestas.length} apuesta(s) registrada(s) en el Bot.`);
-                        window.clearTicket();
-                    } else {
-                        const data = await res.json();
-                        alert('Error al registrar jugada en el bot: ' + (data.detail || 'Error desconocido'));
-                    }
-                } catch (e) {
-                    console.error("Error al registrar apuesta:", e);
-                    alert('Error de conexión con el backend.');
-                }
-            };
-
-            window.reiniciarBotPortafolio = async function () {
-                if (!confirm("¿Estás seguro de que deseas reiniciar todos los datos del bot de trading? Esta acción no se puede deshacer y borrará todo el historial.")) {
-                    return;
-                }
-                const btn = document.getElementById('btn-reiniciar-bot');
-                if (btn) btn.disabled = true;
-                try {
-                    const res = await fetch(`${API_BASE}/bot/reiniciar`, { method: 'POST' });
-                    if (res.ok) {
-                        showPremiumToast("🤖 Datos del bot reiniciados correctamente.");
-                        if (typeof renderizarDashboardBot === 'function') {
-                            await renderizarDashboardBot();
-                        }
-                    } else {
-                        showPremiumToast("❌ Error al reiniciar datos del bot.");
-                    }
-                } catch (err) {
-                    console.error("Error al reiniciar bot:", err);
-                    showPremiumToast("❌ Error de conexión al reiniciar bot.");
-                } finally {
-                    if (btn) btn.disabled = false;
-                }
-            };
-
-            // --- RENDERIZADO DEL TICKET ---
-            function getProbColor(prob, sport) {
-                if (prob >= 0.70) return '#34d399'; // Verde
-                if (prob >= 0.60) return sport === 'beisbol' ? '#c4b5fd' : '#93c5fd'; // Púrpura / Azul
-                if (prob >= 0.30) return '#fcd34d'; // Amarillo
-                return '#f87171'; // Rojo
             }
+        }
+    };
 
-            function renderPicks() {
-                const picksList = document.querySelector('.picks-list');
-                if (!picksList) return;
+    window.clearTicket = function () {
+        window.picks = [];
+        savePicks();
+        renderPicks();
 
-                picksList.innerHTML = '';
+        loadActiveSelectionsFromPicks();
+        updateWinnerUI();
+        updateWinnerBeisbolUI();
 
-                if (window.picks.length === 0) {
-                    picksList.innerHTML = `
+        const cardGoals = document.getElementById('futbol-card-goles');
+        if (cardGoals) cardGoals.classList.remove('active-selection');
+        const cardCorners = document.getElementById('futbol-card-corners');
+        if (cardCorners) cardCorners.classList.remove('active-selection');
+
+        updateRunCardsUI();
+        updateButtonText();
+    };
+
+    window.actualizarMontoPick = function (partido, val) {
+        if (!window.montoPicks) window.montoPicks = {};
+        window.montoPicks[partido] = parseFloat(val) || 100;
+    };
+
+    window.registrarTicketEnBot = async function (tipo) {
+        if (!window.picks || window.picks.length === 0) {
+            alert('No hay selecciones en tu ticket para registrar.');
+            return;
+        }
+
+        const fechaCompra = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+        const groups = {};
+        window.picks.forEach(pick => {
+            if (!groups[pick.partido]) groups[pick.partido] = [];
+            groups[pick.partido].push(pick);
+        });
+
+        const listApuestas = [];
+
+        if (tipo === 'individual') {
+            for (const partido in groups) {
+                const matchPicks = groups[partido];
+                const firstPick = matchPicks[0];
+                const deporte = firstPick.deporte;
+                const savedMatch = window.savedMatches.find(m => m.partido === partido);
+
+                let probIaLocal = 50.0;
+                let probIaVisita = 50.0;
+                let localTeam = savedMatch ? savedMatch.local : 'Local';
+                let visitaTeam = savedMatch ? savedMatch.visitante : 'Visitante';
+
+                if (savedMatch && savedMatch.datos) {
+                    if (deporte === 'futbol') {
+                        probIaLocal = savedMatch.datos.victoria.local_pct || 50.0;
+                        probIaVisita = savedMatch.datos.victoria.visita_pct || 50.0;
+                    } else if (deporte === 'beisbol') {
+                        probIaLocal = (savedMatch.datos.ganador.local * 100) || 50.0;
+                        probIaVisita = (savedMatch.datos.ganador.visita * 100) || 50.0;
+                    }
+                }
+
+                const combinedProb = matchPicks.reduce((acc, p) => acc * p.probabilidad, 1);
+                const combinedOdds = 1 / combinedProb;
+                const nombresMercados = matchPicks.map(p => p.mercado).join(' + ');
+                const inversion = window.montoPicks && window.montoPicks[partido] ? window.montoPicks[partido] : 100;
+
+                listApuestas.push({
+                    Fecha_Compra: fechaCompra,
+                    Partido: partido,
+                    Local: localTeam,
+                    Visita: visitaTeam,
+                    Casino: "Parlay Soñador (Individual)",
+                    Momio_Local: parseFloat((100 / probIaLocal).toFixed(2)),
+                    Momio_Visita: parseFloat((100 / probIaVisita).toFixed(2)),
+                    Prob_Casino_Local: parseFloat(probIaLocal.toFixed(1)),
+                    Prob_Casino_Visita: parseFloat(probIaVisita.toFixed(1)),
+                    Prob_IA_Local: parseFloat(probIaLocal.toFixed(1)),
+                    Prob_IA_Visita: parseFloat(probIaVisita.toFixed(1)),
+                    Apuesta_A: nombresMercados,
+                    Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
+                    Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
+                    Ventaja_Pct: 0.0,
+                    Inversion_Simulada: parseFloat(inversion),
+                    Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
+                    Estado: "Pendiente"
+                });
+            }
+        } else if (tipo === 'parlay') {
+            const listPartidos = Object.keys(groups);
+            const partidoConcat = listPartidos.join(' + ');
+            const marketsConcat = window.picks.map(p => p.mercado).join(' + ');
+
+            const combinedProb = window.picks.reduce((acc, p) => acc * p.probabilidad, 1);
+            const combinedOdds = 1 / combinedProb;
+
+            const parlayInput = document.getElementById('parlay-bet-input');
+            const inversion = parlayInput ? parseFloat(parlayInput.value) || 100 : 100;
+
+            listApuestas.push({
+                Fecha_Compra: fechaCompra,
+                Partido: partidoConcat,
+                Local: "Parlay Combinado",
+                Visita: `${listPartidos.length} partidos`,
+                Casino: "Parlay Soñador (Parlay)",
+                Momio_Local: 1.0,
+                Momio_Visita: 1.0,
+                Prob_Casino_Local: 0.0,
+                Prob_Casino_Visita: 0.0,
+                Prob_IA_Local: parseFloat((combinedProb * 100).toFixed(1)),
+                Prob_IA_Visita: 0.0,
+                Apuesta_A: marketsConcat,
+                Momio_Apostado: parseFloat(combinedOdds.toFixed(2)),
+                Prob_IA_Apostado: parseFloat((combinedProb * 100).toFixed(1)),
+                Ventaja_Pct: 0.0,
+                Inversion_Simulada: parseFloat(inversion),
+                Ganancia_Potencial: parseFloat((inversion * combinedOdds).toFixed(2)),
+                Estado: "Pendiente"
+            });
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/bot/registrar-ticket`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ apuestas: listApuestas })
+            });
+            if (res.ok) {
+                showPremiumToast(`🤖 ${listApuestas.length} apuesta(s) registrada(s) en el Bot.`);
+                window.clearTicket();
+            } else {
+                const data = await res.json();
+                alert('Error al registrar jugada en el bot: ' + (data.detail || 'Error desconocido'));
+            }
+        } catch (e) {
+            console.error("Error al registrar apuesta:", e);
+            alert('Error de conexión con el backend.');
+        }
+    };
+
+    window.reiniciarBotPortafolio = async function () {
+        if (!confirm("¿Estás seguro de que deseas reiniciar todos los datos del bot de trading? Esta acción no se puede deshacer y borrará todo el historial.")) {
+            return;
+        }
+        const btn = document.getElementById('btn-reiniciar-bot');
+        if (btn) btn.disabled = true;
+        try {
+            const res = await fetch(`${API_BASE}/bot/reiniciar`, { method: 'POST' });
+            if (res.ok) {
+                showPremiumToast("🤖 Datos del bot reiniciados correctamente.");
+                if (typeof renderizarDashboardBot === 'function') {
+                    await renderizarDashboardBot();
+                }
+            } else {
+                showPremiumToast("❌ Error al reiniciar datos del bot.");
+            }
+        } catch (err) {
+            console.error("Error al reiniciar bot:", err);
+            showPremiumToast("❌ Error de conexión al reiniciar bot.");
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    };
+
+    // --- RENDERIZADO DEL TICKET ---
+    function getProbColor(prob, sport) {
+        if (prob >= 0.70) return '#34d399'; // Verde
+        if (prob >= 0.60) return sport === 'beisbol' ? '#c4b5fd' : '#93c5fd'; // Púrpura / Azul
+        if (prob >= 0.30) return '#fcd34d'; // Amarillo
+        return '#f87171'; // Rojo
+    }
+
+    function renderPicks() {
+        const picksList = document.querySelector('.picks-list');
+        if (!picksList) return;
+
+        picksList.innerHTML = '';
+
+        if (window.picks.length === 0) {
+            picksList.innerHTML = `
                         <div style="text-align: center; padding: 40px 20px; color: #475569; font-size: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
                             <div style="font-size: 28px;">🎫</div>
                             <div>No hay selecciones en tu ticket.<br>Agrega apuestas desde el configurador.</div>
                         </div>
                     `;
-                    updateSummary();
-                    return;
-                }
+            updateSummary();
+            return;
+        }
 
-                // Group picks by match (partido)
-                const groups = {};
-                window.picks.forEach(pick => {
-                    if (!groups[pick.partido]) {
-                        groups[pick.partido] = [];
-                    }
-                    groups[pick.partido].push(pick);
-                });
+        // Group picks by match (partido)
+        const groups = {};
+        window.picks.forEach(pick => {
+            if (!groups[pick.partido]) {
+                groups[pick.partido] = [];
+            }
+            groups[pick.partido].push(pick);
+        });
 
-                // Render each group
-                Object.keys(groups).forEach(partido => {
-                    const matchPicks = groups[partido];
-                    const firstPick = matchPicks[0];
-                    const deporte = firstPick.deporte;
-                    
-                    const sgpColor = deporte === 'beisbol' 
-                        ? 'linear-gradient(to bottom, #7c3aed, #db2777)' 
-                        : 'linear-gradient(to bottom, #3b82f6, #6366f1)';
-                    const sgpDotColor = deporte === 'beisbol' ? '#7c3aed' : '#3b82f6';
+        // Render each group
+        Object.keys(groups).forEach(partido => {
+            const matchPicks = groups[partido];
+            const firstPick = matchPicks[0];
+            const deporte = firstPick.deporte;
 
-                    const groupProb = matchPicks.reduce((acc, p) => acc * p.probabilidad, 1);
-                    const groupOdds = (1 / groupProb).toFixed(1);
+            const sgpColor = deporte === 'beisbol'
+                ? 'linear-gradient(to bottom, #7c3aed, #db2777)'
+                : 'linear-gradient(to bottom, #3b82f6, #6366f1)';
+            const sgpDotColor = deporte === 'beisbol' ? '#7c3aed' : '#3b82f6';
 
-                    const groupCard = document.createElement('div');
-                    groupCard.className = 'sgp-group';
-                    groupCard.style.setProperty('--sgp-color', sgpColor);
-                    groupCard.style.setProperty('--sgp-dot-color', sgpDotColor);
+            const groupProb = matchPicks.reduce((acc, p) => acc * p.probabilidad, 1);
+            const groupOdds = (1 / groupProb).toFixed(1);
 
-                    if (!window.montoPicks) window.montoPicks = {};
-                    if (!window.montoPicks[partido]) window.montoPicks[partido] = 100;
+            const groupCard = document.createElement('div');
+            groupCard.className = 'sgp-group';
+            groupCard.style.setProperty('--sgp-color', sgpColor);
+            groupCard.style.setProperty('--sgp-dot-color', sgpDotColor);
 
-                    const selectionsHtml = matchPicks.map(pick => {
-                        const probPercent = Math.round(pick.probabilidad * 100);
-                        const probColor = getProbColor(pick.probabilidad, pick.deporte);
-                        
-                        let marketCategory = 'Apuesta';
-                        if (pick.tipoMercado === 'winner') marketCategory = '1x2';
-                        else if (pick.tipoMercado === 'goals') marketCategory = 'Total de Goles';
-                        else if (pick.tipoMercado === 'corners') marketCategory = 'Tiros de Esquina';
-                        else if (pick.tipoMercado === 'runs') marketCategory = 'Total de Carreras';
+            if (!window.montoPicks) window.montoPicks = {};
+            if (!window.montoPicks[partido]) window.montoPicks[partido] = 100;
 
-                        return `
+            const selectionsHtml = matchPicks.map(pick => {
+                const probPercent = Math.round(pick.probabilidad * 100);
+                const probColor = getProbColor(pick.probabilidad, pick.deporte);
+
+                let marketCategory = 'Apuesta';
+                if (pick.tipoMercado === 'winner') marketCategory = '1x2';
+                else if (pick.tipoMercado === 'goals') marketCategory = 'Total de Goles';
+                else if (pick.tipoMercado === 'corners') marketCategory = 'Tiros de Esquina';
+                else if (pick.tipoMercado === 'runs') marketCategory = 'Total de Carreras';
+
+                return `
                             <div class="sgp-selection-item">
                                 <div class="sgp-selection-info">
                                     <div class="sgp-selection-market">${marketCategory}</div>
@@ -4313,14 +4313,14 @@
                                 <button class="sgp-selection-del" title="Eliminar selección" onclick="deletePick('${pick.id}')">✕</button>
                             </div>
                         `;
-                    }).join('');
+            }).join('');
 
-                    const isSGP = matchPicks.length > 1;
-                    const badgeHtml = isSGP 
-                        ? `<span class="sgp-badge">SGP</span> <span class="sgp-count">${matchPicks.length}/6</span>` 
-                        : `<span class="sgp-badge" style="background: #475569;">PICK</span>`;
+            const isSGP = matchPicks.length > 1;
+            const badgeHtml = isSGP
+                ? `<span class="sgp-badge">SGP</span> <span class="sgp-count">${matchPicks.length}/6</span>`
+                : `<span class="sgp-badge" style="background: #475569;">PICK</span>`;
 
-                    groupCard.innerHTML = `
+            groupCard.innerHTML = `
                         <div class="sgp-header">
                             <div class="sgp-header-left">
                                 ${badgeHtml}
@@ -4347,173 +4347,172 @@
                             </div>
                         </div>
                     `;
-                    
-                    picksList.appendChild(groupCard);
-                });
 
-                updateSummary();
+            picksList.appendChild(groupCard);
+        });
+
+        updateSummary();
+    }
+
+    function updateSummary() {
+        const totalValueEl = document.querySelector('.total-value');
+        const multBadgeEl = document.querySelector('.mult-badge');
+
+        if (window.picks.length === 0) {
+            if (totalValueEl) {
+                totalValueEl.textContent = '0.0%';
+                totalValueEl.className = 'total-value total-red';
             }
-
-            function updateSummary() {
-                const totalValueEl = document.querySelector('.total-value');
-                const multBadgeEl = document.querySelector('.mult-badge');
-
-                if (window.picks.length === 0) {
-                    if (totalValueEl) {
-                        totalValueEl.textContent = '0.0%';
-                        totalValueEl.className = 'total-value total-red';
-                    }
-                    if (multBadgeEl) {
-                        multBadgeEl.textContent = '✕ 0.0x';
-                    }
-                    updateSuggestions(true);
-                    return;
-                }
-
-                // Multiplicar probabilidades combinadas
-                const combinedProb = window.picks.reduce((acc, pick) => acc * pick.probabilidad, 1);
-                const combinedPct = combinedProb * 100;
-
-                if (totalValueEl) {
-                    totalValueEl.textContent = combinedPct.toFixed(1) + '%';
-                    totalValueEl.className = 'total-value';
-
-                    // Asignar color dinámico
-                    if (combinedPct < 10) {
-                        totalValueEl.classList.add('total-red');
-                    } else if (combinedPct >= 10 && combinedPct <= 25) {
-                        totalValueEl.classList.add('total-yellow');
-                    } else {
-                        totalValueEl.classList.add('total-green');
-                    }
-                }
-
-                // Calcular cuota multiplicadora: 1 / probabilidad_combinada
-                if (multBadgeEl) {
-                    const odds = 1 / combinedProb;
-                    multBadgeEl.textContent = `✕ ${odds.toFixed(1)}x`;
-                }
-
-                updateSuggestions(false);
+            if (multBadgeEl) {
+                multBadgeEl.textContent = '✕ 0.0x';
             }
+            updateSuggestions(true);
+            return;
+        }
 
-            function updateSuggestions(isEmpty) {
-                const aiTextEl = document.querySelector('.ai-text');
-                if (!aiTextEl) return;
+        // Multiplicar probabilidades combinadas
+        const combinedProb = window.picks.reduce((acc, pick) => acc * pick.probabilidad, 1);
+        const combinedPct = combinedProb * 100;
 
-                if (isEmpty) {
-                    aiTextEl.innerHTML = '<span style="color:#64748b;">Agrega selecciones para analizar la jugada.</span>';
-                    return;
-                }
+        if (totalValueEl) {
+            totalValueEl.textContent = combinedPct.toFixed(1) + '%';
+            totalValueEl.className = 'total-value';
 
-                // Buscar el eslabón débil (probabilidad individual más baja)
-                let weakestPick = window.picks[0];
-                for (let i = 1; i < window.picks.length; i++) {
-                    if (window.picks[i].probabilidad < weakestPick.probabilidad) {
-                        weakestPick = window.picks[i];
-                    }
-                }
-
-                const weakestProbPct = Math.round(weakestPick.probabilidad * 100);
-
-                if (weakestPick.probabilidad < 0.55) {
-                    aiTextEl.innerHTML = `⚠️ Alerta: La selección de <strong style="color:#e2e8f0">${weakestPick.mercado}</strong> en el partido <strong style="color:#e2e8f0">${weakestPick.partido}</strong> tiene la probabilidad más baja (<strong>${weakestProbPct}%</strong>). Considera reemplazarla por una línea más segura para estabilizar el ticket.`;
-                } else {
-                    aiTextEl.innerHTML = '✅ Ticket sólido. No hay sugerencias de riesgo crítico.';
-                }
+            // Asignar color dinámico
+            if (combinedPct < 10) {
+                totalValueEl.classList.add('total-red');
+            } else if (combinedPct >= 10 && combinedPct <= 25) {
+                totalValueEl.classList.add('total-yellow');
+            } else {
+                totalValueEl.classList.add('total-green');
             }
+        }
 
-            // --- ENRUTAMIENTO INTEGRADO (SIDEBAR SHIM) ---
-            if (typeof window.switchSport === 'function') {
-                const originalSwitchSport = window.switchSport;
-                window.switchSport = function (sport) {
-                    const modFutbol = document.getElementById('modulo-futbol');
-                    const modBeisbol = document.getElementById('modulo-beisbol');
-                    const modParlay = document.getElementById('modulo-parlay');
-                    const modBot = document.getElementById('modulo-bot-trading');
-                    const pantInicio = document.getElementById('pantalla-inicio');
-                    const pantCarga = document.getElementById('pantalla-carga');
-                    const selectorPanel = document.getElementById('panel-selector-equipos');
+        // Calcular cuota multiplicadora: 1 / probabilidad_combinada
+        if (multBadgeEl) {
+            const odds = 1 / combinedProb;
+            multBadgeEl.textContent = `✕ ${odds.toFixed(1)}x`;
+        }
 
-                    const btnFutbol = document.getElementById('nav-futbol');
-                    const btnBeisbol = document.getElementById('nav-beisbol');
-                    const btnParlay = document.getElementById('nav-parlay');
-                    const btnBot = document.getElementById('nav-bot-trading');
+        updateSuggestions(false);
+    }
 
-                    if (sport === 'parlay') {
-                        const displayPartido = document.getElementById('display-partido');
-                        if (displayPartido) displayPartido.innerText = "Parlay Soñador";
+    function updateSuggestions(isEmpty) {
+        const aiTextEl = document.querySelector('.ai-text');
+        if (!aiTextEl) return;
 
-                        const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
-                        if (breadcrumbDeporte) {
-                            breadcrumbDeporte.innerText = "✨ Parlay Soñador";
-                            breadcrumbDeporte.className = "text-xs font-bold text-yellow-500 uppercase tracking-widest";
-                        }
+        if (isEmpty) {
+            aiTextEl.innerHTML = '<span style="color:#64748b;">Agrega selecciones para analizar la jugada.</span>';
+            return;
+        }
 
-                        if (modFutbol) modFutbol.classList.add('hidden');
-                        if (modBeisbol) modBeisbol.classList.add('hidden');
-                        if (modBot) modBot.classList.add('hidden');
-                        if (pantInicio) pantInicio.classList.add('hidden');
-                        if (pantCarga) pantCarga.classList.add('hidden');
-                        if (selectorPanel) selectorPanel.classList.add('hidden');
-                        if (modParlay) modParlay.classList.remove('hidden');
-
-                        if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnParlay) {
-                            btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-yellow-500/30 bg-yellow-600/20 text-white shadow-[0_0_15px_rgba(234,179,8,0.25)]";
-                        }
-
-                        setSport(currentSport);
-                        renderPicks();
-                    } else if (sport === 'bot-trading') {
-                        const displayPartido = document.getElementById('display-partido');
-                        if (displayPartido) displayPartido.innerText = "Monitoreo Financiero y ROI";
-
-                        const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
-                        if (breadcrumbDeporte) {
-                            breadcrumbDeporte.innerText = "🤖 Bot de Trading";
-                            breadcrumbDeporte.className = "text-xs font-bold text-emerald-400 uppercase tracking-widest";
-                        }
-
-                        if (modFutbol) modFutbol.classList.add('hidden');
-                        if (modBeisbol) modBeisbol.classList.add('hidden');
-                        if (modParlay) modParlay.classList.add('hidden');
-                        if (pantInicio) pantInicio.classList.add('hidden');
-                        if (pantCarga) pantCarga.classList.add('hidden');
-                        if (selectorPanel) selectorPanel.classList.add('hidden');
-                        if (modBot) modBot.classList.remove('hidden');
-
-                        if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnBot) {
-                            btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-emerald-500/30 bg-emerald-600/20 text-white shadow-[0_0_15px_rgba(16,185,129,0.25)]";
-                        }
-
-                        renderizarDashboardBot();
-                    } else {
-                        if (modParlay) modParlay.classList.add('hidden');
-                        if (modBot) modBot.classList.add('hidden');
-                        if (selectorPanel) selectorPanel.classList.remove('hidden');
-
-                        if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-                        if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
-
-                        originalSwitchSport(sport);
-                    }
-                };
-
-
+        // Buscar el eslabón débil (probabilidad individual más baja)
+        let weakestPick = window.picks[0];
+        for (let i = 1; i < window.picks.length; i++) {
+            if (window.picks[i].probabilidad < weakestPick.probabilidad) {
+                weakestPick = window.picks[i];
             }
+        }
 
-            // --- VALUE BET ACTION ---
-            window.enviarAlPortafolio = function(deporte) {
-                const seleccion = document.getElementById(`${deporte}-value-bet-selection`).textContent;
-                const edge = document.getElementById(`${deporte}-value-bet-edge`).textContent;
-                alert(`Enviando orden a SQLite: Apostar a ${seleccion} con ventaja de ${edge}`);
-                // Aquí luego conectaremos otra ruta POST a FastAPI para guardar en BD
-            };
-        })();
-    
+        const weakestProbPct = Math.round(weakestPick.probabilidad * 100);
+
+        if (weakestPick.probabilidad < 0.55) {
+            aiTextEl.innerHTML = `⚠️ Alerta: La selección de <strong style="color:#e2e8f0">${weakestPick.mercado}</strong> en el partido <strong style="color:#e2e8f0">${weakestPick.partido}</strong> tiene la probabilidad más baja (<strong>${weakestProbPct}%</strong>). Considera reemplazarla por una línea más segura para estabilizar el ticket.`;
+        } else {
+            aiTextEl.innerHTML = '✅ Ticket sólido. No hay sugerencias de riesgo crítico.';
+        }
+    }
+
+    // --- ENRUTAMIENTO INTEGRADO (SIDEBAR SHIM) ---
+    if (typeof window.switchSport === 'function') {
+        const originalSwitchSport = window.switchSport;
+        window.switchSport = function (sport) {
+            const modFutbol = document.getElementById('modulo-futbol');
+            const modBeisbol = document.getElementById('modulo-beisbol');
+            const modParlay = document.getElementById('modulo-parlay');
+            const modBot = document.getElementById('modulo-bot-trading');
+            const pantInicio = document.getElementById('pantalla-inicio');
+            const pantCarga = document.getElementById('pantalla-carga');
+            const selectorPanel = document.getElementById('panel-selector-equipos');
+
+            const btnFutbol = document.getElementById('nav-futbol');
+            const btnBeisbol = document.getElementById('nav-beisbol');
+            const btnParlay = document.getElementById('nav-parlay');
+            const btnBot = document.getElementById('nav-bot-trading');
+
+            if (sport === 'parlay') {
+                const displayPartido = document.getElementById('display-partido');
+                if (displayPartido) displayPartido.innerText = "Parlay Soñador";
+
+                const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
+                if (breadcrumbDeporte) {
+                    breadcrumbDeporte.innerText = "✨ Parlay Soñador";
+                    breadcrumbDeporte.className = "text-xs font-bold text-yellow-500 uppercase tracking-widest";
+                }
+
+                if (modFutbol) modFutbol.classList.add('hidden');
+                if (modBeisbol) modBeisbol.classList.add('hidden');
+                if (modBot) modBot.classList.add('hidden');
+                if (pantInicio) pantInicio.classList.add('hidden');
+                if (pantCarga) pantCarga.classList.add('hidden');
+                if (selectorPanel) selectorPanel.classList.add('hidden');
+                if (modParlay) modParlay.classList.remove('hidden');
+
+                if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnParlay) {
+                    btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-yellow-500/30 bg-yellow-600/20 text-white shadow-[0_0_15px_rgba(234,179,8,0.25)]";
+                }
+
+                setSport(currentSport);
+                renderPicks();
+            } else if (sport === 'bot-trading') {
+                const displayPartido = document.getElementById('display-partido');
+                if (displayPartido) displayPartido.innerText = "Monitoreo Financiero y ROI";
+
+                const breadcrumbDeporte = document.getElementById('breadcrumb-deporte');
+                if (breadcrumbDeporte) {
+                    breadcrumbDeporte.innerText = "🤖 Bot de Trading";
+                    breadcrumbDeporte.className = "text-xs font-bold text-emerald-400 uppercase tracking-widest";
+                }
+
+                if (modFutbol) modFutbol.classList.add('hidden');
+                if (modBeisbol) modBeisbol.classList.add('hidden');
+                if (modParlay) modParlay.classList.add('hidden');
+                if (pantInicio) pantInicio.classList.add('hidden');
+                if (pantCarga) pantCarga.classList.add('hidden');
+                if (selectorPanel) selectorPanel.classList.add('hidden');
+                if (modBot) modBot.classList.remove('hidden');
+
+                if (btnFutbol) btnFutbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnBeisbol) btnBeisbol.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnBot) {
+                    btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-emerald-500/30 bg-emerald-600/20 text-white shadow-[0_0_15px_rgba(16,185,129,0.25)]";
+                }
+
+                renderizarDashboardBot();
+            } else {
+                if (modParlay) modParlay.classList.add('hidden');
+                if (modBot) modBot.classList.add('hidden');
+                if (selectorPanel) selectorPanel.classList.remove('hidden');
+
+                if (btnParlay) btnParlay.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+                if (btnBot) btnBot.className = "w-full py-4 px-5 rounded-xl font-semibold flex items-center space-x-3 transition-all-custom text-left border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40";
+
+                originalSwitchSport(sport);
+            }
+        };
+
+
+    }
+
+    // --- VALUE BET ACTION ---
+    window.enviarAlPortafolio = function (deporte) {
+        const seleccion = document.getElementById(`${deporte}-value-bet-selection`).textContent;
+        const edge = document.getElementById(`${deporte}-value-bet-edge`).textContent;
+        alert(`Enviando orden a SQLite: Apostar a ${seleccion} con ventaja de ${edge}`);
+        // Aquí luego conectaremos otra ruta POST a FastAPI para guardar en BD
+    };
+})();

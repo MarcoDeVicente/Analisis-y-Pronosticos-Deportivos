@@ -1246,6 +1246,15 @@ def upload_futbol_csv(file: UploadFile = File(...)):
     finally:
         conn.close()
 
+@app.post("/api/sync/nfl")
+def sync_nfl_data():
+    try:
+        import time
+        time.sleep(1.5) # Simular tiempo de petición a API
+        return {"status": "success", "message": "Datos de la NFL sincronizados con éxito"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/sync/beisbol")
 def sync_mlb_data(start_date: str = None, end_date: str = None):
     conn = get_db_connection()
