@@ -1019,6 +1019,16 @@ def get_system_status():
         futbol_last_date = futbol_row[0] if futbol_row else None
         futbol_total_matches = futbol_row[1] if futbol_row else 0
         
+        # NFL stats
+        try:
+            cursor.execute("SELECT MAX(week), COUNT(*) FROM nfl_calendario WHERE result IS NOT NULL")
+            nfl_row = cursor.fetchone()
+            nfl_last_date = f"Semana {nfl_row[0]}" if nfl_row and nfl_row[0] else None
+            nfl_total_matches = nfl_row[1] if nfl_row else 0
+        except:
+            nfl_last_date = None
+            nfl_total_matches = 0
+        
         return {
             "status": "online",
             "futbol": {
@@ -1028,6 +1038,10 @@ def get_system_status():
             "beisbol": {
                 "last_match_date": mlb_last_date,
                 "total_matches": mlb_total_matches
+            },
+            "nfl": {
+                "last_match_date": nfl_last_date,
+                "total_matches": nfl_total_matches
             }
         }
     except Exception as e:
@@ -1246,12 +1260,42 @@ def upload_futbol_csv(file: UploadFile = File(...)):
     finally:
         conn.close()
 
+from nfl_logic import sincronizar_datos_nfl, predecir_partido_nfl, analizar_prop_nfl
+
 @app.post("/api/sync/nfl")
-def sync_nfl_data():
+def sync_nfl_data(background_tasks: BackgroundTasks):
     try:
-        import time
-        time.sleep(1.5) # Simular tiempo de petición a API
-        return {"status": "success", "message": "Datos de la NFL sincronizados con éxito"}
+        # Ejecutar en segundo plano
+        background_tasks.add_task(sincronizar_datos_nfl)
+        
+        return {
+            "status": "processing", 
+            "message": "Sincronización de NFL iniciada en segundo plano."
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/nfl/partidos/predecir")
+def get_nfl_prediccion(local: str, visitante: str):
+    try:
+        resultado = predecir_partido_nfl(local, visitante)
+        if not resultado:
+            raise HTTPException(status_code=404, detail="Equipos no encontrados en nfl_eficiencia_epa")
+        return {"status": "success", "data": resultado}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/nfl/props/analizar")
+def get_nfl_prop(jugador: str, stat: str, linea: float, rival: str):
+    try:
+        resultado = analizar_prop_nfl(jugador, stat, linea, rival)
+        if "error" in resultado:
+            # 422 Unprocessable Entity si la muestra es insuficiente o 404 si no se encuentra
+            status_code = 422 if "insuficiente" in resultado["error"] else 404
+            raise HTTPException(status_code=status_code, detail=resultado["error"])
+        return {"status": "success", "data": resultado}
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

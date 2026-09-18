@@ -359,7 +359,7 @@ async function fetchApiCredits() {
 async function fetchAdminStats() {
     if (!isBackendOnline) return;
     try {
-        const res = await fetch(`${API_BASE}/status`);
+        const res = await fetch(`${API_BASE}/status?t=${Date.now()}`);
         if (res.ok) {
             const data = await res.json();
 
@@ -370,6 +370,12 @@ async function fetchAdminStats() {
             // Update soccer
             document.getElementById('futbol-last-sync-date').innerText = data.futbol.last_match_date || "Ninguno";
             document.getElementById('futbol-db-stats').innerText = `Total: ${data.futbol.total_matches} partidos`;
+
+            // Update NFL
+            if (document.getElementById('nfl-last-sync-date') && data.nfl) {
+                document.getElementById('nfl-last-sync-date').innerText = data.nfl.last_match_date || "Ninguno";
+                document.getElementById('nfl-db-stats').innerText = `Total: ${data.nfl.total_matches} partidos`;
+            }
 
             // Fetch credits too!
             await fetchApiCredits();
