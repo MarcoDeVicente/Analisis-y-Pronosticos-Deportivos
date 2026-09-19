@@ -97,7 +97,7 @@ async function uploadSpecificCsv(leagueId) {
     spinner.classList.remove('hidden');
 
     try {
-        const API_BASE_URL = typeof API_BASE !== 'undefined' ? API_BASE : 'http://127.0.0.1:8000/api';
+        const API_BASE_URL = typeof API_BASE !== 'undefined' ? API_BASE : '/api';
         const res = await fetch(`${API_BASE_URL}/upload/futbol`, {
             method: 'POST',
             body: formData
@@ -137,7 +137,7 @@ async function uploadSpecificCsv(leagueId) {
 }
 
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = '/api';
 let currentSport = 'futbol';
 let futbolGroups = {};
 let beisbolGroups = {};

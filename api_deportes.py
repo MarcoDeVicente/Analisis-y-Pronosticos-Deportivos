@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException, UploadFile, File, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -1683,3 +1684,5 @@ def predecir_partido_nfl(local: str, visitante: str):
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         conn.close()
+
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
