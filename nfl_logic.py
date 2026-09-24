@@ -76,12 +76,21 @@ def sincronizar_datos_nfl():
     
     print("Iniciando descarga de datos de NFL (2025-2026)... esto puede tardar un poco.")
     
-    try:
-        pbp = nfl.import_pbp_data([2025, 2026])
-        pbp = pbp.copy() # Desfragmentar el DataFrame para evitar el PerformanceWarning
-    except Exception as e:
-        print(f"Error descargando PBP: {e}")
+    pbp_list = []
+    for year in [2025, 2026]:
+        try:
+            df_year = nfl.import_pbp_data([year])
+            pbp_list.append(df_year)
+        except Exception as e:
+            print(f"Error descargando PBP {year}: {e}")
+            
+    if not pbp_list:
+        print("No se pudo descargar PBP de ningún año. Actualizando calendario...")
+        actualizar_calendario_nfl()
         return 0, 0
+        
+    pbp = pd.concat(pbp_list, ignore_index=True)
+    pbp = pbp.copy() # Desfragmentar el DataFrame para evitar el PerformanceWarning
     
     # 1. Calcular EPA por equipo (ofensivo y defensivo)
     # Ofensivo

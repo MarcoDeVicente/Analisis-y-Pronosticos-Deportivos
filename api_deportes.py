@@ -38,8 +38,12 @@ def get_db_connection():
 def obtener_puntos_fifa_desde_csv(equipo_local, equipo_visitante):
     
     try:
+        import os
+        base_dir = os.path.dirname(__file__)
+        csv_path = os.path.join(base_dir, "datos_crudos", "FIFA_Ranking_WC2026.csv")
+        
         # Asegúrate de que el nombre coincide exactamente con tu archivo
-        df_ranking = pd.read_csv("FIFA_Ranking_WC2026.csv")
+        df_ranking = pd.read_csv(csv_path)
         
         dict_ranking = {str(k).strip().lower(): float(v) for k, v in zip(df_ranking['Team'], df_ranking['FIFA_Points'])}
         
@@ -237,8 +241,12 @@ def obtener_equipos_beisbol():
 def procesar_partido_con_ranking(equipo_local, equipo_visita):
     
     try:
+        import os
+        base_dir = os.path.dirname(__file__)
+        csv_path = os.path.join(base_dir, "datos_crudos", "FIFA_Ranking_WC2026.csv")
+        
         # Asegúrate de que el CSV esté en la misma carpeta que api_deportes.py
-        df_ranking = pd.read_csv("FIFA_Ranking_WC2026.csv")
+        df_ranking = pd.read_csv(csv_path)
         
         # Ajusta 'Equipo' y 'Puntos' si tus columnas se llaman diferente en el CSV
         dict_ranking = dict(zip(df_ranking['Team'], df_ranking['FIFA_Points']))
@@ -405,8 +413,21 @@ def obtener_pronostico_futbol(local: str, visitante: str, liga: str = None):
         lam_visit = atq_visit * def_local * avg_goles_v
         
         try:
-            # 1. Sacamos los puntos exactos del CSV
+            # 1. Intentamos sacar los puntos exactos del CSV
             puntos_local, puntos_visit = obtener_puntos_fifa_desde_csv(local, visitante)
+            
+            # Si no se encontró en el CSV (o dio error), usamos el fallback de la base de datos
+            if puntos_local == 1500.0 and puntos_visit == 1500.0:
+                def parse_rank(r_str):
+                    if r_str and str(r_str).isdigit():
+                        return int(r_str)
+                    return 50 # Ranking promedio si no tiene o es "pendientes"
+                    
+                rank_l = parse_rank(rank_l_str)
+                rank_v = parse_rank(rank_v_str)
+                
+                puntos_local = 2000 - (rank_l * 10)
+                puntos_visit = 2000 - (rank_v * 10)
             
             # 2. Calculamos la Diferencia de Calidad (Positivo = Local es superior)
             dif_calidad = puntos_local - puntos_visit
@@ -419,8 +440,8 @@ def obtener_pronostico_futbol(local: str, visitante: str, liga: str = None):
             mult_visit = 1.0 - ajuste
             
             # 4. Limitar el multiplicador para que un equipo muy bueno no rompa la matemática 
-            mult_local = max(0.7, min(1.3, mult_local))
-            mult_visit = max(0.7, min(1.3, mult_visit))
+            mult_local = max(0.6, min(1.4, mult_local))
+            mult_visit = max(0.6, min(1.4, mult_visit))
             
             # 5. Aplicamos la ventaja a los Goles Esperados (Lambdas)
             lam_local = lam_local * mult_local
@@ -428,7 +449,7 @@ def obtener_pronostico_futbol(local: str, visitante: str, liga: str = None):
             
         except Exception as e:
             # En caso de error, el modelo sigue funcionando con los Lambdas originales
-            pass
+            print(f"Error ajustando ranking: {e}")
         
         # Probabilidades de victoria (Simulación Poisson 15x15)
         prob_local_win = 0.0
