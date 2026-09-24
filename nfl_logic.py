@@ -41,6 +41,8 @@ def init_nfl_tables():
             passing_yards REAL DEFAULT 0,
             passing_tds REAL DEFAULT 0,
             interceptions REAL DEFAULT 0,
+            attempts REAL DEFAULT 0,
+            completions REAL DEFAULT 0,
             carries REAL DEFAULT 0,
             rushing_yards REAL DEFAULT 0,
             rushing_tds REAL DEFAULT 0,
@@ -109,7 +111,7 @@ def sincronizar_datos_nfl():
         final_off_epa = (val_off_25 * 0.70) + (val_off_26 * 0.30)
         final_def_epa = (val_def_25 * 0.70) + (val_def_26 * 0.30)
         
-        epa_data.append((eq, final_off_epa, final_def_epa))
+        epa_data.append((eq, float(final_off_epa), float(final_def_epa)))
         
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -121,7 +123,9 @@ def sincronizar_datos_nfl():
     pass_df = pbp[pbp['play_type'] == 'pass'].groupby(['passer_player_name', 'posteam', 'season', 'week']).agg(
         passing_yards=('passing_yards', 'sum'),
         passing_tds=('pass_touchdown', 'sum'),
-        interceptions=('interception', 'sum')
+        interceptions=('interception', 'sum'),
+        attempts=('pass_attempt', 'sum'),
+        completions=('complete_pass', 'sum')
     ).reset_index()
     
     # Acarreos
@@ -157,6 +161,7 @@ def sincronizar_datos_nfl():
         records_to_insert.append((
             row['jugador'], row['posteam'], int(row['season']), int(row['week']),
             float(row.get('passing_yards', 0)), float(row.get('passing_tds', 0)), float(row.get('interceptions', 0)),
+            float(row.get('attempts', 0)), float(row.get('completions', 0)),
             float(row.get('carries', 0)), float(row.get('rushing_yards', 0)), float(row.get('rushing_tds', 0)),
             float(row.get('receptions', 0)), float(row.get('targets', 0)), float(row.get('receiving_yards', 0)), float(row.get('receiving_tds', 0))
         ))
@@ -166,9 +171,10 @@ def sincronizar_datos_nfl():
         INSERT INTO nfl_jugadores_stats (
             jugador, posteam, season, week, 
             passing_yards, passing_tds, interceptions, 
+            attempts, completions,
             carries, rushing_yards, rushing_tds, 
             receptions, targets, receiving_yards, receiving_tds
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', records_to_insert)
     
     # Poblar la tabla de partidos dummy con juegos unicos solo para los contadores (fecha hoy)
@@ -182,6 +188,9 @@ def sincronizar_datos_nfl():
     
     conn.commit()
     conn.close()
+    
+    # Actualizar los partidos jugados en el calendario NFL
+    actualizar_calendario_nfl()
     
     print("Sincronización NFL completada.")
     return games_count, len(records_to_insert)
@@ -200,10 +209,19 @@ def predecir_partido_nfl(local, visitante):
     if not local_data or not visita_data:
         return None
         
-    local_off_epa = local_data['epa_ofensivo']
-    local_def_epa = local_data['epa_defensivo']
-    visita_off_epa = visita_data['epa_ofensivo']
-    visita_def_epa = visita_data['epa_defensivo']
+    import struct
+    def parse_db_float(val):
+        if isinstance(val, bytes):
+            if len(val) == 4:
+                return struct.unpack('<f', val)[0]
+            elif len(val) == 8:
+                return struct.unpack('<d', val)[0]
+        return float(val)
+        
+    local_off_epa = parse_db_float(local_data['epa_ofensivo'])
+    local_def_epa = parse_db_float(local_data['epa_defensivo'])
+    visita_off_epa = parse_db_float(visita_data['epa_ofensivo'])
+    visita_def_epa = parse_db_float(visita_data['epa_defensivo'])
     
     epa_neto_local = local_off_epa + visita_def_epa
     epa_neto_visita = visita_off_epa + local_def_epa

@@ -1,0 +1,50 @@
+================================================================================
+REPORTE DE IMPLEMENTACIÓN: SERVIDOR DE PRONÓSTICOS DEPORTIVOS
+================================================================================
+Fecha de implementación: Septiembre 2026
+Sistemas: ASUS X510QA (Linux Mint 22.3) como Servidor | Lenovo (Windows) como Cliente
+
+1. OBJETIVO DEL PROYECTO
+Transformar la laptop ASUS con Linux Mint en un servidor web de producción permanente para alojar una API de pronósticos deportivos (FastAPI) y su frontend (HTML/JS), permitiendo acceso, administración y edición de código de forma remota y segura desde una laptop Lenovo con Windows u otros dispositivos.
+
+2. PASOS DE IMPLEMENTACIÓN (INFRAESTRUCTURA Y ACCESO)
+- Automatización del Backend: Se configuró un servicio en Systemd (`pronosticos.service`) para que el backend de FastAPI (Uvicorn) se ejecute en segundo plano de manera automática al encender la ASUS.
+- Red Privada y Túneles (Tailscale): Se instaló Tailscale en ambos equipos para crear una red privada (VPN P2P), asignando a la ASUS la IP estática permanente `100.92.251.85`. Esto eliminó la necesidad de abrir puertos en el módem, manteniendo el proyecto seguro y accesible mundialmente.
+- Entorno de Desarrollo Remoto (code-server): Se instaló `code-server` corriendo en el puerto 8080 de la ASUS, lo que permite tener la interfaz completa de Visual Studio Code accesible desde cualquier navegador web.
+- Integración Frontend-Backend: Se unificó el sistema sirviendo los archivos estáticos (`index.html`, `JS`, `CSS`) directamente desde FastAPI utilizando la librería `StaticFiles`, agrupando todo en el puerto 8000.
+- Optimización de Servidor Físico: Se modificó `systemd-logind` para evitar que la ASUS se suspenda al cerrar la tapa. Se instaló `TLP` para optimizar el voltaje/temperatura y se acomodó el equipo para máxima ventilación.
+
+3. REGISTRO DE ERRORES Y SOLUCIONES
+A lo largo de la implementación se presentaron y resolvieron los siguientes obstáculos:
+
+A. Error de Systemd: "Unit pronostico.service not found"
+- Causa: Error tipográfico al intentar reiniciar el servicio (faltaba la 's').
+- Solución: Se corrigió el comando a `sudo systemctl restart pronosticos`.
+
+B. Error de APT (Linux): Falla al instalar Tailscale por "NO_PUBKEY"
+- Causa: Un repositorio antiguo de Spotify tenía firmas de seguridad caducadas, lo que bloqueaba cualquier instalación nueva en Linux.
+- Solución: Se eliminó el repositorio dañado (`sudo rm /etc/apt/sources.list.d/spotify.list`), se actualizó la lista y se instaló Tailscale correctamente.
+
+C. Error Web: Carga infinita en el puerto 8080 (code-server)
+- Causa: Se intentaba acceder al editor usando el puerto 8000 (FastAPI) en lugar del 8080 (code-server).
+- Solución: Se corrigió la URL en el navegador de Windows a `100.92.251.85:8080`.
+
+D. Error Backend: "ERR_CONNECTION_REFUSED" tras agregar StaticFiles
+- Causa: El código de Python pedía montar la carpeta `frontend`, pero la carpeta no existía físicamente en el repositorio. El servidor colapsó instantáneamente.
+- Solución: Se creó la carpeta `frontend` dentro de VS Code, se movió el `index.html` adentro y se reinició el servicio.
+
+E. Error de Código: "SyntaxError: invalid syntax"
+- Causa: Al pegar el código de montaje de StaticFiles, se duplicó el bloque `except/finally` al final del archivo `api_deportes.py`, rompiendo la indentación de Python.
+- Solución: Se borró el bloque sobrante a través del editor visual de code-server, respetando los espacios estrictos de Python.
+
+F. Error Frontend: Indicador de "FastAPI Inactivo" en Windows
+- Causa: El archivo JavaScript estaba programado (hardcodeado) para hacer fetch a `http://localhost:8000`, lo cual buscaba la API en la máquina Windows en lugar de la ASUS.
+- Solución: Se modificó la variable global a una ruta relativa (`const API_BASE = '/api'`) y se limpió la caché con Ctrl+F5.
+
+G. Error Git: "RPC failed; curl 65... HTTP.postBuffer"
+- Causa: Se intentó hacer un `git push` de casi 100 MB porque se incluyó accidentalmente la carpeta del entorno virtual (`venv/`) y la base de datos local.
+- Solución: Se canceló el commit con `git reset HEAD~1`, se creó un archivo `.gitignore` para ocultar `venv/` y `*.db`, y se subió el código de forma limpia y ligera.
+
+4. ESTADO ACTUAL
+El sistema es 100% operativo. La ASUS funciona como servidor independiente y frío con la tapa cerrada. La Lenovo (o cualquier celular en la red Tailscale) puede acceder al frontend en `http://100.92.251.85:8000` y al editor de código en `http://100.92.251.85:8080`.
+================================================================================

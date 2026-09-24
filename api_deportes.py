@@ -1276,16 +1276,6 @@ def sync_nfl_data(background_tasks: BackgroundTasks):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/nfl/partidos/predecir")
-def get_nfl_prediccion(local: str, visitante: str):
-    try:
-        resultado = predecir_partido_nfl(local, visitante)
-        if not resultado:
-            raise HTTPException(status_code=404, detail="Equipos no encontrados en nfl_eficiencia_epa")
-        return {"status": "success", "data": resultado}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/api/nfl/props/analizar")
 def get_nfl_prop(jugador: str, stat: str, linea: float, rival: str):
     try:
@@ -1593,8 +1583,19 @@ def predecir_partido_nfl(local: str, visitante: str):
         if not stats_local or not stats_visitante:
             raise HTTPException(status_code=404, detail="Uno o ambos equipos no fueron encontrados en nfl_eficiencia_epa.")
             
-        local_off_epa, local_def_epa = stats_local
-        visita_off_epa, visita_def_epa = stats_visitante
+        import struct
+        def parse_db_float(val):
+            if isinstance(val, bytes):
+                if len(val) == 4:
+                    return struct.unpack('<f', val)[0]
+                elif len(val) == 8:
+                    return struct.unpack('<d', val)[0]
+            return float(val)
+
+        local_off_epa = parse_db_float(stats_local['epa_ofensivo'])
+        local_def_epa = parse_db_float(stats_local['epa_defensivo'])
+        visita_off_epa = parse_db_float(stats_visitante['epa_ofensivo'])
+        visita_def_epa = parse_db_float(stats_visitante['epa_defensivo'])
         
         # --- EL MOTOR MATEMÁTICO ---
         JUGADAS_PROMEDIO = 63.5
@@ -1627,34 +1628,46 @@ def predecir_partido_nfl(local: str, visitante: str):
                 FROM nfl_jugadores_stats
                 WHERE posteam = ?
                 GROUP BY jugador
-                ORDER BY sum(attempts) DESC LIMIT 1
+                ORDER BY sum(passing_yards) DESC LIMIT 1
             ''', (equipo_sigla,))
             row = cursor.fetchone()
-            if row and row['atts'] > 0:
-                yds_per_att = round(row['yds'] / row['atts'], 2)
-                # QBR and EPA/play are not available at player level, we approximate QBR based on a simple formula or scale
-                # NFL passer rating approx formula:
-                a = ((row['comps'] / row['atts']) - 0.3) * 5
-                b = ((row['yds'] / row['atts']) - 3) * 0.25
-                c = (row['tds'] / row['atts']) * 20
-                d = 2.375 - ((row['ints'] / row['atts']) * 25)
-                a = max(0, min(a, 2.375))
-                b = max(0, min(b, 2.375))
-                c = max(0, min(c, 2.375))
-                d = max(0, min(d, 2.375))
-                rating = round(((a + b + c + d) / 6) * 100, 1)
+            if row:
+                atts = row['atts'] or 0
+                comps = row['comps'] or 0
+                yds = row['yds'] or 0
+                tds = row['tds'] or 0
+                ints = row['ints'] or 0
                 
-                # Approximate EPA/play based on team EPA but scaled to player
-                epa_play = round((row['yds'] * 0.05 + row['tds'] * 4 - row['ints'] * 2 - row['atts'] * 0.5) / row['atts'], 2) if row['atts'] > 0 else 0
+                # Approximate atts and comps if missing from db
+                if atts == 0 and yds > 0:
+                    atts = yds / 7.0
+                if comps == 0 and atts > 0:
+                    comps = atts * 0.65
 
-                return {
-                    "nombre": row['jugador'],
-                    "rating": rating,
-                    "epa_play": epa_play,
-                    "yds_intento": yds_per_att,
-                    "tds": row['tds'],
-                    "ints": row['ints']
-                }
+                if atts > 0:
+                    yds_per_att = round(yds / atts, 2)
+                    
+                    a = ((comps / atts) - 0.3) * 5
+                    b = ((yds / atts) - 3) * 0.25
+                    c = (tds / atts) * 20
+                    d = 2.375 - ((ints / atts) * 25)
+                    
+                    a = max(0, min(a, 2.375))
+                    b = max(0, min(b, 2.375))
+                    c = max(0, min(c, 2.375))
+                    d = max(0, min(d, 2.375))
+                    rating = round(((a + b + c + d) / 6) * 100, 1)
+                    
+                    epa_play = round((yds * 0.05 + tds * 4 - ints * 2 - atts * 0.5) / atts, 2)
+
+                    return {
+                        "nombre": row['jugador'],
+                        "rating": rating,
+                        "epa_play": epa_play,
+                        "yds_intento": yds_per_att,
+                        "tds": tds,
+                        "ints": ints
+                    }
             return {"nombre": "Desconocido", "rating": 0, "epa_play": 0, "yds_intento": 0, "tds": 0, "ints": 0}
 
         qb_local = obtener_stats_qb(local)
